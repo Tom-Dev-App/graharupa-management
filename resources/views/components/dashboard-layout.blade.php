@@ -21,6 +21,7 @@
         
 
       <link rel="stylesheet" href="./assets/css/tailwind2.css">
+      @stack('head')
     </head>
 
     <body data-mode="light" data-sidebar-size="lg" class="group">
@@ -98,6 +99,7 @@
 
         <script  src="assets/js/app.js"></script>
 
+        @stack('footer')
     </body>
 
 </html>
