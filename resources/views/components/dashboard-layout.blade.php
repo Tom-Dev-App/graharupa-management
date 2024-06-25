@@ -8,10 +8,10 @@
         <meta content="Tailwind Admin & Dashboard Template" name="description">
         <meta content="Themesbrand" name="author">
         <!-- App favicon -->
-        <link rel="shortcut icon" href="./assets/favicon/logo.ico">
+        <link rel="shortcut icon" href="{{ asset('assets/favicon/logo.ico') }}">
         
 
-        <link rel="stylesheet" href="./assets/libs/swiper/swiper-bundle.min.css">
+        <link rel="stylesheet" href="{{ asset('assets/libs/swiper/swiper-bundle.min.css') }}">
 
         <!-- Layout config Js -->
         <!-- Icons CSS -->
@@ -20,7 +20,7 @@
         <!-- Tailwind CSS -->
         
 
-      <link rel="stylesheet" href="./assets/css/tailwind2.css">
+      <link rel="stylesheet" href="{{ asset('assets/css/tailwind2.css') }}">
       @stack('head')
     </head>
 
@@ -67,6 +67,7 @@
                         </div>
                     </div>
     {{-- MODAL LOGOUT END --}}
+
                     </div>
                 </div>
         </div>
@@ -75,29 +76,29 @@
         <div class="fixed z-40 flex flex-col gap-3 ltr:right-5 rtl:left-5 bottom-10 animate-bounce">
 
         </div>
-        <script src="assets/libs/@popperjs/core/umd/popper.min.js"></script>
-        <script src="assets/libs/feather-icons/feather.min.js"></script>
-        <script src="assets/libs/metismenujs/metismenujs.min.js"></script>
-        <script src="assets/libs/simplebar/simplebar.min.js"></script>
+        <script src="{{ asset('assets/libs/@popperjs/core/umd/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/metismenujs/metismenujs.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
 
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <!-- apexcharts -->
         {{-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> --}}
         <!-- Plugins js-->
-        <script src="assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
-        <script src="assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+        <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
 
-        <script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
+        <script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
 
         <!-- dashboard init -->
         {{-- <script  src="assets/js/pages/dashboard.init.js"></script> --}}
 
-        <script src="assets/js/pages/nav&tabs.js"></script>
+        <script src="{{ asset('assets/js/pages/nav&tabs.js') }}"></script>
 
-        <script src="assets/js/pages/login.init.js"></script>
+        <script src="{{ asset('assets/js/pages/login.init.js') }}"></script>
 
-        <script  src="assets/js/app.js"></script>
+        <script  src="{{ asset('assets/js/app.js') }}"></script>
 
         @stack('footer')
     </body>

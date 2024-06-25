@@ -134,10 +134,12 @@
                                 <div class="card dark:bg-zinc-800 dark:border-zinc-600">
                                     {{-- <img class="rounded" src="assets/images/small/img-1.jpg" alt=""> --}}
                                     <div class="card-body">
+                                 
                                         <h6 class="mb-6 text-gray-700 text-15 dark:text-gray-100">
                                           Create New Project
                                         </h6>
-                                        <button type="button" class=" btn text-violet-500 hover:text-white border-violet-500 hover:bg-violet-600 hover:border-violet-600 focus:bg-violet-600 focus:text-white focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600">
+
+                                        <button type="button" data-tw-toggle="modal" data-tw-target="#project_new" class=" btn text-violet-500 hover:text-white border-violet-500 hover:bg-violet-600 hover:border-violet-600 focus:bg-violet-600 focus:text-white focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600">
                                             <i data-feather="plus" fill="#545a6d33" class="inline"></i> 
                                         </button>
                                         
@@ -146,6 +148,53 @@
                             </div>
                     {{-- END CARD --}}
                         </div>
+
+                        
+    {{-- START NEW PROJECT MODAL --}}
+    <div class="relative z-50 hidden modal" id="project_new" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 z-50 overflow-y-auto">
+            <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50 modal-overlay"></div>
+            <div class="p-4 mx-auto animate-translate sm:max-w-lg">
+                <div class="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl dark:bg-zinc-600">
+                    <div class="bg-white dark:bg-zinc-700">
+                        <button type="button" class="absolute top-3 right-2.5 text-gray-400 border-transparent hover:bg-gray-50/50 hover:text-gray-900 dark:text-gray-100 rounded-lg text-sm px-2 py-1 ltr:ml-auto rtl:mr-auto inline-flex items-center dark:hover:bg-zinc-600" data-tw-dismiss="modal">
+                            <i class="text-xl text-gray-500 mdi mdi-close dark:text-zinc-100/60"></i>
+                        </button>
+                        <div class="p-5">
+                            <h3 class="mb-4 text-xl font-medium text-gray-700 dark:text-gray-100">Sign in to minia</h3>
+                            <form class="space-y-4" action="#" method="POST">
+                                <div class="mb-4">
+                                    <label for="example-text-input" class="block mb-2 font-medium text-gray-700 dark:text-gray-100">Project Name</label>
+                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="text" placeholder="Name a project" id="example-text-input">
+                                </div>
+                             
+                                <div>
+                                    <label for="project_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100 ltr:text-left rtl:text-right">Project Description</label>
+                                    <textarea name="project_description" id="project_description" cols="30" rows="10" 
+                                    class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" placeholder="Short brief description" required></textarea>
+                                </div>
+
+
+                                <div class="mb-4">
+                                    <label for="example-text-input" class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Date and time</label>
+                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" value="2019-08-19T13:45:00" id="example-email-input">
+                                </div>
+
+                            
+                                <div class="mt-6">
+                                    <button type="submit" class="w-full text-white bg-sky-600 border-transparent btn">Create</button>
+                                </div>
+                              
+                               
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- END NEW PROJECT MODAL --}}
                     </section>
 @push('footer')
 <script src="{{ $projectChart->cdn() }}"></script>
