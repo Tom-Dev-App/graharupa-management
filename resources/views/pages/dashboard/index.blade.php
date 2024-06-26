@@ -28,7 +28,7 @@
                     </div>
                     <div class="grid grid-cols-1 gap-6 gap-y-0 2xl:gap-6 lg:grid-cols-12">
                         {{-- START PROJECT TRACKER --}}
-                        <div class="col-span-12 2xl:col-span-5">
+                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-5">
                             <div class="card dark:bg-zinc-800 dark:border-zinc-600 card-h-100">
                                 <div class="card-body">
                                     <div class="flex flex-wrap items-center mb-6">
@@ -50,7 +50,7 @@
                         </div>
                         {{-- END PROJECT TRACKER --}}
                         {{-- START PROJECT TRACKER --}}
-                        <div class="col-span-12 2xl:col-span-5">
+                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-5">
                             <div class="card dark:bg-zinc-800 dark:border-zinc-600 card-h-100">
                                 <div class="card-body">
                                     <div class="flex flex-wrap items-center mb-6">

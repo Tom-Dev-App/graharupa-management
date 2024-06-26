@@ -16,6 +16,10 @@
 <section class="min-h-screen">
                     <div class="grid grid-cols-1 pb-6">
                         <div class="md:flex items-center justify-between px-[2px]">
+                            
+                                <a href="{{ route('dashboard.index') }}" class="border-0 btn text-violet-500">
+                                    <i class="mr-1 mdi mdi-arrow-left"></i> Back
+                                </a>
                             <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">Users Data</h4>
                             {{-- <nav class="flex" aria-label="Breadcrumb">
                                 <ol class="inline-flex items-center space-x-1 ltr:md:space-x-3 rtl:md:space-x-0">
@@ -32,7 +36,9 @@
                                     </li>
                                 </ol>
                             </nav> --}}
-                            <span></span>
+                            <a href="{{ route('users.create') }}" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
+                                <i data-feather="user-plus" fill="#545a6d33" class="inline"></i> 
+                                <span class="ml-1">Add User</span></a>
                         </div>
                     </div>
                     <div class="grid grid-cols-12 gap-6">
@@ -41,7 +47,7 @@
                        <div class="col-span-12 xl:col-span-8">
                         <div class="card dark:bg-zinc-800 dark:border-zinc-600">
                             <div class="card-body border-b border-gray-100 dark:border-zinc-600">
-                                <h6 class="mb-1 text-gray-700 text-15 dark:text-gray-100">User Table</h6>
+                                <h6 class="mb-1 text-gray-700 text-15 dark:text-gray-100">Users Table</h6>
                             </div>
                             <div class="card-body">
                                 <div class="relative overflow-x-auto">
@@ -84,22 +90,23 @@
                                                 </td>
                                                 <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
                                                     @if($user->roles->isNotEmpty())
-            @foreach($user->roles as $role)
-                {{ $role->name }}@if(!$loop->last), @endif
-            @endforeach
-        @else
-            No roles assigned
-        @endif
-                                                </td>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    @if ($user->deleted_at)
-                                                        <span class="text-red-500">Suspended</span>
+                                                        @foreach($user->roles as $role)
+                                                            {{ $role->name }}@if(!$loop->last), @endif
+                                                        @endforeach
                                                     @else
-                                                        <span class="text-green-500">Active</span>
+                                                        No roles assigned
                                                     @endif
                                                 </td>
                                                 <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                   <a href="{{ route('users.update', $user->id) }}"  class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">Edit</a>
+                                                    @if ($user->deleted_at)
+                                                        <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Suspended</span>
+                                                    @else
+                                                        <span class="badge font-medium bg-green-50 text-green-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-green-500/20">Active</span>
+                                                    @endif
+                                                </td>
+                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                   <a href="{{ route('users.update', $user->id) }}"
+                                                      class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">Edit</a>
                                                 </td>
                                             </tr>
                                                 @endforeach
@@ -107,8 +114,8 @@
                                         </tbody>
                                     </table>
                                       <!-- Pagination Links -->
-                                    <div class="mt-4">
-                                        {{ $users->links() }}
+                                      <div class="mt-4">
+                                        {{ $users->links('vendor.pagination.custom-pagination') }}
                                     </div>
                                 </div>
                             </div>

@@ -10,37 +10,56 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    public function getUsersData()
-{
-    $users = User::withTrashed()
-    ->with('roles')
-    ->where('id', '!=', 1)
-    ->select(['id', 'name', 'email', 'deleted_at'])
-    ->get();
+//     public function getUsersData()
+// {
+//     $users = User::withTrashed()
+//     ->with('roles')
+//     ->where('id', '!=', 1)
+//     ->select(['id', 'name', 'email', 'deleted_at'])
+//     ->get();
 
-    return response()->json($users);
-}
+//     return response()->json($users);
+// }
 
 public function index(Request $request) {
+    // $users = User::withTrashed()
+    // ->with('roles')
+    // ->where('id', '!=', 1)
+    // ->select(['id', 'name', 'email', 'deleted_at'])
+    // ->paginate(25);
+    // $users = User::withTrashed()
+    // ->with('roles')
+    // ->select(['id', 'name', 'email', 'deleted_at'])->where('id', '!=', auth()->user()->id)
+    // ->paginate(25);
     $users = User::withTrashed()
     ->with('roles')
-    ->where('id', '!=', 1)
     ->select(['id', 'name', 'email', 'deleted_at'])
-    ->paginate();
+    ->paginate(25);
+
+    
    
     $roles = Role::all();
     return view('pages.dashboard.user.index', compact('roles', 'users'));
 }
 
     public function create(){
-        return view('pages.dashboard.user.create');
+        $roles = Role::all();
+        return view('pages.dashboard.user.create', compact('roles'));
     }
 
     public function store(Request $request){
         dd($request->all());
     }
 
-    public function edit(User $user){
+    public function edit(Request $request, User $user){
+        $roles = Role::all();
+        $user = User::with('roles')->find($user->id);
+        // dd($request->all());
+        return view('pages.dashboard.user.edit', compact('user', 'roles'));
+    }
+
+    public function update(Request $request, User $user){
+        dd($request->all());
         return view('pages.dashboard.user.edit', compact('user'));
     }
 
