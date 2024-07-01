@@ -54,7 +54,9 @@
                                                         <p class="text-sm text-gray-500 dark:text-zinc-100/60">Are you sure you want to logout?</p>
                                                     </div>
                                                     {{-- FORM LOGOUT --}}
-                                                    <form class="block gap-4 mt-4 sm:flex" method="POST" action="/auth/logout">
+                                                    <form class="block gap-4 mt-4 sm:flex" method="POST" action="{{ route('logout') }}">
+                                                        @csrf
+                                                        @method('delete')
                                                         <button type="submit" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm btn hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 sm:w-auto sm:text-sm">Logout</button>
                                                         <button type="button" class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm btn dark:text-gray-100 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-gray-500/30 sm:mt-0 sm:w-auto sm:text-sm dark:bg-zinc-700 dark:border-zinc-600 dark:hover:bg-zinc-600 dark:focus:bg-zinc-600 dark:focus:ring-zinc-700 dark:focus:ring-gray-500/20" data-tw-dismiss="modal">Cancel</button>
                                                     </form>

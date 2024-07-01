@@ -296,9 +296,13 @@
                                 <hr class="border-gray-50 dark:border-gray-700">
                                 {{-- divider --}}
                                 <div class="dropdown-item dark:text-gray-100">
-                                    <a class="block p-3 hover:bg-gray-50/50 dark:hover:bg-zinc-700/50" href="logout.html">
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                    <button type="submit" class="block p-3 hover:bg-gray-50/50 dark:hover:bg-zinc-700/50" href="logout.html">
                                         <i class="mr-1 align-middle mdi mdi-logout text-16"></i> Logout
-                                    </a>
+                                    </button>
+                                </form>
                                 </div>
                             </div>
                         </div>
