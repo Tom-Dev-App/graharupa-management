@@ -3,6 +3,7 @@
 use App\Charts\ProjectsProgressPieChart;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MaterialUnitController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskMaterialController;
@@ -35,6 +36,16 @@ Route::post('/dashboard/users/{user}/restore', [UserController::class, 'restore'
 Route::get('/dashboard/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::put('/dashboard/users/{id}', [UserController::class, 'update'])->name('users.update');
 Route::post('/dashboard/users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assignRole');
+
+
+// material unit
+Route::get('/dashboard/units', [MaterialUnitController::class, 'index'])->name('unit.index');
+Route::get('/dashboard/units/create', [MaterialUnitController::class, 'create'])->name('unit.create');
+Route::post('/dashboard/units/create', [MaterialUnitController::class, 'store'])->name('unit.store');
+Route::post('/dashboard/units/{id}/delete', [MaterialUnitController::class,'destroy'])->name('unit.delete');
+Route::post('/dashboard/units/{id}/restore', [MaterialUnitController::class, 'restore'])->name('unit.restore');
+Route::get('/dashboard/units/{id}/edit', [MaterialUnitController::class, 'edit'])->name('unit.edit');
+Route::put('/dashboard/units/{id}', [MaterialUnitController::class, 'update'])->name('unit.update');
 
 // PROJECT
 Route::get('/dashboard/projects', [ProjectController::class, 'index'])->name('projects.index');
