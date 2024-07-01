@@ -27,13 +27,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/dashboard/projects" class="block py-2.5 px-6 text-sm font-medium text-gray-950 transition-all duration-150 ease-linear hover:text-violet-500 dark:text-gray-300 dark:active:text-white dark:hover:text-white">
+                    <a href="/dashboard/material-units" class="block py-2.5 px-6 text-sm font-medium text-gray-950 transition-all duration-150 ease-linear hover:text-violet-500 dark:text-gray-300 dark:active:text-white dark:hover:text-white">
                         <i data-feather="list" fill="#545a6d33"></i>
                         <span data-key="t-dashboard">Material Units</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/dashboard/projects" class="block py-2.5 px-6 text-sm font-medium text-gray-950 transition-all duration-150 ease-linear hover:text-violet-500 dark:text-gray-300 dark:active:text-white dark:hover:text-white">
+                    <a href="/dashboard/material-timeline" class="block py-2.5 px-6 text-sm font-medium text-gray-950 transition-all duration-150 ease-linear hover:text-violet-500 dark:text-gray-300 dark:active:text-white dark:hover:text-white">
                         <i data-feather="briefcase" fill="#545a6d33"></i>
                         <span data-key="t-dashboard">Material Timeline</span>
                     </a>
@@ -72,7 +72,7 @@
         <div class="flex items-center topbar-brand">
             <div class="hidden lg:flex navbar-brand items-center justify-between shrink px-6 h-[70px]  ltr:border-r rtl:border-l bg-[#fbfaff] border-gray-50 dark:border-zinc-700 dark:bg-zinc-800 shadow-none">
                 <a href="#" class="flex items-center text-lg flex-shrink-0 font-bold dark:text-white leading-[69px]">
-                    <img src="./assets/logo/logo.svg" alt="" class="inline-block w-6 h-6 align-middle ltr:xl:mr-2 rtl:xl:ml-2">
+                    <img src="{{ asset('/assets/logo/logo.svg') }}" alt="" class="inline-block w-6 h-6 align-middle ltr:xl:mr-2 rtl:xl:ml-2">
                     <span class="hidden font-bold text-gray-700 align-middle xl:block dark:text-gray-100 leading-[69px]">Graharupa M.</span>
                 </a>
             </div>

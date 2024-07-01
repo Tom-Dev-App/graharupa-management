@@ -41,8 +41,47 @@
                                 <span class="ml-1">Add User</span></a>
                         </div>
                     </div>
+                    @if(session()->has('success'))
+                        <div class="grid grid-cols-1">
+                            <div class="card-body">
+                                <div class="space-y-4">
+                                    <div class="flex items-center rounded bg-green-50 alert-dismissible">
+                                        <div class="relative w-12 h-12 text-center bg-green-400 ltr:rounded-l rtl:rounded-r">
+                                            <div class="after:content-[''] after:border-[6px] after:border-transparent ltr:after:border-l-green-400 rtl:after:border-r-green-400 after:absolute ltr:after:-right-3 rtl:after:-left-3 after:top-[1.15rem]"></div>
+                                            <i class="mdi mdi-check-all align-middle text-white leading-[3.5]"></i>
+                                        </div>
+                                        <p class="text-green-700 ltr:ml-4 rtl:mr-4">{{ session('success') }}</p>
+                                        <button class="text-lg alert-close ltr:ml-auto rtl:mr-auto text-zinc-500 ltr:pr-5 rtl:pl-5"><i class="mdi mdi-close"></i></button>
+                                    </div>
+                            </div>
+                        </div>
+
+                       
+                           
+                        @endif
+                        @if(session()->has('error'))
+                        <div class="grid grid-cols-1">
+                            <div class="card-body">
+                                <div class="space-y-4">
+                                    <div class="flex items-center rounded bg-red-50 alert-dismissible">
+                                        <div class="relative w-12 h-12 text-center bg-red-400 ltr:rounded-l rtl:rounded-r">
+                                            <div class="after:content-[''] after:border-[6px] after:border-transparent ltr:after:border-l-red-400 rtl:after:border-r-red-400 after:absolute ltr:after:-right-3 rtl:after:-left-3 after:top-[1.15rem]"></div>
+                                            <i class="mdi mdi-check-all align-middle text-white leading-[3.5]"></i>
+                                        </div>
+                                        <p class="text-red-700 ltr:ml-4 rtl:mr-4">{{ session('error') }}</p>
+                                        <button class="text-lg alert-close ltr:ml-auto rtl:mr-auto text-zinc-500 ltr:pr-5 rtl:pl-5"><i class="mdi mdi-close"></i></button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        
+                        @endif
                     <div class="grid grid-cols-12 gap-6">
                         {{-- COTENT START HERE --}}
+                        {{-- ALERT --}}
+                        
+                        {{-- END ALERT --}}
+
                        {{-- @dd($users) --}}
                        <div class="col-span-12 xl:col-span-8">
                         <div class="card dark:bg-zinc-800 dark:border-zinc-600">
@@ -105,7 +144,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                   <a href="{{ route('users.update', $user->id) }}"
+                                                   <a href="{{ route('users.edit', $user->id) }}"
                                                       class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">Edit</a>
                                                 </td>
                                             </tr>

@@ -6,8 +6,17 @@
 @section('content')
 <section class="min-h-screen">
                     <div class="grid grid-cols-1 pb-6">
-                        <div class="md:flex items-center justify-between px-[2px]">
-                            <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">Dashboard</h4>
+                        <div class="md:flex items-center justify-between px-[2px] gap-3">
+                            <a href="{{ route('dashboard.index') }}" class="border-0 btn text-violet-500">
+                                <i class="mr-1 mdi mdi-arrow-left"></i> Back
+                            </a>
+
+                            <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">Projects</h4>
+
+                            <button type="button" data-tw-toggle="modal" data-tw-target="#project_new" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
+                                <span class="ml-1">
+                                    <i class="mdi mdi-note-plus"></i>
+                                    <span>Add Project</span></button>
                             {{-- <nav class="flex" aria-label="Breadcrumb">
                                 <ol class="inline-flex items-center space-x-1 ltr:md:space-x-3 rtl:md:space-x-0">
                                     <li class="inline-flex items-center">
@@ -23,66 +32,9 @@
                                     </li>
                                 </ol>
                             </nav> --}}
-                            <span></span>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 gap-6 gap-y-0 2xl:gap-6 lg:grid-cols-12">
-                        {{-- START PROJECT TRACKER --}}
-                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-5">
-                            <div class="card dark:bg-zinc-800 dark:border-zinc-600 card-h-100">
-                                <div class="card-body">
-                                    <div class="flex flex-wrap items-center mb-6">
-                                        <h5 class="mr-2 font-medium text-gray-800 text-15 dark:text-gray-100">PROJECT PROGRESS</h5>
-                                        <div class="flex gap-1 ltr:ml-auto rtl:mr-auto">
-                                            <button type="button" class="px-2 py-1 font-medium text-gray-500 border-transparent btn text-[12.25px] bg-gray-50/50 hover:bg-gray-50/50 dark:hover:bg-zinc-600/800 hover:text-white focus:bg-gray-500 focus:text-white dark:bg-gray-500/10 dark:text-zinc-100 hover:bg-gray-500 dark:hover:bg-gray-200 dark:hover:text-gray-800">SEE ALL</button>
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-12 2xl:gap-6 justify-items-stretch">
-                                        <div class="items-center col-span-12 mr-2 md:col-span-6 justify-self-center 2xl:mr-0">
-                                            {{-- CHARTS START --}}
-                                            {!! $projectChart->container() !!}
-                                            {{-- CHARTS END --}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- END PROJECT TRACKER --}}
-                        {{-- START PROJECT TRACKER --}}
-                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-5">
-                            <div class="card dark:bg-zinc-800 dark:border-zinc-600 card-h-100">
-                                <div class="card-body">
-                                    <div class="flex flex-wrap items-center mb-6">
-                                        <h5 class="mr-2 font-medium text-gray-800 text-15 dark:text-gray-100">TASK PROGRESS</h5>
-                                        <div class="flex gap-1 ltr:ml-auto rtl:mr-auto">
-                                            <button type="button" class="px-2 py-1 font-medium text-gray-500 border-transparent btn text-[12.25px] bg-gray-50/50 hover:bg-gray-50/50 dark:hover:bg-zinc-600/800 hover:text-white focus:bg-gray-500 focus:text-white dark:bg-gray-500/10 dark:text-zinc-100 hover:bg-gray-500 dark:hover:bg-gray-200 dark:hover:text-gray-800">SEE ALL</button>
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-12 2xl:gap-6 justify-items-stretch">
-                                        <div class="items-center col-span-12 mr-2 md:col-span-6 justify-self-center 2xl:mr-0">
-                                            {{-- CHARTS START --}}
-                                            {!! $taskChart->container() !!}
-                                            {{-- CHARTS END --}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- END PROJECT TRACKER --}}
-               
-                    </div>
-
-                    {{-- START CARD --}}
-                    <div class="grid grid-cols-1 pb-6">
-                        <div class="md:flex items-center justify-between px-[2px]">
-                            <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">PROJECTS</h4>
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="container-fluid px-[0.625rem]">
-
+                    
                         
                         <!-- START PROJECT -->
                         <div class="grid grid-cols-1 lg:gap-x-6 lg:grid-cols-12">
@@ -230,10 +182,7 @@
     {{-- END NEW PROJECT MODAL --}}
                     </section>
 @push('footer')
-<script src="{{ $projectChart->cdn() }}"></script>
 
-{{ $projectChart->script() }}
-{{ $taskChart->script() }}
 
 @endpush
 @endSection

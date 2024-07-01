@@ -44,39 +44,56 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label class="font-medium text-gray-700 dark:text-zinc-100" for="formrow-firstname-input">Fullname</label>
-                                            <input type="text" class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100" id="formrow-firstname-input" placeholder="Enter fullname">
+                                            <input type="text" class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100" id="formrow-firstname-input" placeholder="Enter fullname" name="name">
+                                            @error('name')
+                                            <div>
+                                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                                            </div>
+                                            @enderror
+
                                         </div>
 
-                                        <div class="grid grid-cols-12 gap-6">
+                                        <div class="grid grid-cols-12 gap-6 mb-3">
                                             <div class="col-span-12 lg:col-span-6">
                                                 <div class="mb-3">
                                                     <label class="font-medium text-gray-700 dark:text-zinc-100" for="formrow-email-input">Email</label>
-                                                    <input type="email" class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100 " id="formrow-email-input" placeholder="Enter your Email">
+                                                    <input type="email" class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100 " id="formrow-email-input" placeholder="Enter your Email" name="email">
                                                 </div>
+                                                @error('email')
+                                                <div>
+                                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                                </div>
+                                                @enderror
                                             </div>
-                                            <div class="col-span-12 lg:col-span-6">
+                                            <div class="col-span-12 lg:col-span-6 mb-3">
                                                 <div class="mb-3">
                                                     <label class="font-medium text-gray-700 dark:text-zinc-100" for="formrow-password-input">Password</label>
-                                                    <input type="password" class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100" id="formrow-password-input" placeholder="Enter your password">
+                                                    <input type="password" class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100" id="formrow-password-input" placeholder="Enter your password" name="password">
                                                 </div>
+                                                @error('password')
+                                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         
-                                        <div>
+                                        <div class="mb-3">
                                             <label class="block mb-3 font-medium text-gray-700 dark:text-zinc-100">Select Role As</label>
-                                            <select name="role_id" class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100">
+                                            <select  class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100" name="role">
+                                                <option  value="">
+                                                    Pilih
+                                                </option>
                                                 @foreach($roles as $role)
-                                                @if ($role->id = 3)
-                                                    <option value="{{ $role->id }}" selected>
-                                                        {{ $role->name }}
-                                                    </option>
-                                                @else
                                                     <option value="{{ $role->id }}">
                                                         {{ $role->name }}
                                                     </option>
-                                                @endif
-                                            @endforeach
+                                                @endforeach
                                             </select>
+                                            @error('role')
+                                            <div>
+
+                                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                                            </div>
+                                            @enderror
                                         </div>
 
                                         <div class="mt-6 inline-flex gap-4">
