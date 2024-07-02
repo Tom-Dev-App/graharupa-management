@@ -11,4 +11,8 @@ class MaterialUnit extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['name', 'unit'];
+
+    public function task_materials() {
+        return $this->hasMany(TaskMaterial::class);
+    }
 }

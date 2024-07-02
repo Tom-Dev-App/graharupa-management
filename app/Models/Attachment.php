@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Attachment extends Model
 {
     use HasFactory;
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function item() {
+        return $this->belongsTo(AttachmentForItem::class);
+    }
+
+    public function type() {
+        return $this->belongsTo(AttachmentType::class);
+    }
+
+    
 }

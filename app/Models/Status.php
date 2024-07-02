@@ -8,8 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Status extends Model
 {
     use HasFactory;
-    protected const ON_PROGRESS = 1;
-    protected const ON_HOLD = 2;
-    protected const DONE = 3;
-    protected const CANCELED = 4;
+    public const ON_PROGRESS = 1;
+    public const ON_HOLD = 2;
+    public const DONE = 3;
+    public const CANCELED = 4;
+
+
+    public function projects () {
+        $this->hasMany(Project::class);
+    }
+
+    public function tasks () {
+        $this->hasMany(Task::class);
+    }
 }

@@ -15,59 +15,43 @@ Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'authenticate'])->name('authenticate');
 Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', function()  {
-    return view('pages.dashboard.index');
-});
 
 Route::get('/chart', function (ProjectsProgressPieChart $chart) {
-
+    
     return view('chart', ['chart' => $chart->build()]);
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(['auth']);
 
 // USER
-Route::get('/dashboard/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/dashboard/users/create', [UserController::class, 'create'])->name('users.create');
-Route::post('/dashboard/users/create', [UserController::class, 'store'])->name('users.store');
-Route::post('/dashboard/users/{user}/suspend', [UserController::class,'suspend'])->name('users.suspend');
-Route::post('/dashboard/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
-Route::get('/dashboard/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::put('/dashboard/users/{id}', [UserController::class, 'update'])->name('users.update');
-Route::post('/dashboard/users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assignRole');
+Route::prefix('dashboard/users')->middleware(['auth', 'roles:manager'])->group(function() {
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/create', [UserController::class, 'store'])->name('users.store');
+    Route::post('/{user}/suspend', [UserController::class,'suspend'])->name('users.suspend');
+    Route::post('/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::post('/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assignRole');
+});
 
+// Material unit
+Route::prefix('dashboard/units')->middleware(['auth'])->group(function() {
+    Route::get('/', [MaterialUnitController::class, 'index'])->name('unit.index');
+    Route::get('/create', [MaterialUnitController::class, 'create'])->name('unit.create');
+    Route::post('/create', [MaterialUnitController::class, 'store'])->name('unit.store');
+    Route::post('/{id}/delete', [MaterialUnitController::class,'destroy'])->name('unit.delete');
+    Route::post('/{id}/restore', [MaterialUnitController::class, 'restore'])->name('unit.restore');
+    Route::get('/{id}/edit', [MaterialUnitController::class, 'edit'])->name('unit.edit');
+    Route::put('/{id}', [MaterialUnitController::class, 'update'])->name('unit.update');
+});
 
-// material unit
-Route::get('/dashboard/units', [MaterialUnitController::class, 'index'])->name('unit.index');
-Route::get('/dashboard/units/create', [MaterialUnitController::class, 'create'])->name('unit.create');
-Route::post('/dashboard/units/create', [MaterialUnitController::class, 'store'])->name('unit.store');
-Route::post('/dashboard/units/{id}/delete', [MaterialUnitController::class,'destroy'])->name('unit.delete');
-Route::post('/dashboard/units/{id}/restore', [MaterialUnitController::class, 'restore'])->name('unit.restore');
-Route::get('/dashboard/units/{id}/edit', [MaterialUnitController::class, 'edit'])->name('unit.edit');
-Route::put('/dashboard/units/{id}', [MaterialUnitController::class, 'update'])->name('unit.update');
-
-// PROJECT
-Route::get('/dashboard/projects', [ProjectController::class, 'index'])->name('projects.index');
-Route::get('/dashboard/projects/{id}', [ProjectController::class, 'detail'])->name('projects.detail');
-// Route::get('/dashboard/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-// Route::post('/dashboard/projects/create', [ProjectController::class, 'store'])->name('projects.store');
-
-
-Route::get('/dashboard/projects/{project}/task', [TaskController::class, 'create'])->name('task.create');
-Route::post('/dashboard/projects/{project}/task', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/dashboard/projects/{project}/task/{id}', [TaskController::class, 'detail'])->name('tasks.detail');
-Route::get('/dashboard/projects/{project}/task/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-Route::put('/dashboard/projects/{project}/task/{id}/edit', [TaskController::class, 'update'])->name('tasks.update');
-Route::delete('/dashboard/projects/{project}/task/{id}', [TaskController::class, 'delete'])->name('tasks.delete');
-
-Route::get('/dashboard/projects/{project}/task-material', [TaskMaterialController::class, 'index'])->name('task.material.index');
-Route::get('/dashboard/projects/{project}/task-material/create', [TaskMaterialController::class, 'create'])->name('task.material.create');
-Route::post('/dashboard/projects/{project}/task-material/create', [TaskMaterialController::class, 'store'])->name('task.material.store');
-Route::get('/dashboard/projects/{project}/task-material/{id}', [TaskMaterialController::class, 'detail'])->name('task.material.detail');
-Route::get('/dashboard/projects/{project}/task-material/{id}/edit', [TaskMaterialController::class, 'edit'])->name('task.material.edit');
-Route::post('/dashboard/projects/{project}/task-material/{id}/edit', [TaskMaterialController::class, 'store'])->name('task.material.update');
-Route::delete('/dashboard/projects/{project}/task-material/{id}', [TaskMaterialController::class, 'destroy'])->name('task.material.delete');
-
-// Route::get('');
-
+// Project
+Route::prefix('dashboard/projects')->middleware(['auth'])->group(function() {
+    Route::get('/', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/{id}', [ProjectController::class, 'detail'])->name('projects.detail');
+    Route::post('/store', [ProjectController::class, 'store'])->name('projects.store');
+    Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+    Route::put('/{id}', [ProjectController::class, 'update'])->name('projects.update');
+});

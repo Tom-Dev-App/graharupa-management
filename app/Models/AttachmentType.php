@@ -13,4 +13,8 @@ class AttachmentType extends Model
     protected const IMAGE = 2;
     protected const LINK = 3;
     protected const TEXT = 4;
+
+    public function attachments() {
+        return $this->hasMany(Attachment::class);
+    }
 }

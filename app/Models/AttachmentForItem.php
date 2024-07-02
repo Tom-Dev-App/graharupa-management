@@ -12,4 +12,9 @@ class AttachmentForItem extends Model
     protected const TASK = 2;
     protected const COMMENT = 3;
 
+
+    public function attachments() {
+        return $this->hasMany(Attachment::class);
+    }
+
 }

@@ -47,5 +47,25 @@ class User extends Authenticatable
         ];
     }
 
+    public function projects(){
+        return $this->hasMany(Project::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasManyThrough(Task::class, Project::class);
+    }
+
+    public function tasks_materials() {
+        return $this->hasMany(TaskMaterial::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    public function attachments() {
+        return $this->hasMany(Attachment::class);
+    }
 
 }

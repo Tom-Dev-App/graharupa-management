@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
+            $table->string('slug')->unique()->after('name');
             $table->text('description')->nullable();
-            $table->string('slug')->unique();
-            $table->date('deadline')->nullable(); // Deadline column
+            $table->dateTime('deadline')->nullable(); // Deadline column
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('status_id');
             $table->timestamps();   
