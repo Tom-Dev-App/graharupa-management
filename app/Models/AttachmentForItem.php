@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AttachmentForItem extends Model
 {
     use HasFactory;
-    protected const PROJECT = 1;
-    protected const TASK = 2;
-    protected const COMMENT = 3;
+    public const PROJECT = 1;
+    public const TASK = 2;
+    // PINDAH JADI PROJECT DAN TASK AJA ATTACHMENTS PROJECT MIRIP DENGAN COMMENTS JADI 1 AJA
+    // public const COMMENT = 3;
 
 
     public function attachments() {

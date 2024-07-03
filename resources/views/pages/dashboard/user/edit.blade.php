@@ -47,7 +47,7 @@
                                 <div class="flex items-center rounded bg-red-50 alert-dismissible">
                                     <div class="relative w-12 h-12 text-center bg-red-400 ltr:rounded-l rtl:rounded-r">
                                         <div class="after:content-[''] after:border-[6px] after:border-transparent ltr:after:border-l-red-400 rtl:after:border-r-red-400 after:absolute ltr:after:-right-3 rtl:after:-left-3 after:top-[1.15rem]"></div>
-                                        <i class="mdi mdi-check-all align-middle text-white leading-[3.5]"></i>
+                                        <i class="mdi mdi-alert align-middle text-white leading-[3.5]"></i>
                                     </div>
                                     <p class="text-red-700 ltr:ml-4 rtl:mr-4">{{ session('error') }}</p>
                                     <button class="text-lg alert-close ltr:ml-auto rtl:mr-auto text-zinc-500 ltr:pr-5 rtl:pl-5"><i class="mdi mdi-close"></i></button>
@@ -108,7 +108,7 @@
                                             <label class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Select</label>
                                             <select name="role" class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100">
                                                 @foreach($roles as $role)
-                                                @if ($user->roles->contains('id', $role->id))
+                                                @if ($user->role_id === $role->id)
                                                     <option value="{{ $role->id }}" selected>
                                                         {{ $role->name }}
                                                     </option>
@@ -136,7 +136,7 @@
                         {{-- COTENT START END HERE --}}
                     </div>
 
-                    
+                    @unless ($user->role_id === 1)
                     <div class="col-span-6 lg:col-span-6">
                         <div class="card-body">
                             <h5 class="text-xl text-gray-700 dark:text-gray-100">
@@ -210,8 +210,11 @@
                             
                                
                     </div>
+                    @endunless
                     </section>
-@push('footer')
 
-@endPush
+                    @push('footer')
+
+
+                    @endPush
 @endSection

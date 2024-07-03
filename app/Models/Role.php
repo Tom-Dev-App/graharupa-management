@@ -10,7 +10,12 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected const MANAGER = 1;
-    protected const ADMIN = 2;
-    protected const EMPLOYEE = 3;
+    public const MANAGER = 1;
+    public const ADMIN = 2;
+    public const EMPLOYEE = 3;
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

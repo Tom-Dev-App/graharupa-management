@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('status_id');
             $table->text('description');
+            $table->dateTime('datetime');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade');

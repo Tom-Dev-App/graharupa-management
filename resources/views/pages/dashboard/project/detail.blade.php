@@ -11,18 +11,55 @@
                                 <i class="mr-1 mdi mdi-arrow-left"></i> Back
                             </a>
 
-                            <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">Pengerjaan Pagar Bu Sri Ameplgading</h4>
+                            <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">{{ $project->name }} {{ ($project->trashed() ? '(Deleted)' : '') }}</h4>
 
 
 
                                     <p class="text-red-500 text-16 dark:text-red-100 mb-2">
                                         <i class="mdi mdi-calendar "></i>
-                                         Deadline 17 Juli 2024
+                                         Deadline on {{ $project->deadline->format('l, d F Y \a\t h:i A') }}
                                     </p>
                            </div>
                     </div>
 
-                    <div class="flex flex-wrap card-body justify-between flex-wrap items-center">
+                    {{-- ALERT --}}
+                    @if(session()->has('success'))
+                    <div class="grid grid-cols-1">
+                        <div class="card-body">
+                            <div class="space-y-4">
+                                <div class="flex items-center rounded bg-green-50 alert-dismissible">
+                                    <div class="relative w-12 h-12 text-center bg-green-400 ltr:rounded-l rtl:rounded-r">
+                                        <div class="after:content-[''] after:border-[6px] after:border-transparent ltr:after:border-l-green-400 rtl:after:border-r-green-400 after:absolute ltr:after:-right-3 rtl:after:-left-3 after:top-[1.15rem]"></div>
+                                        <i class="mdi mdi-check-all align-middle text-white leading-[3.5]"></i>
+                                    </div>
+                                    <p class="text-green-700 ltr:ml-4 rtl:mr-4">{{ session('success') }}</p>
+                                    <button class="text-lg alert-close ltr:ml-auto rtl:mr-auto text-zinc-500 ltr:pr-5 rtl:pl-5"><i class="mdi mdi-close"></i></button>
+                                </div>
+                        </div>
+                    </div>
+
+                   
+                       
+                    @endif
+                    @if(session()->has('error'))
+                    <div class="grid grid-cols-1">
+                        <div class="card-body">
+                            <div class="space-y-4">
+                                <div class="flex items-center rounded bg-red-50 alert-dismissible">
+                                    <div class="relative w-12 h-12 text-center bg-red-400 ltr:rounded-l rtl:rounded-r">
+                                        <div class="after:content-[''] after:border-[6px] after:border-transparent ltr:after:border-l-red-400 rtl:after:border-r-red-400 after:absolute ltr:after:-right-3 rtl:after:-left-3 after:top-[1.15rem]"></div>
+                                        <i class="mdi mdi-alert align-middle text-white leading-[3.5]"></i>
+                                    </div>
+                                    <p class="text-red-700 ltr:ml-4 rtl:mr-4">{{ session('error') }}</p>
+                                    <button class="text-lg alert-close ltr:ml-auto rtl:mr-auto text-zinc-500 ltr:pr-5 rtl:pl-5"><i class="mdi mdi-close"></i></button>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    
+                    @endif
+                    {{-- ALERT END --}}
+                    <div class="flex flex-wrap card-body justify-between flex-wrap items-center card dark:bg-zinc-800 dark:border-zinc-600">
                         {{-- <span class="badge font-medium bg-green-600 text-white text-15 px-1.5 py-[1.5px] rounded">
                                                 <i class="mdi mdi-progress-check"></i>
                                                 Done</span> --}}
@@ -30,219 +67,226 @@
                                                     <span class="ml-1">
                                                         <i class="mdi mdi-note-plus"></i>
                                                         <span>Add Task</span></button>
-                                                <div>
-                                                    <span class="font-sm text-gray-800 grow dark:text-gray-100 mb-2">Status</span>
-                                                    <span class="badge font-medium bg-blue-400 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                        <i class="mdi mdi-progress-wrench"></i>
-                                                        In Progress</span>
+{{-- STATUS ON MOBILE TO LG BR --}}
+<div class="md:hidden xl:hidden 2xl:hidden">
+    @if ($project->status->id === 1)
+        <span class="badge font-medium bg-blue-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+            <i class="mdi mdi-progress-wrench"></i> On Progress
+        </span>
 
-                                                </div>
-                                                {{-- <span class="badge font-medium bg-yellow-400 text-white text-15 px-1.5 py-[1.5px] rounded"> 
-                                                         <i class="mdi mdi-progress-clock"></i>
-                                                        On Hold</span>
-                                                <span class="badge font-medium bg-red-400 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                    <i class="mdi mdi-progress-close"></i>
-                                                    Canceled
-                                                </span> --}}
+    @elseif($project->status->id === 2)
+        <span class="badge font-medium bg-yellow-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+            <i class="mdi mdi-progress-clock"></i> On Hold
+        </span>
+
+    @elseif($project->status->id === 3)
+        <span class="badge font-medium bg-green-600 text-white text-sm px-1.5 py-[1.5px] rounded">
+            <i class="mdi mdi-progress-check"></i> Done
+        </span>
+
+    @else
+        <span class="badge font-medium bg-red-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+            <i class="mdi mdi-progress-close"></i> Canceled
+        </span>
+    @endif
+</div>
+{{-- STATUS ON MOBILE TO LG BR END --}}
+
+
+{{-- Progress tasks --}}
+<div class="flex flex-wrap card-body justify-center gap-6 items-center">
+    <span class="badge font-medium bg-green-50 text-green-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-green-500/20">
+        <i class="mdi mdi-progress-check"></i> Completed {{ $task_completed_count }}
+    </span>
+
+    <span class="badge font-medium bg-blue-50 text-blue-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-blue-500/20">
+        <i class="mdi mdi-progress-wrench"></i> On Progress {{ $task_progress_count }}
+    </span>
+
+    <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">
+        <i class="mdi mdi-progress-clock"></i> On Hold {{ $task_hold_count }}
+    </span>
+
+    <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">
+        <i class="mdi mdi-progress-close"></i> Canceled {{ $task_canceled_count }}
+    </span>
+</div>
+{{-- END Progress tasks --}}
+
+                <div class="hidden md:block xl:block 2xl:block"">
+                                                   
+                    @if ($project->status->id === 1)
+                        <span class="badge font-medium bg-blue-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                             <i class="mdi mdi-progress-wrench"></i> On Progress
+                        </span>
+
+                    @elseif($project->status->id === 2)
+                         <span class="badge font-medium bg-yellow-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                            <i class="mdi mdi-progress-clock"></i> On Hold
+                        </span>
+
+                    @elseif($project->status->id === 3)
+                        <span class="badge font-medium bg-green-600 text-white text-sm px-1.5 py-[1.5px] rounded">
+                            <i class="mdi mdi-progress-check"></i> Done
+                        </span>
+
+                    @else
+                        <span class="badge font-medium bg-red-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                            <i class="mdi mdi-progress-close"></i> Canceled
+                            </span>
+                    @endif
+                </div>
 
                     </div>
-                        
-                        <!-- TAB -->
-                        <div class="grid  grid-cols-1 grid-span-12">
-                            <div class="flex flex-wrap card-body w-full mx-auto">
-                                <div class="nav-tabs bar-tabs mx-auto w-full">
-                                    <ul class="w-full overflow-hidden text-sm font-medium text-center text-gray-500 rounded-lg shadow nav dark:divide-gray-900 sm:flex">
-                                        <li class="w-full">
-                                            <a href="{{ route('projects.detail', $id) }}" data-tw-toggle="tab" class="inline-block w-full p-4 {{ request()->routeIs('projects.detail', $id) ? 'active' : '' }}">Tasks</a>
 
-                                        </li>
-                                        <li class="w-full">
-                                            <a href="javascript:void(0);" data-tw-toggle="tab" class="inline-block w-full p-4">Attachments</a>
-                                        </li>
-                                        <li class="w-full border-x border-gray-50">
-                                            <a href="javascript:void(0);" data-tw-toggle="tab"  class="inline-block w-full p-4">Materials</a>
-                                        </li>
-                                        <li class="w-full ltr:border-r rtl:border-l border-gray-50">
-                                            <a href="javascript:void(0);" data-tw-toggle="tab"  class="inline-block w-full p-4">Chats</a>
-                                        </li>
-                                    </ul>
-                                    {{-- TASK 1 --}}
-                                    <div class="mt-5 tab-content">
-                                        <div class="block tab-pane">
-                                              <!-- START PROJECT -->
-                                            <div class="grid grid-cols-1 lg:gap-x-6 lg:grid-cols-12">
-                                                <div class="col-span-12 md:col-span-6 xl:col-span-3">
-                                                    <div class="card dark:bg-zinc-800 dark:border-zinc-600">
-                                                        {{-- <img class="rounded" src="assets/images/small/img-1.jpg" alt=""> --}}
-                                                        <div class="card-body">
-                                                            <h3 class="mb-2 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl text-gray-700 dark:text-gray-100">
-                                                                Pemasangan Pagar
-                                                            </h3>
-                                                            <p class="text-blue-500 text-16 dark:text-blue-100 mb-2">
-                                                                <i class="bx bx-user "></i>
-                                                                Andi
-                                                            </p>
-                                                            
-                                                        <div>
-                                                                {{-- <span class="badge font-medium bg-green-600 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                                    <i class="mdi mdi-progress-check"></i>
-                                                                    Done</span> --}}
-                                                                <span class="badge font-medium bg-blue-400 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                                    <i class="mdi mdi-progress-wrench"></i>
-                                                                    In Progress</span>
-                                                                {{-- <span class="badge font-medium bg-yellow-400 text-white text-15 px-1.5 py-[1.5px] rounded"> 
-                                                                        <i class="mdi mdi-progress-clock"></i>
-                                                                        On Hold</span>
-                                                                <span class="badge font-medium bg-red-400 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                                    <i class="mdi mdi-progress-close"></i>
-                                                                    Canceled
-                                                                </span> --}}
-                                                        </div>
-                                                                <div class="flex gap-6 items-center mt-6">
-                                                                    <div class="">
-                                                                        <a href="" class="btn border-transparent bg-violet-500 text-white py-2.5 shadow-md shadow-violet-200 dark:shadow-zinc-600">Open</a>
-                                                                    </div>
-                                                                    <div class="relative dropdown">
-                                                                        <button type="button" class="py-2 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20 " id="dropdownMenuButton1" data-bs-toggle="dropdown"><i class='text-lg align-middle bx bx-hive ltr:mr-2 rtl:ml-2'></i>Menu <i class="mdi mdi-chevron-down "></i></button>
-                            
-                                                                        <ul class="absolute z-50 hidden float-left py-2 mt-1 text-left list-none bg-white border-none rounded-lg shadow-lg dropdown-menu w-44 bg-clip-padding dark:bg-zinc-700" aria-labelledby="dropdownMenuButton1">
-                                                                            <li><a class="inline flex items-center justify-center w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50" href="#"><i class='text-lg align-middle bx bxs-edit ltr:mr-2 rtl:ml-2'></i>Edit</a>
-                                                                            </li>
-                                                                            <hr class="my-1 border-gray-50 dark:border-zinc-600">
-                                                                            <li>
-                                                                                <button type="button" class="block w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50"  data-tw-toggle="modal" data-tw-target="#modal-delete-task-id">
-                                                                                    <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i>Delete</button>
-                                                                            </li>
-                                                                            
-                                                                        </ul>
-                                                                    </div>
+                {{-- accordion desc --}}
+                <div class="flex flex-wrap card-body justify-center gap-4 flex-wrap items-center ">
+                    <div class="card-body w-full">
+                        <div data-tw-accordion="collapse">
+                            <div class="text-gray-700 accordion-item">
+                                <h2>
+                                    <button type="button" class="flex items-center justify-between w-full p-3 font-medium text-left border-b border-gray-100 rounded-t-lg accordion-header group active dark:border-b-zinc-600">
+                                        <span class="text-15 block w-full">Project Description</span>
+                                        <i class="mdi mdi-chevron-down text-2xl group-[.active]:rotate-180"></i>
+                                    </button>
+                                </h2>
 
-                                                                </div>
-                                                        </div>
-                                                        {{-- modal delete --}}
-                                                        {{-- modal delete --}}
-                                                    </div>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="relative z-50 hidden modal" id="modal-delete-task-id" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                                        <div class="fixed inset-0 z-50 overflow-hidden">
-                                                            <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50"></div>
-                                                            <div class="flex items-end justify-center min-h-screen p-4 text-center animate-translate sm:items-center sm:p-0">
-                                                                <div class="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl -top-10 sm:my-8 sm:w-full sm:max-w-lg dark:bg-zinc-700">
-                                                                    <div class="p-5 text-center bg-white dark:bg-zinc-700">
-                                                                        <div class="mx-auto bg-red-100 rounded-full h-14 w-14">
-                                                                            <i class="mdi mdi-trash-can text-2xl text-red-600 leading-[2.4]"></i>
-                                                                        </div>
-                                                                        <h2 class="mt-5 text-xl text-gray-700 dark:text-gray-100">Delete this task?</h2>
-                                                                        <p class="mt-2 text-gray-500 dark:text-zinc-100/60">By deleting task, it will be permanantly deleted?</p>
-                                                                        <div class="justify-center px-4 py-3 mt-5 border-gray-50 sm:flex sm:px-6">
-                                                                            <button type="button" class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm btn dark:text-gray-100 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-gray-500/30 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-zinc-700 dark:border-zinc-600 dark:hover:bg-zinc-600 dark:focus:bg-zinc-600 dark:focus:ring-zinc-700 dark:focus:ring-gray-500/20" data-tw-dismiss="modal">Cancel</button>
-                                                                            <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm btn hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Delete</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                {{-- END CARD --}}
-                                            </div>
-                                            {{-- END PROJECT --}}
-                                    </div>
-                                    {{-- TASK 2 --}}
-                                    <div class="mt-5 tab-content">
-                                        <div class="block tab-pane">
-                                              <!-- START PROJECT -->
-                                            <div class="grid grid-cols-1 lg:gap-x-6 lg:grid-cols-12">
-                                                <div class="col-span-12 md:col-span-6 xl:col-span-3">
-                                                    <div class="card dark:bg-zinc-800 dark:border-zinc-600">
-                                                        {{-- <img class="rounded" src="assets/images/small/img-1.jpg" alt=""> --}}
-                                                        <div class="card-body">
-                                                            <h3 class="mb-2 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl text-gray-700 dark:text-gray-100">
-                                                                Pengecatan pagar hari ke-1
-                                                            </h3>
-                                                            <p class="text-blue-500 text-16 dark:text-blue-100 mb-2">
-                                                                <i class="bx bx-user "></i>
-                                                                Nanang
-                                                            </p>
-                                                            
-                                                        <div>
-                                                                {{-- <span class="badge font-medium bg-green-600 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                                    <i class="mdi mdi-progress-check"></i>
-                                                                    Done</span> --}}
-                                                                <span class="badge font-medium bg-blue-400 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                                    <i class="mdi mdi-progress-wrench"></i>
-                                                                    In Progress</span>
-                                                                {{-- <span class="badge font-medium bg-yellow-400 text-white text-15 px-1.5 py-[1.5px] rounded"> 
-                                                                        <i class="mdi mdi-progress-clock"></i>
-                                                                        On Hold</span>
-                                                                <span class="badge font-medium bg-red-400 text-white text-15 px-1.5 py-[1.5px] rounded">
-                                                                    <i class="mdi mdi-progress-close"></i>
-                                                                    Canceled
-                                                                </span> --}}
-                                                        </div>
-                                                                <div class="flex gap-6 items-center mt-6">
-                                                                    <div class="">
-                                                                        <a href="" class="btn border-transparent bg-violet-500 text-white py-2.5 shadow-md shadow-violet-200 dark:shadow-zinc-600">Open</a>
-                                                                    </div>
-                                                                    <div class="relative dropdown">
-                                                                        <button type="button" class="py-2 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20 " id="dropdownMenuButton1" data-bs-toggle="dropdown"><i class='text-lg align-middle bx bx-hive ltr:mr-2 rtl:ml-2'></i>Menu <i class="mdi mdi-chevron-down "></i></button>
-                            
-                                                                        <ul class="absolute z-50 hidden float-left py-2 mt-1 text-left list-none bg-white border-none rounded-lg shadow-lg dropdown-menu w-44 bg-clip-padding dark:bg-zinc-700" aria-labelledby="dropdownMenuButton1">
-                                                                            <li><a class="inline flex items-center justify-center w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50" href="#"><i class='text-lg align-middle bx bxs-edit ltr:mr-2 rtl:ml-2'></i>Edit</a>
-                                                                            </li>
-                                                                            <hr class="my-1 border-gray-50 dark:border-zinc-600">
-                                                                            <li>
-                                                                                <button type="button" class="block w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50"  data-tw-toggle="modal" data-tw-target="#modal-delete-task-id">
-                                                                                    <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i>Delete</button>
-                                                                            </li>
-                                                                            
-                                                                        </ul>
-                                                                    </div>
-
-                                                                </div>
-                                                        </div>
-                                                        {{-- modal delete --}}
-                                                        <div class="card-body">
-                                                            <div class="relative z-50 hidden modal" id="modal-delete-task-id" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                                                <div class="fixed inset-0 z-50 overflow-hidden">
-                                                                    <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50"></div>
-                                                                    <div class="flex items-end justify-center min-h-screen p-4 text-center animate-translate sm:items-center sm:p-0">
-                                                                        <div class="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl -top-10 sm:my-8 sm:w-full sm:max-w-lg dark:bg-zinc-700">
-                                                                            <div class="p-5 text-center bg-white dark:bg-zinc-700">
-                                                                                <div class="mx-auto bg-red-100 rounded-full h-14 w-14">
-                                                                                    <i class="mdi mdi-trash-can text-2xl text-red-600 leading-[2.4]"></i>
-                                                                                </div>
-                                                                                <h2 class="mt-5 text-xl text-gray-700 dark:text-gray-100">Delete this task?</h2>
-                                                                                <p class="mt-2 text-gray-500 dark:text-zinc-100/60">By deleting task, it will be permanantly deleted?</p>
-                                                                                <div class="justify-center px-4 py-3 mt-5 border-gray-50 sm:flex sm:px-6">
-                                                                                    <button type="button" class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm btn dark:text-gray-100 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-gray-500/30 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-zinc-700 dark:border-zinc-600 dark:hover:bg-zinc-600 dark:focus:bg-zinc-600 dark:focus:ring-zinc-700 dark:focus:ring-gray-500/20" data-tw-dismiss="modal">Cancel</button>
-                                                                                    <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm btn hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Delete</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        {{-- modal delete --}}
-                                                    </div>
-                                                </div>
-                                        
-                                            {{-- END CARD --}}
-                                            </div>
-                                            {{-- END PROJECT --}}
-                                        </div>
-                                    </div>
+                                <div class="block accordion-body">
+                                    <div class="p-5 font-light">
+                                        <p class="mb-2 text-gray-500 dark:text-gray-400">{{ $project->description }}</p>
+                          
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {{-- END PROJECT --}}
 
+                          
+
+                        </div>
+                    </div>
+                </div>
+
+ 
+
+                       
+                    <section class="grid grid-cols-12 gap-4">
+                        {{-- Loop through each tasks --}}
+                        @foreach($tasks as $task)
+                        <div class="col-span-12 sm:col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 flex">
+                            {{-- card --}}
+                            <div class="card dark:bg-zinc-800 dark:border-zinc-600 flex-1 flex flex-col">
+                                <div class="card-body flex-1 flex flex-col">
+                                    <h3 class="mb-2 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl text-gray-700 dark:text-gray-100">
+                                        {{ $task->description }}
+                                    </h3>
+                                    <span class="text-sm text-muted text-gray-700/60 dark:text-gray-100 mb-3">Created by: {{ $task->user->name }}</span>
+
+                                    <p class="text-info-500 text-sm dark:text-info-100 mb-2">
+                                        <i class="mdi mdi-calendar"></i> {{ $task->deadline->format('l, d F Y \a\t h:i A') }}
+                                   </p>
+                                    <div>
+                                        @if ($task->status->id === 1)
+                                        <span class="badge font-medium bg-blue-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                                            <i class="mdi mdi-progress-wrench"></i> On Progress
+                                        </span>
+                                        @elseif($task->status->id === 2)
+                                        <span class="badge font-medium bg-yellow-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                                            <i class="mdi mdi-progress-clock"></i> On Hold
+                                        </span>
+                                        @elseif($task->status->id === 3)
+                                        <span class="badge font-medium bg-green-600 text-white text-sm px-1.5 py-[1.5px] rounded">
+                                            <i class="mdi mdi-progress-check"></i> Done
+                                        </span>
+                                        @else
+                                        <span class="badge font-medium bg-red-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                                            <i class="mdi mdi-progress-close"></i> Canceled
+                                        </span>
+                                        @endif
+                                    </div>
+                                    <div class="flex gap-6 items-center mt-6">
+                                        <div>
+                                            <a href="{{ route('tasks.detail', $task->id) }}" class="btn border-transparent bg-violet-500 text-white py-2.5 px-4 shadow-md shadow-violet-200 dark:shadow-zinc-600">Open</a>
+                                        </div>
+                                        <div class="relative dropdown">
+                                            <button type="button" class="py-2 px-4 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20" id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                                <i class='text-lg align-middle bx bx-hive ltr:mr-2 rtl:ml-2'></i>Menu <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                            <ul class="absolute z-50 hidden float-left py-2 mt-1 text-left list-none bg-white border-none rounded-lg shadow-lg dropdown-menu w-44 bg-clip-padding dark:bg-zinc-700" aria-labelledby="dropdownMenuButton1">
+                                                <li>
+                                                    <a href="{{ route('tasks.edit', $task->id) }}" class="inline flex items-center justify-center w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50">
+                                                        <i class='text-lg align-middle bx bxs-edit ltr:mr-2 rtl:ml-2'></i>Edit
+                                                    </a>
+                                                </li>
+                                                <hr class="my-1 border-gray-50 dark:border-zinc-600">
+                                                <li>
+                                                    <button type="button" class="block w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-task-id-{{ $task->id }}">
+                                                        <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i>Delete
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- modal delete --}}
+                                <div class="card-body">
+                                    <form action="{{ route('tasks.destroy', $task->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <div class="relative z-50 hidden modal" id="modal-delete-task-id-{{ $task->id }}" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                            <div class="fixed inset-0 z-50 overflow-hidden">
+                                                <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50"></div>
+                                                <div class="flex items-end justify-center min-h-screen p-4 text-center animate-translate sm:items-center sm:p-0">
+                                                    <div class="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl -top-10 sm:my-8 sm:w-full sm:max-w-lg dark:bg-zinc-700">
+                                                        <div class="p-5 text-center bg-white dark:bg-zinc-700">
+                                                            <div class="mx-auto bg-red-100 rounded-full h-14 w-14">
+                                                                <i class="mdi mdi-trash-can text-2xl text-red-600 leading-[2.4]"></i>
+                                                            </div>
+                                                            <h2 class="mt-5 text-xl text-gray-700 dark:text-gray-100">Delete this task?</h2>
+                                                            <p class="mt-2 text-gray-500 dark:text-zinc-100/60 font-medium">{{ $task->description }}</p>
+                                                            <p class="mt-2 text-gray-500 dark:text-zinc-100/60">By deleting task, it will be permanently deleted?</p>
+                                                            <div class="justify-center px-4 py-3 mt-5 border-gray-50 sm:flex sm:px-6">
+                                                                <button type="button" class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm btn dark:text-gray-100 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-gray-500/30 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-zinc-700 dark:border-zinc-600 dark:hover:bg-zinc-600 dark:focus:bg-zinc-600 dark:focus:ring-zinc-700 dark:focus:ring-gray-500/20" data-tw-dismiss="modal">Cancel</button>
+                                                                <button type="submit" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm btn hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                {{-- modal delete end --}}
+
+                                
+                                
+                            </div>
+                            {{-- end card --}}
+                        </div>
+                        @endforeach
                         
-    {{-- START NEW PROJECT MODAL --}}
+                      
+                        {{-- New project card --}}
+                        <div class="col-span-12 sm:col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 flex">
+                          {{-- new project --}}
+                          <div class="card dark:bg-zinc-800 dark:border-zinc-600 flex-1 flex flex-col">
+                            <div class="card-body flex-1 flex flex-col items-center justify-center">
+                              <h6 class="mb-6 text-gray-700 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl dark:text-gray-100">
+                                Create New Task
+                              </h6>
+                              <div class="flex items-center">
+                                <button type="button" data-tw-toggle="modal" data-tw-target="#task-new" class="btn text-violet-500 hover:text-white border-violet-500 hover:bg-violet-600 hover:border-violet-600 focus:bg-violet-600 focus:text-white focus:border-violet-600 focus:ring focus:ring-violet-500/30">
+                                  <i data-feather="plus" fill="#545a6d33" class="inline"></i> Create New Task
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {{-- END CONTAINER TASK --}}
+                      </section>
+                      
+                      
+                        
+    
+                      {{-- START NEW TASK MODAL --}}
     <div class="relative z-50 hidden modal" id="task-new" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="fixed inset-0 z-50 overflow-y-auto">
             <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50 modal-overlay"></div>
@@ -263,14 +307,27 @@
                                 <div>
                                     <label for="task_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100 ltr:text-left rtl:text-right">Task Description</label>
                                     <textarea name="task_description" id="task_description" cols="30" rows="10" 
-                                    class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" placeholder="Short brief description" required></textarea>
+                                    class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" placeholder="Short brief description" name="description">{{ old('description') }}</textarea>
+
+                                    @error('description')
+                                        <div>
+                                            <span class="text-sm text-red-500">{{ $message }}</span>
+                                        </div>
+                                    @enderror
+
                                 </div>
 
-{{-- 
+
                                 <div class="mb-4">
                                     <label for="example-text-input" class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Date and time</label>
-                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" value="2019-08-19T13:45:00" id="example-email-input">
-                                </div> --}}
+                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" value="{{ old('datetime') }}" id="example-email-input" name="datetime">
+
+                                    @error('datetime')
+                                    <div>
+                                        <span class="text-sm text-red-500">{{ $message }}</span>
+                                    </div>
+                                    @enderror
+                                </div>
 
                             
                                 <div class="mt-6">

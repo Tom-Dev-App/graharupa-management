@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -66,6 +67,10 @@ class User extends Authenticatable
 
     public function attachments() {
         return $this->hasMany(Attachment::class);
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class);
     }
 
 }

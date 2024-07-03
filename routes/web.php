@@ -9,6 +9,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskMaterialController;
 use App\Http\Controllers\UserController;
 use App\Models\TaskMaterial;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'login'])->name('login');
@@ -24,7 +26,7 @@ Route::get('/chart', function (ProjectsProgressPieChart $chart) {
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(['auth']);
 
 // USER
-Route::prefix('dashboard/users')->middleware(['auth', 'roles:manager'])->group(function() {
+Route::prefix('dashboard/users')->middleware(['auth'])->group(function() {
     Route::get('/', [UserController::class, 'index'])->name('users.index');
     Route::get('/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/create', [UserController::class, 'store'])->name('users.store');
@@ -32,7 +34,6 @@ Route::prefix('dashboard/users')->middleware(['auth', 'roles:manager'])->group(f
     Route::post('/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::post('/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assignRole');
 });
 
 // Material unit
@@ -55,3 +56,28 @@ Route::prefix('dashboard/projects')->middleware(['auth'])->group(function() {
     Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
     Route::put('/{id}', [ProjectController::class, 'update'])->name('projects.update');
 });
+
+Route::prefix('dashboard/projects/{pid}/tasks')->middleware(['auth'])->group(function(){
+    Route::get('/{id}', [TaskController::class, 'detail'])->name('tasks.detail');
+    Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::put('/{id}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+});
+
+
+Route::get('/assignrole', function() {
+   $user = User::create([
+    'name' => 'Tom',
+    'email' => 'tom@gmail.com',
+    'password' => Hash::make('passowrd')
+   ]);
+
+   $user->assignRole('MANAGER');
+
+   return "Sucess";
+});
+
+Route::get('/home', function(){
+    return view('welcome');
+})->middleware(['manager|admin']);

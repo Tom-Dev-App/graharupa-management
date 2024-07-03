@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AttachmentForItem;
+use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Status;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -11,11 +14,29 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::with('status', 'user')->orderBy('updated_at', 'desc')->get();
+        
         return view('pages.dashboard.project.index', compact('projects'));
     }
 
     public function detail(Request $request, $id) {
-        return view('pages.dashboard.project.detail', compact('id'));
+        $project = Project::with(['user', 'tasks', 'status'])->find($id); 
+
+        $comments = Comment::with(['user', 'attachment_types'])
+        ->join('attachment_for_items', function ($join) {
+            $join->on('comments.related_id', '=', 'attachment_for_items.id')
+                ->where('attachment_for_items.type', AttachmentForItem::PROJECT);
+        });
+        $tasks = Task::withTrashed()->with(['user', 'status', 'material'])->where("project_id", $id)->get();
+
+        $task_completed_count = Task::where('status_id', Status::DONE)->count();
+
+        $task_progress_count = Task::where('status_id', Status::ON_PROGRESS)->count();
+        
+        $task_hold_count = Task::where('status_id', Status::ON_HOLD)->count();
+
+        $task_canceled_count = Task::where('status_id', Status::CANCELED)->count();
+        
+        return view('pages.dashboard.project.detail', compact('id', 'project', 'comments', 'tasks', 'task_completed_count', 'task_progress_count', 'task_hold_count', 'task_canceled_count'));
     }
 
     public function store(Request $request)

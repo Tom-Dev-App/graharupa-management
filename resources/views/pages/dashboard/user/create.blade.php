@@ -110,7 +110,8 @@
                         {{-- COTENT START END HERE --}}
                     </div>
                     </section>
-@push('footer')
+
+                    @push('footer')
 
 @endPush
 @endSection

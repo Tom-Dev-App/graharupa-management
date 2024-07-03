@@ -128,14 +128,10 @@
                                                     {{ $user->email }}
                                                 </td>
                                                 <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    @if($user->roles->isNotEmpty())
-                                                        @foreach($user->roles as $role)
-                                                            {{ $role->name }}@if(!$loop->last), @endif
-                                                        @endforeach
-                                                    @else
-                                                        No roles assigned
-                                                    @endif
+                                                        {{ $user->role->name }}
                                                 </td>
+                                               
+                                                
                                                 <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
                                                     @if ($user->deleted_at)
                                                         <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Suspended</span>

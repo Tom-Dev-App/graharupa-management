@@ -28,13 +28,13 @@
                     </div>
                     <div class="grid grid-cols-1 gap-6 gap-y-0 2xl:gap-6 lg:grid-cols-12">
                         {{-- START PROJECT TRACKER --}}
-                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-5">
+                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-6">
                             <div class="card dark:bg-zinc-800 dark:border-zinc-600 card-h-100">
                                 <div class="card-body">
                                     <div class="flex flex-wrap items-center mb-6">
                                         <h5 class="mr-2 font-medium text-gray-800 text-15 dark:text-gray-100">PROJECT PROGRESS</h5>
                                         <div class="flex gap-1 ltr:ml-auto rtl:mr-auto">
-                                            <button type="button" class="px-2 py-1 font-medium text-gray-500 border-transparent btn text-[12.25px] bg-gray-50/50 hover:bg-gray-50/50 dark:hover:bg-zinc-600/800 hover:text-white focus:bg-gray-500 focus:text-white dark:bg-gray-500/10 dark:text-zinc-100 hover:bg-gray-500 dark:hover:bg-gray-200 dark:hover:text-gray-800">SEE ALL</button>
+                                            {{-- <button type="button" class="px-2 py-1 font-medium text-gray-500 border-transparent btn text-[12.25px] bg-gray-50/50 hover:bg-gray-50/50 dark:hover:bg-zinc-600/800 hover:text-white focus:bg-gray-500 focus:text-white dark:bg-gray-500/10 dark:text-zinc-100 hover:bg-gray-500 dark:hover:bg-gray-200 dark:hover:text-gray-800">SEE ALL</button> --}}
                                            
                                         </div>
                                     </div>
@@ -50,13 +50,13 @@
                         </div>
                         {{-- END PROJECT TRACKER --}}
                         {{-- START PROJECT TRACKER --}}
-                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-5">
+                        <div class="col-span-12 lg:col-span-8 xl:col-span-7 2xl:col-span-6">
                             <div class="card dark:bg-zinc-800 dark:border-zinc-600 card-h-100">
                                 <div class="card-body">
                                     <div class="flex flex-wrap items-center mb-6">
                                         <h5 class="mr-2 font-medium text-gray-800 text-15 dark:text-gray-100">TASK PROGRESS</h5>
                                         <div class="flex gap-1 ltr:ml-auto rtl:mr-auto">
-                                            <button type="button" class="px-2 py-1 font-medium text-gray-500 border-transparent btn text-[12.25px] bg-gray-50/50 hover:bg-gray-50/50 dark:hover:bg-zinc-600/800 hover:text-white focus:bg-gray-500 focus:text-white dark:bg-gray-500/10 dark:text-zinc-100 hover:bg-gray-500 dark:hover:bg-gray-200 dark:hover:text-gray-800">SEE ALL</button>
+                                            {{-- <button type="button" class="px-2 py-1 font-medium text-gray-500 border-transparent btn text-[12.25px] bg-gray-50/50 hover:bg-gray-50/50 dark:hover:bg-zinc-600/800 hover:text-white focus:bg-gray-500 focus:text-white dark:bg-gray-500/10 dark:text-zinc-100 hover:bg-gray-500 dark:hover:bg-gray-200 dark:hover:text-gray-800">SEE ALL</button> --}}
                                            
                                         </div>
                                     </div>

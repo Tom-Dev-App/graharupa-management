@@ -275,9 +275,10 @@
                 {{-- NOTIF END --}}
                 <div>
                     <div class="relative dropdown">
-                        <button type="button" class="flex items-center px-3 py-2 h-[70px] border-x border-gray-50 bg-gray-50/30  dropdown-toggle dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <img class="border-[3px] border-gray-700 dark:border-zinc-400 rounded-full w-9 h-9 ltr:xl:mr-2 rtl:xl:ml-2" src="{{ asset('assets/images/avatar-1.jpg') }}" alt="Header Avatar">
-                            <span class="hidden font-medium xl:block">{{ (auth()->user->name ?? 'Jay') }}</span>
+                        <button type="button" class="flex items-center px-3 py-2 h-[70px] border-x border-gray-50 bg-gray-50/30  dropdown-toggle dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100 inline-block justify-center items-center gap-1" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{-- <img class="border-[3px] border-gray-700 dark:border-zinc-400 rounded-full w-9 h-9 ltr:xl:mr-2 rtl:xl:ml-2" src="{{ asset('assets/images/avatar-1.jpg') }}" alt="Header Avatar"> --}}
+                            <i class="fas fa-user-circle text-2xl text-gray-700 dark:text-gray-400"></i>
+                            <span class="hidden font-medium xl:block">{{ (auth()->user()->name ?? 'Jay') }}</span>
                             <i class="hidden align-bottom mdi mdi-chevron-down xl:block"></i>
                         </button>
                         <div class="absolute top-0 z-50 hidden w-40 list-none bg-white dropdown-menu dropdown-animation rounded shadow  dark:bg-zinc-800" id="profile/log">

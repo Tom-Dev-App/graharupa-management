@@ -20,25 +20,25 @@ class UserSeeder extends Seeder
             'email' => 'manager@graharupa.com',
             'password' => Hash::make('password'),
             'created_at' => now(),
+            'role_id' => 1
         ]);
 
-        $manager->assignRole('manager');
         
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@graharupa.com',
             'password' => Hash::make('password'),
             'created_at' => now(),
+            'role_id' => 2
         ]);
 
-        $admin->assignRole('admin');
         
         $employee = User::create([
             'name' => 'Employee',
             'email' => 'employee@graharupa.com',
             'password' => Hash::make('password'),
+            'role_id' => 3
         ]);
 
-        $employee->assignRole('employee');
     }
 }
