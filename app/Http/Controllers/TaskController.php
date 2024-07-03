@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function detail($id) {
-       $materials = TaskMaterial::with('unit')->paginate('25');
-        return view('pages.dashboard.project.task', compact('materials'));
-    }
+    public function detail($pid, $id) {
+        $materials = TaskMaterial::with('unit')->where('id' , $id)->paginate('25');
+         return view('pages.dashboard.project.task', compact('materials'));
+     }
 
     public function store($pid ,Request $request) {
         $validatedData = $request->validate([
@@ -50,8 +50,8 @@ class TaskController extends Controller
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
-    public function delete() {
-        dd(request()->all);
+    public function delete(Request $request) {
+        dd($request()->all);
         return view('pages.dashboard.project.task');
     }
 }

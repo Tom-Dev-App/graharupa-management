@@ -180,9 +180,10 @@
                                     </h3>
                                     <span class="text-sm text-muted text-gray-700/60 dark:text-gray-100 mb-3">Created by: {{ $task->user->name }}</span>
 
-                                    <p class="text-info-500 text-sm dark:text-info-100 mb-2">
-                                        <i class="mdi mdi-calendar"></i> {{ $task->deadline->format('l, d F Y \a\t h:i A') }}
+                                    <p class="text-sky-600 text-sm dark:text-sky-100 mb-2">
+                                        <i class="mdi mdi-calendar"></i> {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
                                    </p>
+                                  
                                     <div>
                                         @if ($task->status->id === 1)
                                         <span class="badge font-medium bg-blue-400 text-white text-sm px-1.5 py-[1.5px] rounded">
@@ -204,7 +205,7 @@
                                     </div>
                                     <div class="flex gap-6 items-center mt-6">
                                         <div>
-                                            <a href="{{ route('tasks.detail', $task->id) }}" class="btn border-transparent bg-violet-500 text-white py-2.5 px-4 shadow-md shadow-violet-200 dark:shadow-zinc-600">Open</a>
+                                            <a href="{{ route('tasks.detail', ['pid' => $task->project_id, 'id' => $task->id]) }}" class="btn border-transparent bg-violet-500 text-white py-2.5 px-4 shadow-md shadow-violet-200 dark:shadow-zinc-600">Open</a>
                                         </div>
                                         <div class="relative dropdown">
                                             <button type="button" class="py-2 px-4 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20" id="dropdownMenuButton1" data-bs-toggle="dropdown">
@@ -212,7 +213,7 @@
                                             </button>
                                             <ul class="absolute z-50 hidden float-left py-2 mt-1 text-left list-none bg-white border-none rounded-lg shadow-lg dropdown-menu w-44 bg-clip-padding dark:bg-zinc-700" aria-labelledby="dropdownMenuButton1">
                                                 <li>
-                                                    <a href="{{ route('tasks.edit', $task->id) }}" class="inline flex items-center justify-center w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50">
+                                                    <a href="{{ route('tasks.edit', ['pid' => $task->project_id, 'id' => $task->id]) }}" class="inline flex items-center justify-center w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50">
                                                         <i class='text-lg align-middle bx bxs-edit ltr:mr-2 rtl:ml-2'></i>Edit
                                                     </a>
                                                 </li>
@@ -228,7 +229,7 @@
                                 </div>
                                 {{-- modal delete --}}
                                 <div class="card-body">
-                                    <form action="{{ route('tasks.destroy', $task->id) }}" method="post">
+                                    <form action="{{ route('tasks.destroy', ['pid' => $task->project_id, 'id' => $task->id]) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         <div class="relative z-50 hidden modal" id="modal-delete-task-id-{{ $task->id }}" aria-labelledby="modal-title" role="dialog" aria-modal="true">

@@ -26,15 +26,15 @@ class ProjectController extends Controller
             $join->on('comments.related_id', '=', 'attachment_for_items.id')
                 ->where('attachment_for_items.type', AttachmentForItem::PROJECT);
         });
-        $tasks = Task::withTrashed()->with(['user', 'status', 'material'])->where("project_id", $id)->get();
+        $tasks = Task::withTrashed()->with(['user', 'status'])->where("project_id", $id)->get();
 
-        $task_completed_count = Task::where('status_id', Status::DONE)->count();
+        $task_completed_count = Task::where('status_id', Status::DONE)->where('project_id', $id)->count();
 
-        $task_progress_count = Task::where('status_id', Status::ON_PROGRESS)->count();
+        $task_progress_count = Task::where('status_id', Status::ON_PROGRESS)->where('project_id', $id)->count();
         
-        $task_hold_count = Task::where('status_id', Status::ON_HOLD)->count();
+        $task_hold_count = Task::where('status_id', Status::ON_HOLD)->where('project_id', $id)->count();
 
-        $task_canceled_count = Task::where('status_id', Status::CANCELED)->count();
+        $task_canceled_count = Task::where('status_id', Status::CANCELED)->where('project_id', $id)->count();
         
         return view('pages.dashboard.project.detail', compact('id', 'project', 'comments', 'tasks', 'task_completed_count', 'task_progress_count', 'task_hold_count', 'task_canceled_count'));
     }

@@ -26,4 +26,8 @@ class Task extends Model
     public function materials(){
        return $this->hasMany(TaskMaterial::class);
     }
+
+    protected $casts = [
+      'datetime' => 'datetime',
+  ];
 }
