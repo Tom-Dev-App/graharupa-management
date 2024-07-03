@@ -17,6 +17,4 @@ class Comment extends Model
     public function type() {
         return $this->belongsTo(CommentType::class);
     }
-
-    
 }

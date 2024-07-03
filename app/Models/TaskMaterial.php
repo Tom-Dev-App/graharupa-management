@@ -14,5 +14,4 @@ class TaskMaterial extends Model
         return $this->belongsTo(MaterialUnit::class);
     }
 
-
 }

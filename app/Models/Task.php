@@ -10,20 +10,20 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
-
-    public function Project() {
-       return $this->belongsTo(Project::class);
-    }
-
-    public function user() {
-       return $this->belongsTo(User::class);
-    }
-
-    public function staus() {
-      return  $this->belongsTo(Status::class);
-    }
-
-    public function task_materials(){
-       return $this->hasMany(TaskMaterial::class);
-    }
+    protected $fillable = ['project_id', 'user_id', 'status_id', 'description', 'datetime'];
+     public function Project() {
+        return $this->belongsTo(Project::class);
+     }
+ 
+     public function user() {
+        return $this->belongsTo(User::class);
+     }
+ 
+     public function status() {
+       return  $this->belongsTo(Status::class);
+     }
+ 
+     public function materials(){
+        return $this->hasMany(TaskMaterial::class);
+     }
 }

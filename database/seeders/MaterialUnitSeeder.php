@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class MaterialUnitSeeder extends Seeder
 {
@@ -13,6 +12,7 @@ class MaterialUnitSeeder extends Seeder
      */
     public function run(): void
     {
+        
         $units = [
             ['name' => 'Meter', 'unit' => 'm'],
             ['name' => 'Meter Persegi', 'unit' => 'm²'],
@@ -65,7 +65,5 @@ class MaterialUnitSeeder extends Seeder
             ['name' => 'Inci', 'unit' => 'inci'],
             ['name' => 'Kilo Liter', 'unit' => 'kl'],
         ];
-
-        DB::table('material_units')->insert($units);
     }
 }

@@ -18,8 +18,7 @@ class Attachment extends Model
     }
 
     public function type() {
-        return $this->belongsTo(AttachmentType::class);
+        return $this->belongsTo(AttachmentTypes::class);
     }
 
-    
 }
