@@ -179,7 +179,11 @@
                                         {{ $task->description }}
                                     </h3>
                                     <span class="text-sm text-muted text-gray-700/60 dark:text-gray-100 mb-3">Created by: {{ $task->user->name }}</span>
-
+                                    @if($task->trashed())
+                                    @if($task->trashed())
+                                    <span class="text-sm text-zinc-700/60 dark:text-zinc-100 mb-3">(deleted)</span>
+                                @endif
+                                    @endif
                                     <p class="text-sky-600 text-sm dark:text-sky-100 mb-2">
                                         <i class="mdi mdi-calendar"></i> {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
                                    </p>
@@ -207,6 +211,7 @@
                                         <div>
                                             <a href="{{ route('tasks.detail', ['pid' => $task->project_id, 'id' => $task->id]) }}" class="btn border-transparent bg-violet-500 text-white py-2.5 px-4 shadow-md shadow-violet-200 dark:shadow-zinc-600">Open</a>
                                         </div>
+                                        @if (!$task->trashed())
                                         <div class="relative dropdown">
                                             <button type="button" class="py-2 px-4 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20" id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                                 <i class='text-lg align-middle bx bx-hive ltr:mr-2 rtl:ml-2'></i>Menu <i class="mdi mdi-chevron-down"></i>
@@ -218,6 +223,8 @@
                                                     </a>
                                                 </li>
                                                 <hr class="my-1 border-gray-50 dark:border-zinc-600">
+                                               
+                                                    
                                                 <li>
                                                     <button type="button" class="block w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-task-id-{{ $task->id }}">
                                                         <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i>Delete
@@ -225,6 +232,7 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                                 {{-- modal delete --}}
@@ -299,7 +307,8 @@
                         </button>
                         <div class="p-5">
                             <h3 class="mb-4 text-xl font-medium text-gray-700 dark:text-gray-100">Create Task</h3>
-                            <form class="space-y-4" action="#" method="POST">
+                            <form class="space-y-4" action="{{ route('tasks.store', ['pid' => $project->id]) }}" method="POST">
+                                @csrf
                                 {{-- <div class="mb-4">
                                     <label for="example-text-input" class="block mb-2 font-medium text-gray-700 dark:text-gray-100">Project Name</label>
                                     <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="text" placeholder="Name a project" id="example-text-input">
@@ -307,7 +316,7 @@
                              
                                 <div>
                                     <label for="task_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100 ltr:text-left rtl:text-right">Task Description</label>
-                                    <textarea name="task_description" id="task_description" cols="30" rows="10" 
+                                    <textarea  id="task_description" cols="30" rows="10" 
                                     class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" placeholder="Short brief description" name="description">{{ old('description') }}</textarea>
 
                                     @error('description')

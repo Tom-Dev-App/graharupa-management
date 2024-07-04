@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MaterialUnit;
 use App\Models\Status;
 use App\Models\Task;
 use App\Models\TaskMaterial;
@@ -10,14 +11,17 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
     public function detail($pid, $id) {
-        $materials = TaskMaterial::with('unit')->where('id' , $id)->paginate('25');
-         return view('pages.dashboard.project.task', compact('materials'));
+        $task = Task::with(['project', 'user', 'status'])->find($id);
+        $materials = TaskMaterial::with(['unit, user', 'user.role'])->where('id' , $id)->paginate('25');
+        $units = MaterialUnit::all();
+         return view('pages.dashboard.task.detail', compact('materials', 'task', 'units'));
      }
 
     public function store($pid ,Request $request) {
+
         $validatedData = $request->validate([
             'description' => 'required|min:5|max:1000',
-            'datetime' => 'required|datetime'
+            'datetime' => 'required|date',
         ]);
 
         $validatedData['project_id'] = $pid;
@@ -50,8 +54,10 @@ class TaskController extends Controller
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
-    public function delete(Request $request) {
-        dd($request()->all);
-        return view('pages.dashboard.project.task');
+    public function destroy(Request $request, $pid, $id) {
+        $task = Task::findOrFail($id);
+        $task->delete();
+        
+        return redirect()->back()->with('success', 'Task deleted successfully!');
     }
 }

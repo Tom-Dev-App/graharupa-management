@@ -11,7 +11,7 @@ class Task extends Model
     use HasFactory, SoftDeletes;
 
    protected $fillable = ['project_id', 'user_id', 'status_id', 'description', 'datetime'];
-    public function Project() {
+    public function project() {
        return $this->belongsTo(Project::class);
     }
 
