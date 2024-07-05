@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MaterialUnit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MaterialUnitController extends Controller
 {
@@ -37,6 +38,7 @@ class MaterialUnitController extends Controller
     }
 
     public function edit($id) {
+        Gate::authorize('managerOrAdmin');
         $materialUnit = MaterialUnit::withTrashed()->find($id);
 
         if (!$materialUnit) {
@@ -47,6 +49,8 @@ class MaterialUnitController extends Controller
     }
 
     public function update(Request $request, $id) {
+        Gate::authorize('managerOrAdmin');
+
         // Fetch the user including soft-deleted ones
         $unit = MaterialUnit::withTrashed()->findOrFail($id);
 
@@ -66,12 +70,16 @@ class MaterialUnitController extends Controller
     }
 
     public function destroy( $id) {
+        Gate::authorize('managerOrAdmin');
+
         $unit = MaterialUnit::findOrFail($id);
         $unit->delete();
         return redirect()->route('unit.index')->with('success', 'Material Unit Deleted successfully');
     }
 
     public function restore($id) {
+        Gate::authorize('managerOrAdmin');
+
         $materialUnit = MaterialUnit::withTrashed()->find($id);
 
         if ($materialUnit && $materialUnit->trashed()) {

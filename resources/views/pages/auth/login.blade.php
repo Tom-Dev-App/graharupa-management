@@ -42,6 +42,17 @@
                                         <p class="mt-2 mb-4 text-gray-500 dark:text-gray-100/60">Sign in to continue to Graharupa Management Dashboard.</p>
                                     </div>
 
+                                    @if (session()->has('error'))
+                                        
+                                    <div class="flex px-5 py-3 text-red-700 border border-red-100 rounded bg-red-50">
+                                        <i class="text-xl bx bx-error ltr:mr-2 rtl:ml-2"></i>
+                                        <div>
+                                            <h6 class="text-15">Login Failed!</h6>
+                                            <p class="mt-2">{{ session('error') }}</p>
+                                        </div>
+                                    </div>
+                                    @endif
+
                                     <form class="pt-2" action="{{ route('authenticate') }}" method="POST">
                                         @csrf
                                         @method('post')

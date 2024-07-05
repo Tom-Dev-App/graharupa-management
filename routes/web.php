@@ -51,12 +51,13 @@ Route::prefix('dashboard/units')->middleware(['auth'])->group(function() {
 Route::prefix('dashboard/projects')->middleware(['auth'])->group(function() {
     Route::get('/', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/{id}', [ProjectController::class, 'detail'])->name('projects.detail');
-    Route::post('/store', [ProjectController::class, 'store'])->name('projects.store');
-    Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
-    Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
-    Route::put('/{id}', [ProjectController::class, 'update'])->name('projects.update');
+    Route::post('/store', [ProjectController::class, 'store'])->name('projects.store')->middleware('manager');
+    Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('manager');
+    Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('manager');
+    Route::put('/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware('manager');
 });
 
+// Task
 Route::prefix('dashboard/projects/{pid}/tasks')->middleware(['auth'])->group(function(){
     Route::get('/{id}', [TaskController::class, 'detail'])->name('tasks.detail');
     Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
@@ -65,19 +66,9 @@ Route::prefix('dashboard/projects/{pid}/tasks')->middleware(['auth'])->group(fun
     Route::delete('/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 });
 
-
-Route::get('/assignrole', function() {
-   $user = User::create([
-    'name' => 'Tom',
-    'email' => 'tom@gmail.com',
-    'password' => Hash::make('passowrd')
-   ]);
-
-   $user->assignRole('MANAGER');
-
-   return "Sucess";
+// Task Materials
+Route::prefix('dashboard/projects/{pid}/tasks/{id}/materials')->middleware(['auth'])->group(function(){
+    Route::post('/store', [TaskMaterialController::class, 'store'])->name('materials.store');
+    Route::delete('/{mid}', [TaskMaterialController::class, 'destroy'])->name('materials.destroy');
 });
 
-Route::get('/home', function(){
-    return view('welcome');
-})->middleware(['manager|admin']);

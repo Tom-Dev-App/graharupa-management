@@ -15,7 +15,6 @@ class ProjectSeeder extends Seeder
     {
         DB::table('projects')->insert([
           [
-            'user_id' => 1,
             'status_id' => 1,
             'name' => 'Renovasi Kantor Pusat PT. Sejahtera - Budi Susanto | Jakarta Selatan, DKI Jakarta',
             'slug' => 'renovasi-kantor-pusat-pt-sejahtera-budi-susanto-jakarta-selatan',
@@ -23,7 +22,6 @@ class ProjectSeeder extends Seeder
             'deadline' => '2024-08-5 23:59:59'
           ],  
           [
-            'user_id' => 1,
             'status_id' => 2,
             'name' => 'Membangun gedung apartemen baru "Greenview Residence" - Sarah Tan -Jawa Barat',
             'slug' => 'membangun-gedung-apartemen-baru-greenview-residence-sarah-tan',
@@ -31,7 +29,6 @@ class ProjectSeeder extends Seeder
             'deadline' => '2024-12-5 23:59:59'
           ],  
           [
-            'user_id' => 1,
             'status_id' => 2,
             'name' => 'Restorasi Bangunan Bersejarah "Tugu Pahlawan" - Ahmad Hadi | Surabaya, Jawa Timur',
             'slug' => 'restorasi-bangunan-bersejarah-tugu-pahlawan-ahmad-hadi-surabaya',
@@ -39,7 +36,6 @@ class ProjectSeeder extends Seeder
             'deadline' => '2024-07-25 23:59:59'
           ],  
           [
-            'user_id' => 1,
             'status_id' => 1,
             'name' => 'Desain Eksterior Rumah Tinggal "Villa Indah" - Maria Wong | Bali',
             'slug' => 'desain-eksterior-rumah-tinggal-villa-indah-maria-wong-bali',
@@ -47,7 +43,6 @@ class ProjectSeeder extends Seeder
             'deadline' => '2024-08-10 23:59:59'
           ],  
           [
-            'user_id' => 1,
             'status_id' => 3,
             'name' => 'Pembangunan Taman Kota "Harapan Hijau" - Indra Sutanto | Semarang, Jawa Tengah',
             'slug' => 'pembangunan-taman-kota-harapan-hijau-indra-sutanto-semarang
@@ -56,7 +51,6 @@ class ProjectSeeder extends Seeder
             'deadline' => '2024-09-15 23:59:59'
           ],  
           [
-            'user_id' => 1,
             'status_id' => 4,
             'name' => 'Renovasi Interior Apartemen "Skyview Residence" - Linda Tjandra | Surabaya, Jawa Timur',
             'slug' => 'renovasi-interior-apartemen-skyview-residence-linda-tjandra',

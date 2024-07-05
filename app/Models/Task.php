@@ -29,5 +29,6 @@ class Task extends Model
 
     protected $casts = [
       'datetime' => 'datetime',
+      'created_at' => 'datetime'
   ];
 }

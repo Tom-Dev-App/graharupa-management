@@ -8,25 +8,32 @@ use App\Models\Project;
 use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
+
     public function index()
     {
-        $projects = Project::with('status', 'user')->orderBy('updated_at', 'desc')->get();
+        $projects = Project::with('status')->orderBy('id', 'desc')->get();
         
         return view('pages.dashboard.project.index', compact('projects'));
     }
 
     public function detail(Request $request, $id) {
-        $project = Project::with(['user', 'tasks', 'status'])->find($id); 
 
+        $project = Project::with(['tasks', 'status'])->find($id); 
+        if (!$project || $project->trashed()) {
+            return redirect()->route('projects.index')->with('error', 'Project has been deleted can\'t be opened.');
+            }
         $comments = Comment::with(['user', 'attachment_types'])
         ->join('attachment_for_items', function ($join) {
             $join->on('comments.related_id', '=', 'attachment_for_items.id')
                 ->where('attachment_for_items.type', AttachmentForItem::PROJECT);
         });
-        $tasks = Task::withTrashed()->with(['user', 'status'])->where("project_id", $id)->get();
+        $tasks = Task::withTrashed()->with(['user' => function ($query) {
+            $query->withTrashed();}, 'status'])->where("project_id", $id)->latest()->get();
+        // dd($tasks);
 
         $task_completed_count = Task::where('status_id', Status::DONE)->where('project_id', $id)->count();
 
@@ -40,14 +47,15 @@ class ProjectController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
+        Gate::authorize('manager');
+
         $validatedData = $request->validate([
             'name' => 'required|min:5|max:100',
             'description' => 'required|min:5|max:1000',
             'deadline' => 'required|date'
         ]);
 
-        $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status_id'] = Status::ON_PROGRESS;
 
         Project::create($validatedData);
@@ -56,14 +64,23 @@ class ProjectController extends Controller
     }
    
     public function edit($id) {
+         Gate::authorize('manager');
         $statuses = Status::all();
-
-        $project = Project::withTrashed()->with('user')->find($id);
+        $project = Project::withTrashed()->find($id);
+        if (!$project || $project->trashed()) {
+       return redirect()->route('projects.index')->with('error', 'Project has been deleted can\'t be edited.');
+           }
 
         return view('pages.dashboard.project.edit', compact('statuses', 'project'));
     }
 
     public function update($id, Request $request) {
+        $project = Project::withTrashed()->find($id);
+        if (!$project || $project->trashed()) {
+            return redirect()->route('projects.index')->with('error', 'Project has been deleted can\'t be edited.');
+                }
+        
+        Gate::authorize('manager');
         $validatedData = $request->validate([
             'name' => 'required|min:5|max:100',
             'description' => 'required|min:5|max:1000',
@@ -74,12 +91,14 @@ class ProjectController extends Controller
         $validatedData['updated_at'] = now();
 
         Project::where('id', $id)->update($validatedData);
+        
 
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
 
     public function destroy($id) {
+        Gate::authorize('manager');
         $project = Project::findOrFail($id);
         $project->delete();
         return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');

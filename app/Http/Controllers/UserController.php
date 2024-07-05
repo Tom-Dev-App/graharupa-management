@@ -6,26 +6,40 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
 
     public function index(Request $request) {
-        $users = User::withTrashed()
+        if(auth()->user()->role_id !== Role::MANAGER) {
+            $users = User::withTrashed()
             ->with('role')
             ->select(['id', 'name', 'email', 'deleted_at', 'role_id'])
             ->paginate(25);
-            $roles = Role::all();
+            $roles = Role::where('name', '!=', 'MANAGER')->get();
+        return view('pages.dashboard.user.index', compact('roles', 'users'));
+
+        }
+
+        $users = User::withTrashed()
+            ->with('role')
+            ->where('role_id', '!=', 1)
+            ->select(['id', 'name', 'email', 'deleted_at', 'role_id'])
+            ->paginate(25);
+            $roles = Role::where('name', '!=', 'MANAGER')->get();
         return view('pages.dashboard.user.index', compact('roles', 'users'));
     }
 
     public function create() {
-        $roles = Role::all();
+        Gate::authorize('manager');
+        $roles = Role::where('name', '!=', 'MANAGER')->get();
         return view('pages.dashboard.user.create', compact('roles'));
     }
 
     public function store(Request $request) {
+        Gate::authorize('manager');
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
@@ -44,8 +58,9 @@ class UserController extends Controller
     }
 
     public function edit($id) {
-        $roles = Role::all();
-        $user = User::withTrashed()->with('role')->find($id);
+        Gate::authorize('manager');
+        $roles = Role::where('name', '!=', 'MANAGER')->get();
+        $user = User::withTrashed()->with('role')->where('role_id', '!=', 1)->find($id);
 
         if (!$user) {
             return redirect()->route('users.index')->with('error', 'User not found.');
@@ -55,6 +70,7 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id) {
+        Gate::authorize('manager');
         // Fetch the user including soft-deleted ones
         $user = User::withTrashed()->findOrFail($id);
 
@@ -80,6 +96,7 @@ class UserController extends Controller
     }
 
     public function suspend(User $user) {
+        Gate::authorize('manager');
         if($user->role_id === 1) {
             return redirect()->route('users.index')->with('error', 'Can\'t suspend Manager Role!');
         }
@@ -88,6 +105,7 @@ class UserController extends Controller
     }
 
     public function restore($id) {
+        Gate::authorize('manager');
         $user = User::withTrashed()->find($id);
         if($user->role_id === 1) {
             return redirect()->route('users.index')->with('error', 'Can\'t suspend Manager Role!');

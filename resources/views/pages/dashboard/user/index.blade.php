@@ -36,9 +36,11 @@
                                     </li>
                                 </ol>
                             </nav> --}}
+                            @can('manager')
                             <a href="{{ route('users.create') }}" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
                                 <i data-feather="user-plus" fill="#545a6d33" class="inline"></i> 
                                 <span class="ml-1">Add User</span></a>
+                            @endcan
                         </div>
                     </div>
                     @if(session()->has('success'))
@@ -108,9 +110,11 @@
                                                 <th scope="col" class="px-6 py-3 border-l border-gray-50 dark:border-zinc-600">
                                                     Status
                                                 </th>
+                                                @can('manager')
                                                 <th scope="col" class="px-6 py-3 border-l border-gray-50 dark:border-zinc-600">
                                                     Action
                                                 </th>
+                                                @endcan
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -139,11 +143,14 @@
                                                         <span class="badge font-medium bg-green-50 text-green-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-green-500/20">Active</span>
                                                     @endif
                                                 </td>
+                                                @can('manager')
+
                                                 <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
                                                    <a href="{{ route('users.edit', $user->id) }}"
                                                       class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">Edit</a>
                                                 </td>
                                             </tr>
+                                            @endcan
                                                 @endforeach
                                             @endif
                                         </tbody>

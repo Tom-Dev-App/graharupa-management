@@ -20,6 +20,7 @@
                    <span></span>
                         </div>
                     </div>
+                    <section>
                     {{-- ALERT --}}
                     @if(session()->has('success'))
                     <div class="grid grid-cols-1">
@@ -57,7 +58,7 @@
                     
                     @endif
                     {{-- ALERT END --}}
-
+                </section>
                   {{-- accordion desc --}}
                 <div class="flex flex-wrap card-body justify-center gap-4 flex-wrap items-center ">
                     <div class="card-body w-full">
@@ -84,10 +85,13 @@
                                                 <i class="mdi mdi-progress-close"></i> Canceled
                                             </span>
                                             @endif
-                                            <p class="text-gray-500 text-sm dark:text-gray-100 mb-2">
+                                            <p class="text-gray-500 text-sm dark:text-gray-100">
                                                 <i class="mdi mdi-calendar "></i>
                                                  {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
                                             </p>
+                                            @if($task->trashed())
+                                            <span class="text-sm text-red-600 dark:text-red-100 mb-3">(task was deleted)</span>
+                                            @endif
                                         </div>
 
                                         <i class="mdi mdi-chevron-down text-2xl group-[.active]:rotate-180"></i>
@@ -112,12 +116,15 @@
                         
                     <div class="col-span-12 xl:col-span-8">
                         <div class="card dark:bg-zinc-800 dark:border-zinc-600">
-                            <div class="card-body border-b border-gray-100 dark:border-zinc-600 flex gap-4 justify-between items-center">
+                            <div class="card-body border-b border-gray-100 dark:border-zinc-600 flex gap-4 justify-between items-center mb-3">
                                 <h6 class="mb-1 text-gray-700 text-15 dark:text-gray-100">Materials Table</h6>
+                                @if(!$task->trashed())
                                 <button type="button" data-tw-toggle="modal" data-tw-target="#material_modal" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
                                     <span class="ml-1">
                                         <i class="mdi mdi-plus"></i>
-                                        <span>Add Material</span></button>
+                                        <span>Add Material</span>
+                                </button>
+                                @endif
                             </div>
                             <div class="card-body">
                                 <div class="relative overflow-x-auto">
@@ -279,7 +286,7 @@
                         </button>
                         <div class="p-5">
                             <h3 class="mb-4 text-xl font-medium text-gray-700 dark:text-gray-100">Add Material to Task</h3>
-                            <form class="space-y-4" action="{{ route('tasks.store', ['pid' => $task->project_id]) }}" method="POST">
+                            <form class="space-y-4" action="{{ route('materials.store', ['pid' => $task->project_id, 'id' => $task->id]) }}" method="POST">
                                 @csrf
                                 <div class="mb-4">
                                     <label for="project_name" class="block mb-2 font-medium text-gray-700 dark:text-gray-100">Material Name</label>

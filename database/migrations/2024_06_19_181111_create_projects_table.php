@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->dateTime('deadline')->nullable(); // Deadline column
-            $table->unsignedBigInteger('user_id');
+            // $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('status_id');
             $table->timestamps();   
             $table->softDeletes();
@@ -28,9 +28,9 @@ return new class extends Migration
                   ->references('id')->on('statuses')
                   ->onUpdate('cascade');
             
-            $table->foreign('user_id')
-                  ->references('id')->on('users')
-                  ->onUpdate('cascade');
+            // $table->foreign('user_id')
+            //       ->references('id')->on('users')
+            //       ->onUpdate('cascade');
         });
     }
 

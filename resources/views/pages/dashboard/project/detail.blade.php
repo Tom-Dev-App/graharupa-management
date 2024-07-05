@@ -59,16 +59,20 @@
                     
                     @endif
                     {{-- ALERT END --}}
-                    <div class="flex flex-wrap card-body justify-between flex-wrap items-center card dark:bg-zinc-800 dark:border-zinc-600">
+                    <div class="flex flex-wrap card-body justify-between flex-wrap items-center card dark:bg-zinc-800 dark:border-zinc-600 mb-3">
                         {{-- <span class="badge font-medium bg-green-600 text-white text-15 px-1.5 py-[1.5px] rounded">
                                                 <i class="mdi mdi-progress-check"></i>
                                                 Done</span> --}}
-                                                <button type="button" data-tw-toggle="modal" data-tw-target="#task-new" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
+                    @if(!$project->status_id === 3 || !$project->status_id === 4)
+                        <button type="button" data-tw-toggle="modal" data-tw-target="#task-new" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
                                                     <span class="ml-1">
                                                         <i class="mdi mdi-note-plus"></i>
                                                         <span>Add Task</span></button>
+                    @else
+                    <div></div>
+                    @endif
 {{-- STATUS ON MOBILE TO LG BR --}}
-<div class="md:hidden xl:hidden 2xl:hidden">
+<div class="block md:hidden xl:hidden 2xl:hidden">
     @if ($project->status->id === 1)
         <span class="badge font-medium bg-blue-400 text-white text-sm px-1.5 py-[1.5px] rounded">
             <i class="mdi mdi-progress-wrench"></i> On Progress
@@ -180,12 +184,19 @@
                                     </h3>
                                     <span class="text-sm text-muted text-gray-700/60 dark:text-gray-100 mb-3">Created by: {{ $task->user->name }}</span>
                                     @if($task->trashed())
-                                    @if($task->trashed())
-                                    <span class="text-sm text-zinc-700/60 dark:text-zinc-100 mb-3">(deleted)</span>
-                                @endif
-                                    @endif
+                                            <span class="text-sm text-red-600 dark:text-red-100 mb-3">(task was deleted)</span>
+                                            @endif
+                                    <p class="text-sky-600 text-sm dark:text-zinc-50 mb-2">
+                                        <i class="mdi mdi-calendar"></i> 
+                                        @if($task->created_at)
+                                            Created on {{ $task->created_at->format('l, d F Y \a\t h:i A') }}
+                                        @else
+                                            Created date not available
+                                        @endif
+                                   </p>
+
                                     <p class="text-sky-600 text-sm dark:text-sky-100 mb-2">
-                                        <i class="mdi mdi-calendar"></i> {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
+                                        <i class="mdi mdi-calendar"></i> Date Start on {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
                                    </p>
                                   
                                     <div>
@@ -213,24 +224,29 @@
                                         </div>
                                         @if (!$task->trashed())
                                         <div class="relative dropdown">
-                                            <button type="button" class="py-2 px-4 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20" id="dropdownMenuButton1" data-bs-toggle="dropdown">
-                                                <i class='text-lg align-middle bx bx-hive ltr:mr-2 rtl:ml-2'></i>Menu <i class="mdi mdi-chevron-down"></i>
-                                            </button>
-                                            <ul class="absolute z-50 hidden float-left py-2 mt-1 text-left list-none bg-white border-none rounded-lg shadow-lg dropdown-menu w-44 bg-clip-padding dark:bg-zinc-700" aria-labelledby="dropdownMenuButton1">
-                                                <li>
-                                                    <a href="{{ route('tasks.edit', ['pid' => $task->project_id, 'id' => $task->id]) }}" class="inline flex items-center justify-center w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50">
-                                                        <i class='text-lg align-middle bx bxs-edit ltr:mr-2 rtl:ml-2'></i>Edit
-                                                    </a>
-                                                </li>
-                                                <hr class="my-1 border-gray-50 dark:border-zinc-600">
-                                               
-                                                    
-                                                <li>
-                                                    <button type="button" class="block w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-task-id-{{ $task->id }}">
-                                                        <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i>Delete
-                                                    </button>
-                                                </li>
-                                            </ul>
+                                            @if(auth()->user()->id === $task->user_id)
+                                                @if(!$project->status_id === 3 || !$project->status_id === 4)
+                                                {{-- @dd($project) --}}
+                                                <button type="button" class="py-2 px-4 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20" id="dropdownMenuButton1" data-bs-toggle="dropdown">
+                                                    <i class='text-lg align-middle bx bx-hive ltr:mr-2 rtl:ml-2'></i>Menu <i class="mdi mdi-chevron-down"></i>
+                                                </button>
+                                                <ul class="absolute z-50 hidden float-left py-2 mt-1 text-left list-none bg-white border-none rounded-lg shadow-lg dropdown-menu w-44 bg-clip-padding dark:bg-zinc-700" aria-labelledby="dropdownMenuButton1">
+                                                    <li>
+                                                        <a href="{{ route('tasks.edit', ['pid' => $task->project_id, 'id' => $task->id]) }}" class="inline flex items-center justify-center w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50">
+                                                            <i class='text-lg align-middle bx bxs-edit ltr:mr-2 rtl:ml-2'></i>Edit
+                                                        </a>
+                                                    </li>
+                                                    <hr class="my-1 border-gray-50 dark:border-zinc-600">
+                                                
+                                                        
+                                                    <li>
+                                                        <button type="button" class="block w-full px-4 py-1 text-sm font-medium text-gray-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-50/50 dark:text-gray-100 dark:hover:bg-zinc-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-task-id-{{ $task->id }}">
+                                                            <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i>Delete
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                                @endif
+                                            @endif
                                         </div>
                                         @endif
                                     </div>
@@ -272,15 +288,15 @@
                         </div>
                         @endforeach
                         
-                      
-                        {{-- New project card --}}
-                        <div class="col-span-12 sm:col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 flex">
+                        @if(!$project->status_id === 3 || !$project->status_id === 4)
+                        {{-- New task card --}}
+                        <div class="col-span-12 sm:col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 flex w-full">
                           {{-- new project --}}
                           <div class="card dark:bg-zinc-800 dark:border-zinc-600 flex-1 flex flex-col">
                             <div class="card-body flex-1 flex flex-col items-center justify-center">
-                              <h6 class="mb-6 text-gray-700 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl dark:text-gray-100">
+                              {{-- <h6 class="mb-6 text-gray-700 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl dark:text-gray-100">
                                 Create New Task
-                              </h6>
+                              </h6> --}}
                               <div class="flex items-center">
                                 <button type="button" data-tw-toggle="modal" data-tw-target="#task-new" class="btn text-violet-500 hover:text-white border-violet-500 hover:bg-violet-600 hover:border-violet-600 focus:bg-violet-600 focus:text-white focus:border-violet-600 focus:ring focus:ring-violet-500/30">
                                   <i data-feather="plus" fill="#545a6d33" class="inline"></i> Create New Task
@@ -289,6 +305,7 @@
                             </div>
                           </div>
                         </div>
+                        @endif
                         {{-- END CONTAINER TASK --}}
                       </section>
                       
