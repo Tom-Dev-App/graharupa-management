@@ -13,9 +13,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [AuthController::class, 'login'])->name('login');
-Route::post('/', [AuthController::class, 'authenticate'])->name('authenticate');
-Route::delete('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/', [AuthController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/', [AuthController::class, 'authenticate'])->name('authenticate')->middleware('guest');
+Route::delete('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::get('/profile', [AuthController::class, 'edit'])->name('auth.edit')->middleware('auth');
+Route::put('/profile', [AuthController::class, 'update'])->name('auth.update')->middleware('auth');
 
 
 Route::get('/chart', function (ProjectsProgressPieChart $chart) {
