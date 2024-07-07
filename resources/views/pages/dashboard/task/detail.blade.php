@@ -156,71 +156,76 @@
                                         </thead>
                                         <tbody>
                                             @if ($materials->count() > 0)
-                                                @foreach ($materials as $material)
-                                                    
-                                            <tr class="bg-white border border-gray-50 dark:border-zinc-600 dark:bg-transparent">
-                                                <th scope="row" class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100">
-                                                   {{ $loop->index + 1 }}
-                                                </th>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    {{ $material->name }} 
-                                                </td>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    {{ $material->description }} 
-                                                </td>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    {{ $material->user->name }} - 
-                                                    {{ $material->user->role->name }}
-                                                </td>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                      {{ $material->unit->name }}  
-                                                </td>
-                                               
-                                                
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    @if ($material->is_carried)
-                                                        <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Material being used</span>
-                                                    @else
-                                                        <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">Material remaining</span>
-                                                    @endif
-                                                </td>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    <button type="button" class="block px-4 py-1 text-sm font-medium text-red-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-red-50/50 dark:text-red-100 dark:hover:bg-red-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-task-id-{{ $task->id }}">
-                                                        <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i> Delete
-                                                    </button>
-                                                    {{-- modal delete --}}
-                                <div class="card-body">
-                                    <form action="{{ '' }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <div class="relative z-50 hidden modal" id="modal-delete-task-id-{{ $material->id }}" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                            <div class="fixed inset-0 z-50 overflow-hidden">
-                                                <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50"></div>
-                                                <div class="flex items-end justify-center min-h-screen p-4 text-center animate-translate sm:items-center sm:p-0">
-                                                    <div class="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl -top-10 sm:my-8 sm:w-full sm:max-w-lg dark:bg-zinc-700">
-                                                        <div class="p-5 text-center bg-white dark:bg-zinc-700">
-                                                            <div class="mx-auto bg-red-100 rounded-full h-14 w-14">
-                                                                <i class="mdi mdi-trash-can text-2xl text-red-600 leading-[2.4]"></i>
+                                            @foreach ($materials as $material)
+                                                <tr class="bg-white border border-gray-50 dark:border-zinc-600 dark:bg-transparent">
+                                                    <th scope="row" class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100">
+                                                        {{ $loop->index + 1 }}
+                                                    </th>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        {{ $material->name }} 
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        {{ $material->description }} 
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100 flex gap-2 flex-col">
+                                                        {{ $material->user->name }} - As 
+                                                        {{ $material->user->role->name }}
+                                                        @if ($material->user->trashed())
+                                                            <div class="mb-3">
+                                                            {{-- <span class="badge font-sm md:font-medium bg-red-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                                                                <i class="mdi mdi-account-off"></i> Suspended
+                                                                </span> --}}
+                                                                <span class="text-red-500">(Suspended)</span>
                                                             </div>
-                                                            <h2 class="mt-5 text-xl text-gray-700 dark:text-gray-100">Delete this material?</h2>
-                                                            <p class="mt-2 text-gray-500 dark:text-zinc-100/60 font-medium">{{ $material->name }}</p>
-                                                            <p class="mt-2 text-gray-500 dark:text-zinc-100/60">By deleting material, it will be permanently deleted?</p>
-                                                            <div class="justify-center px-4 py-3 mt-5 border-gray-50 sm:flex sm:px-6">
-                                                                <button type="button" class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm btn dark:text-gray-100 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-gray-500/30 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-zinc-700 dark:border-zinc-600 dark:hover:bg-zinc-600 dark:focus:bg-zinc-600 dark:focus:ring-zinc-700 dark:focus:ring-gray-500/20" data-tw-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm btn hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Delete</button>
-                                                            </div>
+                                                        @endif
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        {{ $material->unit->name }}  
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        @if ($material->is_carried)
+                                                            <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Material being used</span>
+                                                        @else
+                                                            <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">Material remaining</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100 flex justify-center items-center">
+                                                        <button type="button" class="block px-4 py-1 text-sm font-medium text-red-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-red-50/50 dark:text-red-100 dark:hover:bg-red-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-task-id-{{ $material->id }}">
+                                                            <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i> Delete
+                                                        </button>
+                                                        {{-- modal delete --}}
+                                                        <div class="card-body">
+                                                            <form action="{{ route('materials.destroy', ['pid' => $task->project->id, 'id' => $task->id, $material->id]) }}" method="post">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <div class="relative z-50 hidden modal" id="modal-delete-task-id-{{ $material->id }}" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                                                    <div class="fixed inset-0 z-50 overflow-hidden">
+                                                                        <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50"></div>
+                                                                        <div class="flex items-end justify-center min-h-screen p-4 text-center animate-translate sm:items-center sm:p-0">
+                                                                            <div class="relative overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl -top-10 sm:my-8 sm:w-full sm:max-w-lg dark:bg-zinc-700">
+                                                                                <div class="p-5 text-center bg-white dark:bg-zinc-700">
+                                                                                    <div class="mx-auto bg-red-100 rounded-full h-14 w-14">
+                                                                                        <i class="mdi mdi-trash-can text-2xl text-red-600 leading-[2.4]"></i>
+                                                                                    </div>
+                                                                                    <h2 class="mt-5 text-xl text-gray-700 dark:text-gray-100">Delete this material?</h2>
+                                                                                    <p class="mt-2 text-gray-500 dark:text-zinc-100/60 font-medium">{{ $material->name }}</p>
+                                                                                    <p class="mt-2 text-gray-500 dark:text-zinc-100/60">By deleting material, it will be permanently deleted?</p>
+                                                                                    <div class="justify-center px-4 py-3 mt-5 border-gray-50 sm:flex sm:px-6">
+                                                                                        <button type="button" class="inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm btn dark:text-gray-100 hover:bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-gray-500/30 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-zinc-700 dark:border-zinc-600 dark:hover:bg-zinc-600 dark:focus:bg-zinc-600 dark:focus:ring-zinc-700 dark:focus:ring-gray-500/20" data-tw-dismiss="modal">Cancel</button>
+                                                                                        <button type="submit" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm btn hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Delete</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                {{-- modal delete end --}}
-                                                </td>
-                                            </tr>
-                                                @endforeach
-                                            @endif
+                                                        {{-- modal delete end --}}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                         </tbody>
                                     </table>
                                       <!-- Pagination Links -->
@@ -231,25 +236,28 @@
                             </div>
                         </div>
                     </div>   
-
                     <div class="grid grid-cols-12 gap-6">
-                        {{-- COTENT START HERE --}}
+                        {{-- CONTENT START HERE --}}
                         <div class="col-span-12 lg:col-span-6">
                             <div class="card-body">
                                 {{-- START EDIT DATA USER --}}
-                                    
                                 <h5 class="text-xl text-gray-700 dark:text-gray-100">
-                                    Get Materials Based on a date
-                                  </h5>
+                                    Get Materials Timeline Based on a Date
+                                </h5>
                                 <div>
-                                    <form class="mt-6" action="{{ '' }}" method="POST">
+                                    <form class="mt-6" action="{{ route('materials.summary', ['pid' => $task->project->id, 'id' => $task->id]) }}" method="POST">
                                         @csrf
-
+                    
                                         <div class="grid grid-cols-12 gap-6 mb-3">
                                             <div class="col-span-12 lg:col-span-6">
                                                 <div class="mb-3">
                                                     <label class="font-medium text-gray-700 dark:text-zinc-100" for="unit">Date</label>
-                                                    <input type="datetime-local"  class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100 " id="unit" name="date">
+                                                    <input type="date" class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100 " id="unit" name="date">
+                                                </div>
+                                                <div>
+                                                    <span class="text-muted text-sm text-gray-600 dark:text-gray-200">
+                                                        Leave date empty to get all data
+                                                    </span>
                                                 </div>
                                                 @error('date')
                                                 <div>
@@ -257,23 +265,21 @@
                                                 </div>
                                                 @enderror
                                             </div>
-                                           
                                         </div>
-                                        
-                                        
-
+                    
                                         <div class="mt-6 inline-flex gap-4">
+                                            <button type="reset" class="font-medium text-gray-700 dark:text-gray-100 border border-gray-300 btn w-28 hover:bg-gray-50 dark:hover:bg-gray-500 focus:bg-gray-50 focus:ring focus:ring-gray-200">Reset</button>
                                             <button type="submit" class="font-medium text-white border-transparent btn bg-violet-500 w-28 hover:bg-violet-700 focus:bg-violet-700 focus:ring focus:ring-violet-50">Summarize</button>
                                         </div>
                                     </form>
                                 </div>
                                 {{-- END EDIT DATA USER --}}
-                                
+                    
                             </div>
                         </div>
-                        {{-- COTENT START END HERE --}}
-                    </div>    
-    
+                        {{-- CONTENT START END HERE --}}
+                    </div>
+                    
     {{-- START NNEW MATERIAL MODAL --}}
     <div class="relative z-50 hidden modal" id="material_modal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="fixed inset-0 z-50 overflow-y-auto">
@@ -289,8 +295,8 @@
                             <form class="space-y-4" action="{{ route('materials.store', ['pid' => $task->project_id, 'id' => $task->id]) }}" method="POST">
                                 @csrf
                                 <div class="mb-4">
-                                    <label for="project_name" class="block mb-2 font-medium text-gray-700 dark:text-gray-100">Material Name</label>
-                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="text" placeholder="Material name..." id="project_name" name="name" value="{{ old('name') }}">
+                                    <label for="material_name" class="block mb-2 font-medium text-gray-700 dark:text-gray-100">Material Name</label>
+                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="text" placeholder="Material name..." id="material_name" name="name" value="{{ old('name') }}">
 
                                     @error('name')
                                         <div>
@@ -304,7 +310,7 @@
                                 <div>
                                     <label for="project_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100 ltr:text-left rtl:text-right">Material Description</label>
                                     <textarea name="description" id="project_description" cols="30" rows="10" 
-                                    class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" placeholder="Short brief description" required>{{ old('description') }}</textarea>
+                                    class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" placeholder="Short brief description" >{{ old('description') }}</textarea>
 
                                     @error('description')
                                         <div>
@@ -338,6 +344,21 @@
                                     @endforeach
                                     </select>
                                     @error('unit')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                                </div>
+
+                                <div>
+                                    <label class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Material is being?</label>
+                                    <select name="is_used" class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100">
+                                            <option value={{ true }} selected>
+                                                Used (Going to be used)
+                                            </option>
+                                            <option value={{ false }} selected>
+                                                Returned (The Remaing Material)
+                                            </option>
+                                    </select>
+                                    @error('is_used')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                                 </div>

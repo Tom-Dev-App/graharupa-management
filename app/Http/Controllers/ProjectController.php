@@ -26,14 +26,12 @@ class ProjectController extends Controller
         if (!$project || $project->trashed()) {
             return redirect()->route('projects.index')->with('error', 'Project has been deleted can\'t be opened.');
             }
-        $comments = Comment::with(['user', 'attachment_types'])
-        ->join('attachment_for_items', function ($join) {
-            $join->on('comments.related_id', '=', 'attachment_for_items.id')
-                ->where('attachment_for_items.type', AttachmentForItem::PROJECT);
-        });
-        $tasks = Task::withTrashed()->with(['user' => function ($query) {
-            $query->withTrashed();}, 'status'])->where("project_id", $id)->latest()->get();
-        // dd($tasks);
+        // $comments = Comment::with(['user', 'attachment_types'])
+        // ->join('attachment_for_items', function ($join) {
+        //     $join->on('comments.related_id', '=', 'attachment_for_items.id')
+        //         ->where('attachment_for_items.type', AttachmentForItem::PROJECT);
+        // });
+        $tasks = Task::withTrashed()->with(['user' , 'status'])->where("project_id", $id)->latest()->get();
 
         $task_completed_count = Task::where('status_id', Status::DONE)->where('project_id', $id)->count();
 
@@ -43,7 +41,7 @@ class ProjectController extends Controller
 
         $task_canceled_count = Task::where('status_id', Status::CANCELED)->where('project_id', $id)->count();
         
-        return view('pages.dashboard.project.detail', compact('id', 'project', 'comments', 'tasks', 'task_completed_count', 'task_progress_count', 'task_hold_count', 'task_canceled_count'));
+        return view('pages.dashboard.project.detail', compact('id', 'project', 'tasks', 'task_completed_count', 'task_progress_count', 'task_hold_count', 'task_canceled_count'));
     }
 
     public function store(Request $request)

@@ -12,7 +12,7 @@
 <section class="min-h-screen">
                     <div class="grid grid-cols-1 pb-6">
                         <div class="md:flex items-center justify-between px-[2px] gap-3">
-                            <a href="{{ route('tasks.detail', ['pid' => $task->project_id, 'id' => $task->id]) }}" class="border-0 btn text-violet-500">
+                            <a href="{{ route('projects.detail', ['id' => $task->project_id]) }}" class="border-0 btn text-violet-500">
                                 <i class="mr-1 mdi mdi-arrow-left"></i> Back
                             </a>
                            
@@ -96,17 +96,17 @@
                                         {{-- end status --}}
 
                                         {{-- date --}}
-                                        {{-- <div>
+                                        <div>
                                             <div class="mb-3">
                                                 <label class="font-medium text-gray-900 dark:text-gray-100" for="unit">Date</label>
-                                                <input type="datetime-local"  class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100 " id="unit" name="datetime">
+                                                <input type="datetime-local"  class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100 " id="unit" name="start_date" value="{{ old('start_date', $task->datetime) }}">
                                             </div>
-                                                @error('datetime')
+                                                @error('start_date')
                                                 <div>
                                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                                 </div>
                                                 @enderror
-                                        </div> --}}
+                                        </div>
                                         
                                         {{-- end date --}}
                                         {{-- start desc --}}

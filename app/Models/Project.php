@@ -16,12 +16,13 @@ class Project extends Model
 
     protected $casts = [
         'deadline' => 'datetime',
+        'created_at' => 'datetime',
     ];
     
 
-    // public function user()  {
-    //     return $this->belongsTo(User::class);
-    // }
+    public function user()  {
+        return $this->belongsTo(User::class)->withTrashed();
+    }
 
     public function status() {
         return $this->belongsTo(Status::class);
@@ -30,6 +31,8 @@ class Project extends Model
     public function tasks(){
         return $this->hasMany(Task::class);
     }
+
+    
 
     public function sluggable(): array
     {
@@ -44,5 +47,6 @@ class Project extends Model
         ];
     }
 
+    
 
 }

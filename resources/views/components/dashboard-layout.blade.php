@@ -110,10 +110,17 @@
         <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
 
 
-        <script  src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
         <!-- init js -->
+        <script  src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
+
+        <!-- Responsive Table js -->
+        <script src="{{ asset('assets/libs/admin-resources/rwd-table/rwd-table.min.js') }}"></script>
+
+        <script  src="{{ asset('assets/js/pages/table-responsive.init.js') }}"></script>
+
 
         <script  src="{{ asset('assets/js/app.js') }}"></script>
+
 
         @stack('footer')
     </body>

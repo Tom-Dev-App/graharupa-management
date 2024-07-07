@@ -12,7 +12,7 @@ class MaterialUnit extends Model
 
     protected $fillable = ['name', 'unit'];
 
-    public function task_materials() {
-        return $this->hasMany(TaskMaterial::class);
+    public function materials() {
+        return $this->hasMany(TaskMaterial::class)->withTrashed();
     }
 }

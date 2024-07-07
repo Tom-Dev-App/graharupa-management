@@ -63,7 +63,7 @@
                         {{-- <span class="badge font-medium bg-green-600 text-white text-15 px-1.5 py-[1.5px] rounded">
                                                 <i class="mdi mdi-progress-check"></i>
                                                 Done</span> --}}
-                    @if(!$project->status_id === 3 || !$project->status_id === 4)
+                    @if($project->status_id === 1)
                         <button type="button" data-tw-toggle="modal" data-tw-target="#task-new" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
                                                     <span class="ml-1">
                                                         <i class="mdi mdi-note-plus"></i>
@@ -179,14 +179,23 @@
                             {{-- card --}}
                             <div class="card dark:bg-zinc-800 dark:border-zinc-600 flex-1 flex flex-col">
                                 <div class="card-body flex-1 flex flex-col">
-                                    <h3 class="mb-2 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl text-gray-700 dark:text-gray-100">
+                                    <h3 class=" text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl text-gray-700 dark:text-gray-100">
                                         {{ $task->description }}
                                     </h3>
-                                    <span class="text-sm text-muted text-gray-700/60 dark:text-gray-100 mb-3">Created by: {{ $task->user->name }}</span>
+                                    <span class="text-sm text-muted text-gray-700/60 dark:text-gray-100 mb-2">
+                                        Created by: {{ $task->user->name }} - {{ $task->user->role->name }} 
+                                    </span>
+                                    @if ($task->user->trashed())
+                                        <div class="mb-3">
+                                        <span class="badge font-medium bg-red-400 text-white text-sm px-1.5 py-[1.5px] rounded">
+                                            <i class="mdi mdi-account-off"></i> User was Suspended
+                                        </span>
+                                    </div>
+                                    @endif
                                     @if($task->trashed())
                                             <span class="text-sm text-red-600 dark:text-red-100 mb-3">(task was deleted)</span>
                                             @endif
-                                    <p class="text-sky-600 text-sm dark:text-zinc-50 mb-2">
+                                    <p class="text-zinc-600 text-sm dark:text-zinc-50 mb-2">
                                         <i class="mdi mdi-calendar"></i> 
                                         @if($task->created_at)
                                             Created on {{ $task->created_at->format('l, d F Y \a\t h:i A') }}
@@ -195,7 +204,7 @@
                                         @endif
                                    </p>
 
-                                    <p class="text-sky-600 text-sm dark:text-sky-100 mb-2">
+                                    <p class="text-sky-700 text-sm dark:text-sky-200 mb-2">
                                         <i class="mdi mdi-calendar"></i> Date Start on {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
                                    </p>
                                   
@@ -224,9 +233,10 @@
                                         </div>
                                         @if (!$task->trashed())
                                         <div class="relative dropdown">
-                                            @if(auth()->user()->id === $task->user_id)
-                                                @if(!$project->status_id === 3 || !$project->status_id === 4)
-                                                {{-- @dd($project) --}}
+                                            @if($task->user && $task->user->id === auth()->id() && $project->status_id === 1 || auth()->user()->role_id === 1)
+
+                                                {{-- @if($project->status_id !== 3 || $project->status_id !== 4) --}}
+                                                {{-- @dd($project) --}} 
                                                 <button type="button" class="py-2 px-4 font-medium leading-tight text-white bg-gray-500 border border-gray-500 shadow-md btn dropdown-toggle shadow-gray-100 dark:shadow-zinc-600 hover:bg-gray-600 focus:bg-gray-600 focus:ring focus:ring-gray-200 focus:ring-gray-500/20" id="dropdownMenuButton1" data-bs-toggle="dropdown">
                                                     <i class='text-lg align-middle bx bx-hive ltr:mr-2 rtl:ml-2'></i>Menu <i class="mdi mdi-chevron-down"></i>
                                                 </button>
@@ -245,7 +255,7 @@
                                                         </button>
                                                     </li>
                                                 </ul>
-                                                @endif
+                                                {{-- @endif --}}
                                             @endif
                                         </div>
                                         @endif

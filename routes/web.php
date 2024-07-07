@@ -70,5 +70,6 @@ Route::prefix('dashboard/projects/{pid}/tasks')->middleware(['auth'])->group(fun
 Route::prefix('dashboard/projects/{pid}/tasks/{id}/materials')->middleware(['auth'])->group(function(){
     Route::post('/store', [TaskMaterialController::class, 'store'])->name('materials.store');
     Route::delete('/{mid}', [TaskMaterialController::class, 'destroy'])->name('materials.destroy');
+    Route::post('/summary', [TaskMaterialController::class, 'summarize'])->name('materials.summary');
 });
 

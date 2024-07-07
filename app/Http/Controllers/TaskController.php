@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MaterialUnit;
+use App\Models\Project;
 use App\Models\Status;
 use App\Models\Task;
 use App\Models\TaskMaterial;
@@ -14,14 +15,21 @@ class TaskController extends Controller
 {
     public function detail($pid, $id) {
         $task = Task::withTrashed()->with([
-            'project',
+            'project' => function ($query) {
+                $query->withTrashed();
+            },
             'status',
             'user' => function ($query) {
                 $query->withTrashed();
             }
         ])->find($id);
 
-        $materials = TaskMaterial::with(['unit, user', 'user.role'])->where('id' , $id)->paginate('25');
+        $materials = TaskMaterial::with([
+            'unit' ,
+            'user'
+        ])->paginate(25);
+
+        // dd($materials);
         $units = MaterialUnit::all();
          return view('pages.dashboard.task.detail', compact('materials', 'task', 'units'));
      }
@@ -45,7 +53,11 @@ class TaskController extends Controller
 
     public function edit($pid ,$id) {
         $statuses = Status::all();
-        // dd($id);
+        $project = Project::find($pid);
+        // dd($pid);
+        if($project && $project->status_id !== Status::ON_PROGRESS) {
+            return redirect()->route('projects.detail', $pid)->with('error', 'This Project is being HOLD or DONE or CANCELED, task can\'t be edited.');
+        }
             // Retrieve the task with related user and project, including trashed tasks
     $task = Task::with([
         'user' => function ($query) {
@@ -65,11 +77,12 @@ class TaskController extends Controller
         return view('pages.dashboard.task.edit', compact('statuses', 'task'));
     }
 
-    public function update($id, Request $request) {
+    public function update($pid ,$id, Request $request) {
 
         $validatedData = $request->validate([
             'description' => 'required|min:5|max:1000',
-            'status' => 'required|integer|in:1,2,3,4'
+            'status' => 'required|integer|in:1,2,3,4',
+            'start_date'  => 'required|date'
         ]);
                 
         $task = Task::with(['user', 'project'])->withTrashed()->find($id);
@@ -81,11 +94,12 @@ class TaskController extends Controller
             'id' => $id,
             'description' => $validatedData['description'],
             'status_id' => $validatedData['status'],
+            'datetime' => $validatedData['start_date'],
             'updated_at' => now(),
         ];
         Task::where('id', $id)->update($taskUpdatedData);
 
-        return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
+        return redirect()->route('projects.detail', ['id' => $pid])->with('success', 'Task updated successfully.');
     }
 
     public function destroy(Request $request, $pid, $id) {
