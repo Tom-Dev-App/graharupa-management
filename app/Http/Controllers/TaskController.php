@@ -40,6 +40,14 @@ class TaskController extends Controller
     
         // Retrieve all material units
         $units = MaterialUnit::all();
+
+        if($task->project_id !== $pid){
+            return redirect()->back()->with('error', 'Task does not belong to the specified project.');
+        }
+
+        if($task->project->trashed()){
+            return redirect()->back()->with('error', 'Project is deleted, the task can\'t be opened.');
+        }
     
         // Return the view with the retrieved data
         return view('pages.dashboard.task.detail', compact('materials', 'task', 'units'));
@@ -90,6 +98,15 @@ class TaskController extends Controller
         if (auth()->user()->id !== $task->user_id && auth()->user()->role_id !== 1) {
             abort(403, 'Forbidden');
         }
+
+        if($task->project_id !== $pid){
+            return redirect()->back()->with('error', 'Task does not belong to the specified project.');
+        }
+
+        if($task->project->trashed()){
+            return redirect()->back()->with('error', 'Project is deleted, the task can\'t be opened.');
+        }
+
         return view('pages.dashboard.task.edit', compact('statuses', 'task'));
     }
 
@@ -116,6 +133,15 @@ class TaskController extends Controller
             'datetime' => $validatedData['start_date'],
             'updated_at' => now(),
         ];
+
+        if($task->project_id !== $pid){
+            return redirect()->back()->with('error', 'Task does not belong to the specified project.');
+        }
+
+        if($task->project->trashed()){
+            return redirect()->back()->with('error', 'Project is deleted, the task can\'t be opened.');
+        }
+        
         Task::where('id', $id)->update($taskUpdatedData);
 
         return redirect()->route('projects.detail', ['id' => $pid])->with('success', 'Task updated successfully.');
