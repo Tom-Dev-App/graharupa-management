@@ -58,6 +58,8 @@ class UserController extends Controller
     }
 
     public function edit($id) {
+        $id = (int)$id;
+
         Gate::authorize('manager');
         $roles = Role::where('name', '!=', 'MANAGER')->get();
         $user = User::withTrashed()->with('role')->where('role_id', '!=', 1)->find($id);
@@ -70,6 +72,8 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id) {
+        $id = (int)$id;
+
         Gate::authorize('manager');
         // Fetch the user including soft-deleted ones
         $user = User::withTrashed()->findOrFail($id);

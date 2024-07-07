@@ -179,20 +179,26 @@
                 </tr>
             </thead>
             <tbody>
-                @if($materials)
+                @if($materials->isEmpty())
+                <tr class="bg-gray-50/60 dark:bg-zinc-600/50">
+                    <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100 text-center" colspan="7">
+                        There is no materials data right now.
+                    </th>
+                </tr>
+            @else
                 @foreach ($materials as $index => $material)
                     <tr class="bg-gray-50/60 dark:bg-zinc-600/50">
                         <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100">
-                           {{ $index + 1 }}
+                            {{ $index + 1 }}
                         </th>
                         <td class="px-6 py-3.5 dark:text-zinc-100">
                             {{ $material->created_at->format('l, d F Y \a\t h:i A') }}
                         </td>
                         <td class="px-6 py-3.5 dark:text-zinc-100">
-                           {{ $material->user->name }} -  {{ $material->user->role->name }} 
-                           @if ($material->user->trashed())
-                               - Suspended
-                           @endif
+                            {{ $material->user->name }} -  {{ $material->user->role->name }} 
+                            @if ($material->user->trashed())
+                                - Suspended
+                            @endif
                         </td>
                         <td class="px-6 py-3.5 dark:text-zinc-100">
                             {{ $material->description }}
@@ -204,15 +210,16 @@
                             {{ $material->quantity }} ( {{ $material->unit->name }})
                         </td>
                         <td class="px-6 py-3.5 dark:text-zinc-100">
-                          @if($material->is_carried)
-                            <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Used</span>
-                          @else
-                            <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">Returned</span>
-                          @endif
+                            @if($material->is_carried)
+                                <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Used</span>
+                            @else
+                                <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">Returned</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
             @endif
+            
             </tbody>
         </table>
     </div>

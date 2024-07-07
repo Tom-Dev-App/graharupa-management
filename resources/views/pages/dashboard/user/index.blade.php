@@ -119,40 +119,43 @@
                                         </thead>
                                         <tbody>
                                             @if ($users->count() > 0)
-                                                @foreach ($users as $user)
-                                                    
-                                            <tr class="bg-white border border-gray-50 dark:border-zinc-600 dark:bg-transparent">
-                                                <th scope="row" class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100">
-                                                   {{ $loop->index + 1 }}
-                                                </th>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    {{ $user->name }}
-                                                </td>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    {{ $user->email }}
-                                                </td>
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                            @foreach ($users as $user)
+                                                <tr class="bg-white border border-gray-50 dark:border-zinc-600 dark:bg-transparent">
+                                                    <th scope="row" class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100">
+                                                        {{ $loop->index + 1 }}
+                                                    </th>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        {{ $user->name }}
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        {{ $user->email }}
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
                                                         {{ $user->role->name }}
-                                                </td>
-                                               
-                                                
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                    @if ($user->deleted_at)
-                                                        <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Suspended</span>
-                                                    @else
-                                                        <span class="badge font-medium bg-green-50 text-green-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-green-500/20">Active</span>
-                                                    @endif
-                                                </td>
-                                                @can('manager')
-
-                                                <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                   <a href="{{ route('users.edit', $user->id) }}"
-                                                      class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">Edit</a>
-                                                </td>
+                                                    </td>
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        @if ($user->deleted_at)
+                                                            <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Suspended</span>
+                                                        @else
+                                                            <span class="badge font-medium bg-green-50 text-green-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-green-500/20">Active</span>
+                                                        @endif
+                                                    </td>
+                                                    @can('manager')
+                                                        <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                            <a href="{{ route('users.edit', $user->id) }}"
+                                                               class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">Edit</a>
+                                                        </td>
+                                                    @endcan
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr class="bg-gray-50/60 dark:bg-zinc-600/50">
+                                                <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100 text-center" colspan="6">
+                                                    There are no users available.
+                                                </th>
                                             </tr>
-                                            @endcan
-                                                @endforeach
-                                            @endif
+                                        @endif
+                                        
                                         </tbody>
                                     </table>
                                       <!-- Pagination Links -->

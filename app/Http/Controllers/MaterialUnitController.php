@@ -38,6 +38,7 @@ class MaterialUnitController extends Controller
     }
 
     public function edit($id) {
+        $id = (int)$id;
         Gate::authorize('managerOrAdmin');
         $materialUnit = MaterialUnit::withTrashed()->find($id);
 
@@ -49,6 +50,8 @@ class MaterialUnitController extends Controller
     }
 
     public function update(Request $request, $id) {
+        $id = (int)$id;
+
         Gate::authorize('managerOrAdmin');
 
         // Fetch the user including soft-deleted ones
@@ -70,6 +73,8 @@ class MaterialUnitController extends Controller
     }
 
     public function destroy( $id) {
+        $id = (int)$id;
+
         Gate::authorize('managerOrAdmin');
 
         $unit = MaterialUnit::findOrFail($id);
@@ -78,6 +83,8 @@ class MaterialUnitController extends Controller
     }
 
     public function restore($id) {
+        $id = (int)$id;
+
         Gate::authorize('managerOrAdmin');
 
         $materialUnit = MaterialUnit::withTrashed()->find($id);

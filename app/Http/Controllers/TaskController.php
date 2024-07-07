@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Gate;
 class TaskController extends Controller
 {
     public function detail($pid, $id) {
+        // Ensure parameters are integers
+        $pid = (int)$pid;
+        $id = (int)$id;
+        
+        // dd($pid, $id);
+        // Retrieve the task, including soft-deleted ones
         $task = Task::withTrashed()->with([
             'project' => function ($query) {
                 $query->withTrashed();
@@ -22,20 +28,27 @@ class TaskController extends Controller
             'user' => function ($query) {
                 $query->withTrashed();
             }
-        ])->find($id);
-
+        ])->findOrFail($id);
+    
+        // Retrieve materials for the task, including users (with soft-deleted ones)
         $materials = TaskMaterial::with([
-            'unit' ,
-            'user'
-        ])->paginate(25);
-
-        // dd($materials);
+            'unit',
+            'user' => function ($query) {
+                $query->withTrashed();
+            }
+        ])->where('task_id', $id)->paginate(25);
+    
+        // Retrieve all material units
         $units = MaterialUnit::all();
-         return view('pages.dashboard.task.detail', compact('materials', 'task', 'units'));
-     }
+    
+        // Return the view with the retrieved data
+        return view('pages.dashboard.task.detail', compact('materials', 'task', 'units'));
+    }
 
     public function store($pid ,Request $request) {
 
+                // Ensure parameters are integers
+                $pid = (int)$pid;
         
         $validatedData = $request->validate([
             'description' => 'required|min:5|max:1000',
@@ -52,6 +65,9 @@ class TaskController extends Controller
     }
 
     public function edit($pid ,$id) {
+                // Ensure parameters are integers
+                $pid = (int)$pid;
+                $id = (int)$id;
         $statuses = Status::all();
         $project = Project::find($pid);
         // dd($pid);
@@ -78,6 +94,9 @@ class TaskController extends Controller
     }
 
     public function update($pid ,$id, Request $request) {
+                // Ensure parameters are integers
+                $pid = (int)$pid;
+                $id = (int)$id;
 
         $validatedData = $request->validate([
             'description' => 'required|min:5|max:1000',
@@ -103,6 +122,9 @@ class TaskController extends Controller
     }
 
     public function destroy(Request $request, $pid, $id) {
+                // Ensure parameters are integers
+                $pid = (int)$pid;
+                $id = (int)$id;
         $task = Task::with(['user' => function($query){
             $query->withTrashed();
         }])->findOrFail($id);

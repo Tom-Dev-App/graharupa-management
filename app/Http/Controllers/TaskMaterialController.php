@@ -9,12 +9,16 @@ use App\Models\Task;
 use App\Models\TaskMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class TaskMaterialController extends Controller
 {
     public function store(Request $request , $pid, $id) {
-        $id = (int)$id;
+                // Ensure parameters are integers
+                $pid = (int)$pid;
+                $id = (int)$id;
+                
         $task = Task::withTrashed()->with([
             'project' => function ($query) {
                 $query->withTrashed();},
@@ -64,6 +68,11 @@ class TaskMaterialController extends Controller
     }
 
     public function destroy(Request $request, $pid, $id, $mid) {
+                // Ensure parameters are integers
+                $pid = (int)$pid;
+                $id = (int)$id;
+                $mid = (int)$mid;
+
         // Find the task with trashed records
         $task = Task::withTrashed()->with([
             'project' => function ($query) {
@@ -83,7 +92,9 @@ class TaskMaterialController extends Controller
         }
     
         // Find the material with trashed records
-        $material = TaskMaterial::withTrashed()->where('id', $mid)->where('task_id', $id)->firstOrFail();
+        $material = TaskMaterial::withTrashed()->with(['user' => function($query) {
+            $query->withTrashed();
+        }])->where('id', $mid)->where('task_id', $id)->firstOrFail();
 
 
         // dd(auth()->user()->role_id, Role::MANAGER);
@@ -116,24 +127,43 @@ class TaskMaterialController extends Controller
 
     public function summarize(Request $request, $pid, $id)
     {
-        
+                // Ensure parameters are integers
+                $pid = (int)$pid;
+                $id = (int)$id;
+                
 
         $project = Project::withTrashed()->find($pid);
         $task = Task::withTrashed()->find($id);
 
-
         if (!empty($request->date)) {
             // Filter by specific date
-            $materials = TaskMaterial::with(['unit', 'user', 'user.role', 'task', 'task.project'])
-                ->where('task_id', $id)
-                ->whereDate('created_at', '=', $request->date)
-                ->get();
+            $materials = TaskMaterial::with([
+                'unit',
+                'user' => function ($query) {
+                    $query->withTrashed()
+                          ->orWhereNull('deleted_at');
+                },
+                'task.project'
+            ])
+            ->where('task_id', $id)
+            ->where(function ($query) use ($request) {
+                $query->whereRaw("DATE(created_at) = ?", $request->date);
+            })
+            ->get();
         } else {
             // No date provided, get all materials for the task_id
-            $materials = TaskMaterial::with(['unit', 'user', 'user.role', 'task', 'task.project'])
-                ->where('task_id', $id)
-                ->get();
+            $materials = TaskMaterial::with([
+                'unit',
+                'user' => function ($query) {
+                    $query->withTrashed()
+                          ->orWhereNull('deleted_at');
+                },
+                'task.project'
+            ])
+            ->where('task_id', $id)
+            ->get();
         }
+    
     
         return view('pages.dashboard.task.material-summary', compact('materials', 'project', 'task'));
     }

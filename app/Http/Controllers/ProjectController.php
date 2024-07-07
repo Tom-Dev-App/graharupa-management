@@ -21,6 +21,7 @@ class ProjectController extends Controller
     }
 
     public function detail(Request $request, $id) {
+        $id = (int)$id;
 
         $project = Project::with(['tasks', 'status'])->find($id); 
         if (!$project || $project->trashed()) {
@@ -62,6 +63,7 @@ class ProjectController extends Controller
     }
    
     public function edit($id) {
+        $id = (int)$id;
          Gate::authorize('manager');
         $statuses = Status::all();
         $project = Project::withTrashed()->find($id);
@@ -73,6 +75,7 @@ class ProjectController extends Controller
     }
 
     public function update($id, Request $request) {
+        $id = (int)$id;
         $project = Project::withTrashed()->find($id);
         if (!$project || $project->trashed()) {
             return redirect()->route('projects.index')->with('error', 'Project has been deleted can\'t be edited.');
@@ -96,6 +99,7 @@ class ProjectController extends Controller
 
 
     public function destroy($id) {
+        $id = (int)$id;
         Gate::authorize('manager');
         $project = Project::findOrFail($id);
         $project->delete();

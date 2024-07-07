@@ -64,8 +64,20 @@
                     <div class="card-body w-full">
                         <div data-tw-accordion="collapse">
                             <div class="text-gray-700 accordion-item">
+                                @if(!$task->trashed())
+                                <div class="ml-3">
+                                    <a  href="{{ route('tasks.edit', [
+                                        'pid' => $task->project->id, 'id' => $task->id
+                                    ]) }}" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
+                                        <span class="ml-1">
+                                            <i class="mdi mdi-pencil"></i>
+                                            <span>Edit Task</span>
+                                    </a>
+                                </div>
+                                @endif
                                 <h2>
                                     <button type="button" class="flex items-center justify-between w-full p-3 font-medium text-left border-b border-gray-100 rounded-t-lg accordion-header group active dark:border-b-zinc-600">
+                                        
                                         <div>
                                             <span class="text-15 block w-full">Task Description</span>
                                             @if ($task->status->id === 1)
@@ -96,12 +108,13 @@
 
                                         <i class="mdi mdi-chevron-down text-2xl group-[.active]:rotate-180"></i>
                                     </button>
+                                    
                                 </h2>
 
                                 <div class="block accordion-body">
                                     <div class="p-5 font-light">
                                         <p class="mb-2 text-gray-500 dark:text-gray-400">{{ $task->description }}</p>
-                          
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +168,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($materials->count() > 0)
+                                            @if($materials->count() > 0)
                                             @foreach ($materials as $material)
                                                 <tr class="bg-white border border-gray-50 dark:border-zinc-600 dark:bg-transparent">
                                                     <th scope="row" class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100">
@@ -165,28 +178,25 @@
                                                         {{ $material->name }} 
                                                     </td>
                                                     <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
+                                                        <span class="dark:text-gray-100 text-gray-800">Created {{ $material->created_at->format('l, d F Y \a\t h:i A') }}</span> <br>
                                                         {{ $material->description }} 
                                                     </td>
                                                     <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100 flex gap-2 flex-col">
-                                                        {{ $material->user->name }} - As 
-                                                        {{ $material->user->role->name }}
+                                                        {{ $material->user->name }} - As {{ $material->user->role->name }}
                                                         @if ($material->user->trashed())
                                                             <div class="mb-3">
-                                                            {{-- <span class="badge font-sm md:font-medium bg-red-400 text-white text-sm px-1.5 py-[1.5px] rounded">
-                                                                <i class="mdi mdi-account-off"></i> Suspended
-                                                                </span> --}}
                                                                 <span class="text-red-500">(Suspended)</span>
                                                             </div>
                                                         @endif
                                                     </td>
                                                     <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
-                                                        {{ $material->unit->name }}  
+                                                        {{ $material->quantity }}  {{ $material->unit->name }}  
                                                     </td>
                                                     <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100">
                                                         @if ($material->is_carried)
-                                                            <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Material being used</span>
+                                                            <span class="badge font-medium bg-red-50 text-red-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-red-500/20">Used</span>
                                                         @else
-                                                            <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">Material remaining</span>
+                                                            <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">Returned</span>
                                                         @endif
                                                     </td>
                                                     <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100 flex justify-center items-center">
@@ -225,7 +235,14 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
+                                        @else
+                                            <tr class="bg-gray-50/60 dark:bg-zinc-600/50">
+                                                <th scope="row" class="px-6 py-3.5 font-medium text-gray-900 whitespace-nowrap dark:text-zinc-100 text-center" colspan="7">
+                                                    There are no materials available.
+                                                </th>
+                                            </tr>
                                         @endif
+                                        
                                         </tbody>
                                     </table>
                                       <!-- Pagination Links -->
