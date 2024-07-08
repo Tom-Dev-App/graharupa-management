@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('attachment_type_id')->nullable();
             $table->text('description')->nullable();
             $table->string('file_dir')->nullable();
+            $table->string('filename')->nullable();
+            $table->string('file_url')->nullable();
             $table->timestamps();
 
             // Foreign key constraints

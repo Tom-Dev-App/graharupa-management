@@ -14,10 +14,9 @@ class AttachmentTypeSeeder extends Seeder
     public function run(): void
     {
         DB::table('attachment_types')->insert([
+            ['name' => 'LINK'],
             ['name' => 'PDF'],
             ['name' => 'IMAGE'],
-            ['name' => 'LINK'],
-            ['name' => 'TEXT']
         ]);
     }
 }

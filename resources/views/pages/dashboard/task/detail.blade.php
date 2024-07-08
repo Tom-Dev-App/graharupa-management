@@ -199,10 +199,12 @@
                                                             <span class="badge font-medium bg-yellow-50 text-yellow-500 text-11 px-1.5 py-[1.5px] rounded dark:bg-yellow-500/20">Returned</span>
                                                         @endif
                                                     </td>
-                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100 flex justify-center items-center">
+                                                    <td class="px-6 py-3.5 border-l border-gray-50 dark:border-zinc-600 dark:text-zinc-100 flex justify-center items-center relative">
                                                         <button type="button" class="block px-4 py-1 text-sm font-medium text-red-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-red-50/50 dark:text-red-100 dark:hover:bg-red-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-task-id-{{ $material->id }}">
                                                             <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i> Delete
                                                         </button>
+                                                    </td>
+
                                                         {{-- modal delete --}}
                                                         <div class="card-body">
                                                             <form action="{{ route('materials.destroy', ['pid' => $task->project->id, 'id' => $task->id, $material->id]) }}" method="post">
@@ -232,7 +234,6 @@
                                                             </form>
                                                         </div>
                                                         {{-- modal delete end --}}
-                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @else

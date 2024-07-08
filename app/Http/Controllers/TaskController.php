@@ -48,7 +48,8 @@ class TaskController extends Controller
         if($task->project->trashed()){
             return redirect()->back()->with('error', 'Project is deleted, the task can\'t be opened.');
         }
-    
+        
+        // dd($task);
         // Return the view with the retrieved data
         return view('pages.dashboard.task.detail', compact('materials', 'task', 'units'));
     }

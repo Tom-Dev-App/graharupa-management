@@ -64,12 +64,21 @@
                                                 <i class="mdi mdi-progress-check"></i>
                                                 Done</span> --}}
                     @if($project->status_id === 1)
+                    <div>
+
                         <button type="button" data-tw-toggle="modal" data-tw-target="#task-new" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
-                                                    <span class="ml-1">
-                                                        <i class="mdi mdi-note-plus"></i>
-                                                        <span>Add Task</span></button>
+                            <span class="ml-1">
+                                <i class="mdi mdi-note-plus"></i>
+                            <span>Add Task</span>
+                        </button>
+                        <a href="{{ route('archives.index', ['pid' => $project->id]) }}" class="border-0 btn text-violet-500 group"> <span class="transition-all duration-100 ease-in-out group-hover:border-b group-hover:border-violet-500">Archives</span></a>                
+                                                       
+                    </div>
+                    
                     @else
-                    <div></div>
+                    <div>
+                        <a href="{{ route('archives.index', ['pid' => $project->id]) }}" class="border-0 btn text-violet-500 group"> <span class="transition-all duration-100 ease-in-out group-hover:border-b group-hover:border-violet-500">Archives</span></a>   
+                    </div>
                     @endif
 {{-- STATUS ON MOBILE TO LG BR --}}
 <div class="block md:hidden xl:hidden 2xl:hidden">
@@ -146,6 +155,9 @@
                 {{-- accordion desc --}}
                 <div class="flex flex-wrap card-body justify-center gap-4 flex-wrap items-center ">
                     <div class="card-body w-full">
+                        <div>
+                           
+                        </div>
                         <div data-tw-accordion="collapse">
                             <div class="text-gray-700 accordion-item">
                                 <h2>
@@ -157,6 +169,7 @@
 
                                 <div class="block accordion-body">
                                     <div class="p-5 font-light">
+                                        
                                         <p class="mb-2 text-gray-500 dark:text-gray-400">{{ $project->description }}</p>
                           
                                     </div>

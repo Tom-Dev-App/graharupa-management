@@ -1,6 +1,7 @@
 <?php
 
 use App\Charts\ProjectsProgressPieChart;
+use App\Http\Controllers\ArchivesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MaterialUnitController;
@@ -75,3 +76,10 @@ Route::prefix('dashboard/projects/{pid}/tasks/{id}/materials')->middleware(['aut
     Route::post('/summary', [TaskMaterialController::class, 'summarize'])->name('materials.summary');
 });
 
+
+// Task
+Route::prefix('dashboard/projects/{pid}/archives')->middleware(['auth'])->group(function(){
+    Route::get('/', [ArchivesController::class, 'index'])->name('archives.index');
+    Route::post('/store', [ArchivesController::class, 'store'])->name('archives.store');
+    Route::delete('/{id}', [ArchivesController::class, 'destroy'])->name('archives.destroy');
+});

@@ -9,12 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AttachmentType extends Model
 {
     use HasFactory, SoftDeletes;
-    protected const PDF = 1;
-    protected const IMAGE = 2;
-    protected const LINK = 3;
-    protected const TEXT = 4;
+
+    protected $fillable = [
+        'name'
+    ];
+    protected const LINK = 1;
+    protected const PDF = 2;
+    protected const IMAGE = 3;
 
     public function attachments() {
         return $this->hasMany(Attachment::class);
     }
+
+    
 }
