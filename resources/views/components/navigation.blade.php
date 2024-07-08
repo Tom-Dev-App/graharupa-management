@@ -294,7 +294,7 @@
                                 <div class="dropdown-item dark:text-gray-100">
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
-                                        @method('put')
+                                        @method('delete')
                                     <button type="submit" class="block p-3 hover:bg-gray-50/50 dark:hover:bg-zinc-700/50" href="logout.html">
                                         <i class="mr-1 align-middle mdi mdi-logout text-16"></i> Logout
                                     </button>

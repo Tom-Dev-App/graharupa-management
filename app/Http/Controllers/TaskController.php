@@ -145,7 +145,7 @@ class TaskController extends Controller
         
         Task::where('id', $id)->update($taskUpdatedData);
 
-        return redirect()->route('projects.detail', ['id' => $pid])->with('success', 'Task updated successfully.');
+        return redirect()->route('tasks.detail', ['pid' => $pid, 'id' => $id])->with('success', 'Task updated successfully.');
     }
 
     public function destroy(Request $request, $pid, $id) {

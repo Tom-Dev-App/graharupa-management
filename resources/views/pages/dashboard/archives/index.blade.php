@@ -16,7 +16,7 @@
 <div class="grid grid-cols-1 pb-6">
     <div class="md:flex items-center justify-between px-[2px]">
         
-            <a href="{{ route('projects.index', $project->id) }}" class="border-0 btn text-violet-500">
+            <a href="{{ route('projects.detail', $project->id) }}" class="border-0 btn text-violet-500">
                 <i class="mr-1 mdi mdi-arrow-left"></i> Back
             </a>
         <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">Project Archives</h4>

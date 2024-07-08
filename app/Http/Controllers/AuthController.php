@@ -46,7 +46,7 @@ class AuthController extends Controller
         $user = User::with('role')->find(auth()->user()->id);
 
         if (!$user) {
-            return redirect()->route('users.index')->with('error', 'User not found.');
+            return redirect()->route('users.index')->with('error', 'Account not found.');
         }
 
         return view('pages.auth.profile', compact('user'));
@@ -73,6 +73,6 @@ class AuthController extends Controller
         $user->save();
 
 
-        return redirect()->route('auth.edit')->with('success', 'User updated successfully');
+        return redirect()->route('auth.edit')->with('success', 'Account updated successfully');
     }
 }

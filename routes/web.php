@@ -83,3 +83,4 @@ Route::prefix('dashboard/projects/{pid}/archives')->middleware(['auth'])->group(
     Route::post('/store', [ArchivesController::class, 'store'])->name('archives.store');
     Route::delete('/{id}', [ArchivesController::class, 'destroy'])->name('archives.destroy');
 });
+
