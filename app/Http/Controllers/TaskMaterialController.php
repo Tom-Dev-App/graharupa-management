@@ -33,7 +33,7 @@ class TaskMaterialController extends Controller
         $task->project->status_id === Status::DONE || 
         $task->project->status_id === Status::CANCELED || 
         $task->project->status_id === Status::ON_HOLD || $task->project->trashed()) {
-            redirect()->back()->with('error', 'Task or Project is being DONE, CANCELED, HOLD, material can\'t be added!');
+           return redirect()->back()->with('error', 'Task or Project is being DONE, CANCELED, HOLD, material can\'t be added!');
         }
 
         // Validate 
@@ -97,14 +97,6 @@ class TaskMaterialController extends Controller
         }])->where('id', $mid)->where('task_id', $id)->firstOrFail();
 
 
-        // dd(auth()->user()->role_id, Role::MANAGER);
-        // Check if the user has the correct authorization
-
-        //   if ( auth()->user()->role_id !== Role::MANAGER || auth()->id() !== $material->user_id ) {
-        //     return redirect()->back()->with('error', 'You are not authorized to delete this material.');
-        // }
-            // dd( true ||(auth()->user()->role_id  !== Role::MANAGER));
-            // dd( false ||(auth()->user()->role_id  !== Role::MANAGER));
             if ( auth()->user()->role_id === Role::MANAGER ) {
                     // Delete the material
                         $material->forceDelete();

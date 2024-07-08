@@ -81,7 +81,7 @@ class TaskController extends Controller
         $project = Project::find($pid);
         // dd($pid);
         if($project && $project->status_id !== Status::ON_PROGRESS) {
-            return redirect()->route('projects.detail', $pid)->with('error', 'This Project is being HOLD or DONE or CANCELED, task can\'t be edited.');
+            return redirect()->back()->with('error', 'This Project is being HOLD or DONE or CANCELED, task can\'t be edited.');
         }
             // Retrieve the task with related user and project, including trashed tasks
     $task = Task::with([

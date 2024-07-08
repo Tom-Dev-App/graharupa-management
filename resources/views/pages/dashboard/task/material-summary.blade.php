@@ -8,10 +8,12 @@
                 </a>
 
                 <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">{{ $project->name }}</h4>
-
+                <button onclick="printMainContent()" class="border-0 btn text-violet-500">
+                    <i class="mr-1 mdi mdi-printer"></i> Print
+                </button>
             </div>
         </div>
-    
+ <main class="m-0 p-0" id="print-section">
 <div class="card-body border-b border-gray-100 dark:border-zinc-600">
     <h1 class="text-gray-900 text-[20px] dark:text-gray-50 text-center">Materials Timeline</h1>
     <h3 class="mb-1 text-gray-700 text-[18px] dark:text-gray-100">Project Name: <br>{{ $project->name }}</h3>
@@ -225,4 +227,23 @@
     </div>
 </div>
 </div>
+</main>   
+@push('footer')
+<script>
+    function printMainContent() {
+        // Save the current body content
+        var originalContent = document.body.innerHTML;
+
+        // Replace the body content with the main section content
+        var printContent = document.getElementById('print-section').innerHTML;
+        document.body.innerHTML = printContent;
+
+        // Print the page
+        window.print();
+
+        // Restore the original body content
+        document.body.innerHTML = originalContent;
+    }
+</script>
+@endpush
 @endsection
