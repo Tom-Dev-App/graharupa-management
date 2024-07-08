@@ -63,7 +63,7 @@ class TaskMaterialController extends Controller
         ]);
     
         // Redirect or return response
-        return redirect()->route('tasks.detail', ['pid' => $pid, 'id' => $id])->with('success', 'Material has been addeds');
+        return redirect()->route('tasks.detail', ['pid' => $pid, 'id' => $id])->with('success', 'Material has been added');
 
     }
 
