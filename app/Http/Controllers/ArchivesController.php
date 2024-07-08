@@ -93,20 +93,37 @@ class ArchivesController extends Controller
     
             $attachment->save();
     
-            return redirect()->back()->with('success', 'Attachment uploaded successfully.');
+            return redirect()->back()->with('success', 'Archive uploaded successfully.');
         } catch (\Exception $e) {
             // Log detailed error message
             \Log::error('Attachment store error: '.$e->getMessage().' in '.$e->getFile().' on line '.$e->getLine());
     
             // Handle any errors
-            return redirect()->back()->with('error', 'An error occurred while processing the attachment. Please try again provide the right PDF files max 20MB or url.');
+            return redirect()->back()->with('error', 'An error occurred while processing the archive. Please try again provide the right PDF files max 20MB or url.');
         }
     }
     
 
-
     public function destroy($pid, $id)
     {
-        // Implement destroy logic
+        $pid = (int)$pid;
+        $id = (int)$id;
+        try {
+            $attachment = Attachment::findOrFail($id);
+
+            // Check if attachment type is "PDF" for permanent deletion
+            if ($attachment->type->name === 'PDF') {
+                // Delete file from storage
+                Storage::delete($attachment->file_dir);
+            }
+
+            // Delete attachment from database
+            $attachment->forceDelete();
+
+            return redirect()->back()->with('success', 'Archive permanently deleted.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete archive.');
+        }
     }
 }
+

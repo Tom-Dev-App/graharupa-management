@@ -156,8 +156,8 @@
                             @endif
                             
                             </td>
-                            <td class="px-6 py-3.5 dark:text-zinc-100">
-                                    <button type="button" class="block px-4 py-1 text-sm font-medium text-red-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-red-50/50 dark:text-red-100 dark:hover:bg-red-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-archive-id-{{ $archive->id }}">
+                            <td class="px-6 py-3.5 dark:text-zinc-100 flex flex-col items-center justify-center">
+                                    <button type="button" class="inline-flex gap-2 justify-center items-center px-4 py-1 text-sm font-medium text-red-500 bg-transparent dropdown-item whitespace-nowrap hover:bg-red-50/50 dark:text-red-100 dark:hover:bg-red-600/50" data-tw-toggle="modal" data-tw-target="#modal-delete-archive-id-{{ $archive->id }}">
                                         <i class='text-lg align-middle bx bxs-trash ltr:mr-2 rtl:ml-2'></i> Delete
                                     </button>
 
