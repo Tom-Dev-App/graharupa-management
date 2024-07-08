@@ -36,19 +36,19 @@ class TaskMaterialController extends Controller
            return redirect()->back()->with('error', 'Task or Project is being DONE, CANCELED, HOLD, material can\'t be added!');
         }
 
-        // Validate 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'quantity' => 'required|numeric|min:0',
-            'is_used' => 'required|boolean',
-            'description' => 'required|string|min:20',
-            'unit' => 'required|integer|exists:material_units,id',
-        ]);
-        // Additional data
-        $validatedData['user_id'] = Auth::id();
-        $validatedData['task_id'] = $id;
-        $validatedData['material_unit_id'] = $request->unit;
-        $validatedData['is_carried'] = $request->input('is_used');
+            // Validate 
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'quantity' => 'required|numeric|min:0',
+                'is_used' => 'required|boolean', // Convert 'is_used' to boolean
+                'description' => 'required|string|min:20',
+                'unit' => 'required|integer|exists:material_units,id',
+            ]);
+            // Additional data
+            $validatedData['user_id'] = Auth::id();
+            $validatedData['task_id'] = $id;
+            $validatedData['material_unit_id'] = $request->unit;
+            $validatedData['is_carried'] = $request->input('is_used');
     
         // Create the record
         $record = TaskMaterial::create([

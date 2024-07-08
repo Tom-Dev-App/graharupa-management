@@ -369,15 +369,18 @@
                                 <div>
                                     <label class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Material is being?</label>
                                     <select name="is_used" class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100">
-                                            <option value={{ true }} selected>
+                                            <option value="1" selected>
                                                 Used (Going to be used)
                                             </option>
-                                            <option value={{ false }} selected>
+                                            <option value="0">
                                                 Returned (The Remaing Material)
                                             </option>
                                     </select>
                                     @error('is_used')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    <div>
+
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    </div>
                                 @enderror
                                 </div>
 
