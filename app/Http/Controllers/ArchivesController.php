@@ -68,7 +68,7 @@ class ArchivesController extends Controller
 
                     
                      // Determine file storage path based on file type
-                $storagePath = 'public/pdf_attachments'; // Store in 'public' disk under 'pdf_attachments' folder
+                $storagePath = 'public/pdf'; // Store in 'public' disk under 'pdf_attachments' folder
 
                 // Store file in public disk
                 $storedPath = $file->storeAs($storagePath, $fileName, 'public');
@@ -76,7 +76,8 @@ class ArchivesController extends Controller
                     // Save file details to database
                     $attachment->filename = $fileName;
                     $attachment->file_dir = $storedPath;
-                    $attachment->file_url = Storage::url($storedPath); // Assuming you're using local storage
+                    $attachment->file_url = '/storage/public/pdf/'.$fileName;
+                    
                 } else {
                     return redirect()->back()->with('error', 'Invalid file upload.');
                 }

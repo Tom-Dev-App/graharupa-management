@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('file_dir')->nullable();
             $table->string('filename')->nullable();
-            $table->string('file_url')->nullable();
+            $table->text('file_url')->nullable();
             $table->timestamps();
 
             // Foreign key constraints
