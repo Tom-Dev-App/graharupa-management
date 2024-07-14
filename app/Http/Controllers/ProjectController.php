@@ -27,11 +27,7 @@ class ProjectController extends Controller
         if (!$project || $project->trashed()) {
             return redirect()->route('projects.index')->with('error', 'Project has been deleted can\'t be opened.');
             }
-        // $comments = Comment::with(['user', 'attachment_types'])
-        // ->join('attachment_for_items', function ($join) {
-        //     $join->on('comments.related_id', '=', 'attachment_for_items.id')
-        //         ->where('attachment_for_items.type', AttachmentForItem::PROJECT);
-        // });
+
         $tasks = Task::withTrashed()->with(['user' , 'status'])->where("project_id", $id)->latest()->get();
 
         $task_completed_count = Task::where('status_id', Status::DONE)->where('project_id', $id)->count();

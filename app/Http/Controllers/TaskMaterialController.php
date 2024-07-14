@@ -15,7 +15,6 @@ use Illuminate\Validation\Rule;
 class TaskMaterialController extends Controller
 {
     public function store(Request $request , $pid, $id) {
-                // Ensure parameters are integers
                 $pid = (int)$pid;
                 $id = (int)$id;
                 
@@ -36,21 +35,20 @@ class TaskMaterialController extends Controller
            return redirect()->back()->with('error', 'Task or Project is being DONE, CANCELED, HOLD, material can\'t be added!');
         }
 
-            // Validate 
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'quantity' => 'required|numeric|min:0',
-                'is_used' => 'required|boolean', // Convert 'is_used' to boolean
+                'is_used' => 'required|boolean',
                 'description' => 'required|string|min:20',
                 'unit' => 'required|integer|exists:material_units,id',
             ]);
-            // Additional data
+         
             $validatedData['user_id'] = Auth::id();
             $validatedData['task_id'] = $id;
             $validatedData['material_unit_id'] = $request->unit;
             $validatedData['is_carried'] = $request->input('is_used');
     
-        // Create the record
+       
         $record = TaskMaterial::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -62,18 +60,18 @@ class TaskMaterialController extends Controller
 
         ]);
     
-        // Redirect or return response
+      
         return redirect()->route('tasks.detail', ['pid' => $pid, 'id' => $id])->with('success', 'Material has been added');
 
     }
 
     public function destroy(Request $request, $pid, $id, $mid) {
-                // Ensure parameters are integers
+         
                 $pid = (int)$pid;
                 $id = (int)$id;
                 $mid = (int)$mid;
 
-        // Find the task with trashed records
+   
         $task = Task::withTrashed()->with([
             'project' => function ($query) {
                 $query->withTrashed();
@@ -83,7 +81,7 @@ class TaskMaterialController extends Controller
             }
         ])->findOrFail($id);
     
-        // Check if the task or project is in an invalid state
+   
         if ($task->trashed() || 
             in_array($task->status_id, [Status::CANCELED, Status::DONE, Status::ON_HOLD]) || 
             in_array($task->project->status_id, [Status::DONE, Status::CANCELED, Status::ON_HOLD]) || 
@@ -91,14 +89,14 @@ class TaskMaterialController extends Controller
             return redirect()->back()->with('error', 'Task or Project is DONE, CANCELED, ON HOLD, material can\'t be deleted!');
         }
     
-        // Find the material with trashed records
+    
         $material = TaskMaterial::withTrashed()->with(['user' => function($query) {
             $query->withTrashed();
         }])->where('id', $mid)->where('task_id', $id)->firstOrFail();
 
 
             if ( auth()->user()->role_id === Role::MANAGER ) {
-                    // Delete the material
+           
                         $material->forceDelete();
                     
                         return redirect()->back()->with('success', 'Material deleted successfully.');
@@ -106,7 +104,7 @@ class TaskMaterialController extends Controller
 
         if(auth()->id() === $material->user_id) {
             
-            // Delete the material
+  
             $material->forceDelete();
         
             return redirect()->back()->with('success', 'Material deleted successfully.');
@@ -119,7 +117,7 @@ class TaskMaterialController extends Controller
 
     public function summarize(Request $request, $pid, $id)
     {
-                // Ensure parameters are integers
+
                 $pid = (int)$pid;
                 $id = (int)$id;
                 
@@ -128,7 +126,7 @@ class TaskMaterialController extends Controller
         $task = Task::withTrashed()->find($id);
 
         if (!empty($request->date)) {
-            // Filter by specific date
+      
             $materials = TaskMaterial::with([
                 'unit',
                 'user' => function ($query) {
@@ -143,7 +141,7 @@ class TaskMaterialController extends Controller
             })
             ->get();
         } else {
-            // No date provided, get all materials for the task_id
+            
             $materials = TaskMaterial::with([
                 'unit',
                 'user' => function ($query) {

@@ -54,16 +54,13 @@ class MaterialUnitController extends Controller
 
         Gate::authorize('managerOrAdmin');
 
-        // Fetch the user including soft-deleted ones
         $unit = MaterialUnit::withTrashed()->findOrFail($id);
 
-        // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255|',
         ]);
 
-        // Update user details
         $unit->name = $validatedData['name'];
         $unit->unit = $validatedData['unit'];
         $unit->save();

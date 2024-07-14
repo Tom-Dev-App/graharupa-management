@@ -56,8 +56,6 @@ class AuthController extends Controller
     public function update(Request $request){
 
         $user = User::withTrashed()->findOrFail(auth()->user()->id);
-        // dd($user, $request);
-        // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,

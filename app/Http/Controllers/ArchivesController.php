@@ -23,12 +23,11 @@ class ArchivesController extends Controller
         ->with([
             'item',
             'user' => function ($query) {
-                $query->withTrashed(); // Eager load soft-deleted users
+                $query->withTrashed();
             },
             'user.role',
             'type'
         ])->paginate(50);
-        // dd($archives);
     return view('pages.dashboard.archives.index', compact('project', 'types', 'archives'));
 }
 
@@ -65,15 +64,10 @@ class ArchivesController extends Controller
                 if ($file->isValid()) {
                     $extension = $file->extension();
                     $fileName = time() . '_' . uniqid('', true) . '.' . $extension;
+           
+                $storagePath = 'public/pdf'; 
 
-                    
-                     // Determine file storage path based on file type
-                $storagePath = 'public/pdf'; // Store in 'public' disk under 'pdf_attachments' folder
-
-                // Store file in public disk
                 $storedPath = $file->storeAs($storagePath, $fileName, 'public');
-
-                    // Save file details to database
                     $attachment->filename = $fileName;
                     $attachment->file_dir = $storedPath;
                     $attachment->file_url = '/storage/public/pdf/'.$fileName;
@@ -86,7 +80,6 @@ class ArchivesController extends Controller
                     'file_url' => 'required|url',
                 ]);
     
-                // Handle URL input
                 $attachment->file_url = $request->file_url;
             } else {
                 return redirect()->back()->with('error', 'Either file or URL must be provided.');
@@ -96,10 +89,8 @@ class ArchivesController extends Controller
     
             return redirect()->back()->with('success', 'Archive uploaded successfully.');
         } catch (\Exception $e) {
-            // Log detailed error message
             \Log::error('Attachment store error: '.$e->getMessage().' in '.$e->getFile().' on line '.$e->getLine());
     
-            // Handle any errors
             return redirect()->back()->with('error', 'An error occurred while processing the archive. Please try again provide the right PDF files max 20MB or url.');
         }
     }

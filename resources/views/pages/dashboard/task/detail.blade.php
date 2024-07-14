@@ -260,7 +260,7 @@
                             <div class="card-body">
                                 {{-- START EDIT DATA USER --}}
                                 <h5 class="text-xl text-gray-700 dark:text-gray-100">
-                                    Get Materials Timeline Based on a Date
+                                   Get Materials Report Based on a Date
                                 </h5>
                                 <div>
                                     <form class="mt-6" action="{{ route('materials.summary', ['pid' => $task->project->id, 'id' => $task->id]) }}" method="POST">
@@ -287,7 +287,7 @@
                     
                                         <div class="mt-6 inline-flex gap-4">
                                             <button type="reset" class="font-medium text-gray-700 dark:text-gray-100 border border-gray-300 btn w-28 hover:bg-gray-50 dark:hover:bg-gray-500 focus:bg-gray-50 focus:ring focus:ring-gray-200">Reset</button>
-                                            <button type="submit" class="font-medium text-white border-transparent btn bg-violet-500 w-28 hover:bg-violet-700 focus:bg-violet-700 focus:ring focus:ring-violet-50">Summarize</button>
+                                            <button type="submit" class="font-medium text-white border-transparent btn bg-violet-500 w-28 hover:bg-violet-700 focus:bg-violet-700 focus:ring focus:ring-violet-50">Create</button>
                                         </div>
                                     </form>
                                 </div>

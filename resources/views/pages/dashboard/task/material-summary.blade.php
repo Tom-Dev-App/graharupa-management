@@ -15,7 +15,7 @@
         </div>
  <main class="m-0 p-0" id="print-section">
 <div class="card-body border-b border-gray-100 dark:border-zinc-600">
-    <h1 class="text-gray-900 text-[20px] dark:text-gray-50 text-center">Materials Timeline</h1>
+    <h1 class="text-gray-900 text-[20px] dark:text-gray-50 text-center">Materials Report</h1>
     <h3 class="mb-1 text-gray-700 text-[18px] dark:text-gray-100">Project Name: <br>{{ $project->name }}</h3>
     <div class="mb-3">
         <p class="text-gray-700 text-[17px] dark:text-gray-100">

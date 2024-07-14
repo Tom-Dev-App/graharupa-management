@@ -14,12 +14,9 @@ use Illuminate\Support\Facades\Gate;
 class TaskController extends Controller
 {
     public function detail($pid, $id) {
-        // Ensure parameters are integers
         $pid = (int)$pid;
         $id = (int)$id;
-        
-        // dd($pid, $id);
-        // Retrieve the task, including soft-deleted ones
+
         $task = Task::withTrashed()->with([
             'project' => function ($query) {
                 $query->withTrashed();
@@ -29,8 +26,7 @@ class TaskController extends Controller
                 $query->withTrashed();
             }
         ])->findOrFail($id);
-    
-        // Retrieve materials for the task, including users (with soft-deleted ones)
+
         $materials = TaskMaterial::with([
             'unit',
             'user' => function ($query) {
@@ -38,7 +34,6 @@ class TaskController extends Controller
             }
         ])->where('task_id', $id)->paginate(25);
     
-        // Retrieve all material units
         $units = MaterialUnit::all();
 
         if($task->project_id !== $pid){
@@ -49,14 +44,11 @@ class TaskController extends Controller
             return redirect()->back()->with('error', 'Project is deleted, the task can\'t be opened.');
         }
         
-        // dd($task);
-        // Return the view with the retrieved data
         return view('pages.dashboard.task.detail', compact('materials', 'task', 'units'));
     }
 
     public function store($pid ,Request $request) {
 
-                // Ensure parameters are integers
                 $pid = (int)$pid;
         
         $validatedData = $request->validate([
@@ -67,6 +59,7 @@ class TaskController extends Controller
         $validatedData['project_id'] = $pid;
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status_id'] = Status::ON_PROGRESS;
+        $validatedData['created_at'] = now();
 
         Task::create($validatedData);
 
@@ -74,16 +67,16 @@ class TaskController extends Controller
     }
 
     public function edit($pid ,$id) {
-                // Ensure parameters are integers
-                $pid = (int)$pid;
-                $id = (int)$id;
+
+        $pid = (int)$pid;
+        $id = (int)$id;
         $statuses = Status::all();
         $project = Project::find($pid);
-        // dd($pid);
+    
         if($project && $project->status_id !== Status::ON_PROGRESS) {
             return redirect()->back()->with('error', 'This Project is being HOLD or DONE or CANCELED, task can\'t be edited.');
         }
-            // Retrieve the task with related user and project, including trashed tasks
+        
     $task = Task::with([
         'user' => function ($query) {
             $query->withTrashed();
@@ -112,7 +105,6 @@ class TaskController extends Controller
     }
 
     public function update($pid ,$id, Request $request) {
-                // Ensure parameters are integers
                 $pid = (int)$pid;
                 $id = (int)$id;
 
@@ -149,7 +141,6 @@ class TaskController extends Controller
     }
 
     public function destroy(Request $request, $pid, $id) {
-                // Ensure parameters are integers
                 $pid = (int)$pid;
                 $id = (int)$id;
         $task = Task::with(['user' => function($query){
