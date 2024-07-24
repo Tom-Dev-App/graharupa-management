@@ -93,9 +93,9 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="project_deadline" class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Date and time</label>
-                                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" value="2019-08-19T13:45:00" id="project_deadline" name="deadline" value="{{ old('deadline', $project->deadline) }}">
-                                                    @error('deadline')
+                                                    <label for="start_date" class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Starting Date</label>
+                                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local"  id="start_date" name="start_date" value="{{ old('start_date', $project->start_date->format('Y-m-d\TH:i:s')) }}">
+                                                    @error('start_date')
                                                     <div>
                                                         <span class="text-red-500 text-sm">
                                                             {{ $message }}
@@ -105,8 +105,21 @@
                                                 </div>
 
                                                 <div class="mb-3">
+                                                    <label for="end_date" class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Ending Date</label>
+                                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" id="end_date" name="end_date" value="{{ old('end_date', $project->end_date->format('Y-m-d\TH:i:s')) }}">
+                                                    @error('end_date')
                                                     <div>
-                                                        <label class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Select</label>
+                                                        <span class="text-red-500 text-sm">
+                                                            {{ $message }}
+                                                        </span>
+                                                    </div>    
+                                                    @enderror
+                                                </div>
+
+                                                
+                                                <div class="mb-3">
+                                                    <div>
+                                                        <label class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Project Status</label>
                                                         <select name="status_id" class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100">
                                                             @foreach($statuses as $status)
                                                                 @if ($project->status->id === $status->id) 
@@ -125,15 +138,38 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+                                                <div class="mb-3">
+                                                    <div>
+                                                        <label class="block mb-2 font-medium text-gray-700 dark:text-zinc-100">Project Visibility to employee</label>
+                                                        <select name="is_hidden" class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100" required>
+                                                                <option value="1" {{ $project->is_hidden ? 'selected' : '' }}>
+                                                                    Hidden
+                                                                </option>
+
+                                                                <option value="0" {{ $project->is_hidden ? '' : 'selected' }}>
+                                                                    Visible
+                                                                </option>
+                                                        </select>
+                                                        @error('status')
+                                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="mt-6 inline-flex gap-4">
+                                                <button type="submit" class="font-medium text-white border-transparent btn bg-violet-500 w-28 hover:bg-violet-700 focus:bg-violet-700 focus:ring focus:ring-violet-50">Save</button>
                                             </div>
                                         </div>
 
-                                        <div class="mt-6 inline-flex gap-4">
-                                            <button type="submit" class="font-medium text-white border-transparent btn bg-violet-500 w-28 hover:bg-violet-700 focus:bg-violet-700 focus:ring focus:ring-violet-50">Save</button>
-                                        </div>
+                                        
+
+
+                                      
                                     </form>
                                 </div>
-                              
+                             
                             </div>
                         </div>
                         {{-- COTENT START END HERE --}}

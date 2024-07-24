@@ -26,6 +26,14 @@
                         <span data-key="t-dashboard">Projects</span>
                     </a>
                 </li>
+                @can('admin')
+                <li>
+                    <a href="/dashboard/hidden-projects" class="block py-2.5 px-6 text-sm font-medium text-gray-950 transition-all duration-150 ease-linear hover:text-violet-500 dark:text-gray-300 dark:active:text-white dark:hover:text-white">
+                        <i data-feather="archive" fill="#545a6d33"></i>
+                        <span data-key="t-dashboard">Hidden Projects</span>
+                    </a>
+                </li>
+                @endcan
                 <li>
                     <a href="/dashboard/units" class="block py-2.5 px-6 text-sm font-medium text-gray-950 transition-all duration-150 ease-linear hover:text-violet-500 dark:text-gray-300 dark:active:text-white dark:hover:text-white">
                         <i data-feather="list" fill="#545a6d33"></i>

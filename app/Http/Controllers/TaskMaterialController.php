@@ -95,7 +95,7 @@ class TaskMaterialController extends Controller
         }])->where('id', $mid)->where('task_id', $id)->firstOrFail();
 
 
-            if ( auth()->user()->role_id === Role::MANAGER ) {
+            if ( auth()->user()->role_id === Role::ADMIN ) {
            
                         $material->forceDelete();
                     

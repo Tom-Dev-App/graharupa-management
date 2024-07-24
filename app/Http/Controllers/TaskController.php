@@ -57,11 +57,16 @@ class TaskController extends Controller
         ]);
 
         $validatedData['project_id'] = $pid;
+        $validatedData['percentage'] = 0;
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status_id'] = Status::ON_PROGRESS;
         $validatedData['created_at'] = now();
 
         Task::create($validatedData);
+
+        // Update project percentage
+        $project = Project::find($pid);
+        $project->updatePercentage();
 
         return redirect()->route('projects.detail', $pid)->with('success', 'Task created successfully.');;
     }
@@ -111,10 +116,14 @@ class TaskController extends Controller
         $validatedData = $request->validate([
             'description' => 'required|min:5|max:1000',
             'status' => 'required|integer|in:1,2,3,4',
-            'start_date'  => 'required|date'
+            'start_date'  => 'required|date',
+            'percentage' => 'required|int|min:0|max:100'
         ]);
                 
         $task = Task::with(['user', 'project'])->withTrashed()->find($id);
+        if (!$task) {
+            return redirect()->back()->with('error', 'Task not found.');
+        }
         if (auth()->user()->id !== $task->user_id && auth()->user()->role_id !== 1) {
             abort(403, 'Forbidden');
         }
@@ -124,6 +133,7 @@ class TaskController extends Controller
             'description' => $validatedData['description'],
             'status_id' => $validatedData['status'],
             'datetime' => $validatedData['start_date'],
+            'percentage' => $validatedData['percentage'],
             'updated_at' => now(),
         ];
 
@@ -137,9 +147,70 @@ class TaskController extends Controller
         
         Task::where('id', $id)->update($taskUpdatedData);
 
+        // Update project percentage
+        $task->project->updatePercentage();
+
         return redirect()->route('tasks.detail', ['pid' => $pid, 'id' => $id])->with('success', 'Task updated successfully.');
     }
+   
+    public function updateProgress($pid, $id, Request $request) {
+        $pid = (int)$pid;
+        $id = (int)$id;
+        
+        // Retrieve and validate the percentage input
+        $percentage = $request->input('percentage');
+    
+        // Check if the percentage is provided
+        if (is_null($percentage)) {
+            return redirect()->back()->with('error', 'The percentage input is required.')->withInput();
+        }
+    
+        // Custom validation logic
+        if ($percentage < 0 || $percentage > 100) {
+            return redirect()->back()->with('error', 'The percentage must be between 0 and 100.')->withInput();
+        }
+        
+        // Fetch the task with user and project relationships
+        $task = Task::with(['user', 'project'])->withTrashed()->find($id);
+    
+        // Check if the task belongs to the specified project
+        if($task->project_id !== $pid){
+            return redirect()->back()->with('error', 'Task does not belong to the specified project.');
+        }
+    
+        // Check if the project is trashed
+        if($task->project->trashed()){
+            return redirect()->back()->with('error', 'Project is deleted, the task can\'t be opened.');
+        }
+    
+        // Prepare the data for updating
+        $taskUpdatedData = [
+            'percentage' => $percentage, // Ensure the integer value is used here
+            'updated_at' => now(),
+        ];
+    
+        // Debugging: Check the data before update
+        // dd([
+        //     'task_id' => $id,
+        //     'task_data' => $taskUpdatedData,
+        //     'percentage_input' => $percentage
+        // ]);
+    
+        // Update the task's percentage
+        $updateStatus = Task::where('id', $id)->update($taskUpdatedData);
+    
+        // Debugging: Check if the update was successful
+        if ($updateStatus) {
+             // Update project percentage
+             $task->project->updatePercentage();
 
+            return redirect()->route('tasks.detail', ['pid' => $pid, 'id' => $id])->with('success', 'Task progress updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update task progress. Please try again.');
+        }
+    }
+    
+    
     public function destroy(Request $request, $pid, $id) {
                 $pid = (int)$pid;
                 $id = (int)$id;
@@ -151,7 +222,10 @@ class TaskController extends Controller
             abort(403, 'Forbidden');
         }
         $task->delete();
-        
+
+        // Update project percentage
+         $task->project->updatePercentage();
+         
         return redirect()->back()->with('success', 'Task deleted successfully!');
     }
 }

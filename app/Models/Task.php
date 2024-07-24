@@ -10,7 +10,26 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
-   protected $fillable = ['project_id', 'user_id', 'status_id', 'description', 'datetime'];
+   protected $fillable = ['project_id', 'user_id', 'status_id', 'description', 'datetime', 'percentage'];
+
+   protected static function booted()
+   {
+       static::saved(function ($task) {
+           \Log::info('Task saved:', ['task_id' => $task->id]);
+           $task->project->updatePercentage();
+       });
+   
+       static::updated(function ($task) {
+           \Log::info('Task updated:', ['task_id' => $task->id]);
+           $task->project->updatePercentage();
+       });
+   
+       static::deleted(function ($task) {
+           \Log::info('Task deleted:', ['task_id' => $task->id]);
+           $task->project->updatePercentage();
+       });
+   }
+   
 
    public function project()
    {

@@ -17,16 +17,19 @@ return new class extends Migration
             $table->string('name')->index();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->dateTime('deadline')->nullable(); // Deadline column
-            // $table->unsignedBigInteger('user_id');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date');
+            $table->boolean('is_hidden')->default(false);
+            $table->integer('percentage')->default(0);
+            $table->string('duration');
             $table->unsignedBigInteger('status_id');
             $table->timestamps();   
             $table->softDeletes();
 
             // Foreign key constraints
             $table->foreign('status_id')
-                  ->references('id')->on('statuses')
-                  ->onUpdate('cascade');
+            ->references('id')->on('statuses')
+            ->onUpdate('cascade');
             
             // $table->foreign('user_id')
             //       ->references('id')->on('users')

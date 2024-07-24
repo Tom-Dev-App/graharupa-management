@@ -79,11 +79,11 @@
                                         <div class="mb-3">
                                             <label class="block mb-3 font-medium text-gray-700 dark:text-zinc-100">Select Role As</label>
                                             <select  class="dark:bg-zinc-800 dark:border-zinc-700 rounded border-gray-100 py-2.5 text-sm text-gray-500 focus:border focus:border-violet-500 focus:ring-0 dark:bg-zinc-700/50 dark:text-zinc-100" name="role">
-                                                <option  value="">
+                                                {{-- <option  value="">
                                                     Pilih
-                                                </option>
+                                                </option> --}}
                                                 @foreach($roles as $role)
-                                                    <option value="{{ $role->id }}">
+                                                    <option value="{{ $role->id }}" selected>
                                                         {{ $role->name }}
                                                     </option>
                                                 @endforeach

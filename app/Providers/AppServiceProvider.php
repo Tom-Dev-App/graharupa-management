@@ -33,29 +33,15 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::component('dashboard-layout', \App\View\Components\DashboardLayout::class);
 
-        Gate::define('manager', function(User $user){
-            return $user->role_id === Role::MANAGER;
-        });
-
         Gate::define('admin', function(User $user){
             return $user->role_id === Role::ADMIN;
         });
 
-        Gate::define('employee', function(User $user){
-            return $user->role_id === Role::EMPLOYEE;
+        Gate::define('user', function(User $user){
+            return $user->role_id === Role::USER;
         });
 
-        Gate::define('managerOrAdmin', function(User $user){
-            return $user->role_id === Role::MANAGER || $user->role_id === Role::ADMIN;
-        });
 
-        Gate::define('managerOrEmployee', function(User $user){
-            return $user->role_id === Role::MANAGER || $user->role_id === Role::EMPLOYEE;
-        });
-
-        Gate::define('adminOrEmployee', function(User $user){
-            return $user->role_id === Role::ADMIN || $user->role_id === Role::EMPLOYEE;
-        });
 
 
     }

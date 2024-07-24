@@ -78,48 +78,109 @@
         <div class="fixed z-40 flex flex-col gap-3 ltr:right-5 rtl:left-5 bottom-10 animate-bounce">
 
         </div>
-        <script src="{{ asset('assets/libs/@popperjs/core/umd/popper.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/libs/@popperjs/core/umd/popper.min.js') }}"></script>
         <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
         <script src="{{ asset('assets/libs/metismenujs/metismenujs.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script> --}}
 
          <!-- choices js -->
-         <script src="{{ asset('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+         {{-- <script src="{{ asset('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script> --}}
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> --}}
         <!-- apexcharts -->
         {{-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> --}}
         <!-- Plugins js-->
-        <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
+        {{-- <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script> --}}
 
-        <script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script> --}}
 
         <!-- dashboard init -->
         {{-- <script  src="assets/js/pages/dashboard.init.js"></script> --}}
 
-        <script src="{{ asset('assets/js/pages/nav&tabs.js') }}"></script>
+        {{-- <script src="{{ asset('assets/js/pages/nav&tabs.js') }}"></script>
 
-        <script src="{{ asset('assets/js/pages/login.init.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/login.init.js') }}"></script> --}}
         
         <!-- color picker js -->
         {{-- <script src="{{ asset('assets/libs/@simonwep/pickr/pickr.min.js') }}"></script>
         <script src="{{ asset('assets/libs/@simonwep/pickr/pickr.es5.min.js') }}"></script> --}}
 
         <!-- datepicker js -->
-        <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script> --}}
 
 
         <!-- init js -->
-        <script  src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
+        {{-- <script  src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script> --}}
 
         <!-- Responsive Table js -->
-        <script src="{{ asset('assets/libs/admin-resources/rwd-table/rwd-table.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/libs/admin-resources/rwd-table/rwd-table.min.js') }}"></script>
 
         <script  src="{{ asset('assets/js/pages/table-responsive.init.js') }}"></script>
 
 
-        <script  src="{{ asset('assets/js/app.js') }}"></script>
+        <script  src="{{ asset('assets/js/app.js') }}"></script> --}}
+
+        <!-- Popper.js -->
+<script src="{{ asset('assets/libs/@popperjs/core/umd/popper.min.js') }}"></script>
+
+<!-- Feather Icons -->
+<script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
+
+<!-- MetisMenu -->
+<script src="{{ asset('assets/libs/metismenujs/metismenujs.min.js') }}"></script>
+
+<!-- Simplebar -->
+<script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+
+<!-- Choices.js -->
+<script src="{{ asset('assets/libs/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- ApexCharts (commented out) -->
+{{-- <script src="assets/libs/apexcharts/apexcharts.min.js"></script> --}}
+
+<!-- jQuery Vector Map -->
+<script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+<script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
+
+<!-- Swiper -->
+<script src="{{ asset('assets/libs/swiper/swiper-bundle.min.js') }}"></script>
+
+<!-- Navigation & Tabs -->
+<script src="{{ asset('assets/js/pages/nav&tabs.js') }}"></script>
+
+<!-- Login Init -->
+<script src="{{ asset('assets/js/pages/login.init.js') }}"></script>
+
+<!-- Color Picker (commented out) -->
+{{-- <script src="{{ asset('assets/libs/@simonwep/pickr/pickr.min.js') }}"></script>
+<script src="{{ asset('assets/libs/@simonwep/pickr/pickr.es5.min.js') }}"></script> --}}
+
+<!-- Flatpickr Datepicker -->
+<script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
+
+<!-- Form Advanced Init -->
+<script src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
+
+<!-- Responsive Table -->
+<script src="{{ asset('assets/libs/admin-resources/rwd-table/rwd-table.min.js') }}"></script>
+
+<!-- Table Responsive Init -->
+<script src="{{ asset('assets/js/pages/table-responsive.init.js') }}"></script>
+
+<!-- App JS -->
+<script src="{{ asset('assets/js/app.js') }}"></script>
+
+<script>
+    // Define the updateRadio function to avoid the ReferenceError
+    function updateRadio(value) {
+        // Your implementation here
+        console.log("updateRadio called with value: " + value);
+    }
+</script>
 
 
         @stack('footer')

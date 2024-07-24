@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('status_id');
             $table->text('description');
             $table->dateTime('datetime');
+            $table->unsignedBigInteger('percentage');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('project_id')->references('id')->on('projects')->onUpdate('cascade');

@@ -10,9 +10,8 @@ class Role extends Model
 {
     use HasFactory;
 
-    public const MANAGER = 1;
-    public const ADMIN = 2;
-    public const EMPLOYEE = 3;
+    public const ADMIN = 1;
+    public const USER = 2;
 
     public function users()
     {

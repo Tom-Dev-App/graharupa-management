@@ -4,6 +4,18 @@
 
 @extends('components.dashboard-layout')
 @section('content')
+@push('head')
+<style>
+    .hidden-spinner::-webkit-outer-spin-button,
+    .hidden-spinner::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .hidden-spinner {
+        -moz-appearance: textfield;
+    }
+</style>
+@endpush
 <section class="min-h-screen">
                     <div class="grid grid-cols-1 pb-6">
                         <div class="md:flex items-center justify-between px-[2px] gap-3">
@@ -59,12 +71,45 @@
                     @endif
                     {{-- ALERT END --}}
                 </section>
+                <div class="flex flex-wrap card-body justify-between mx-4 gap-4 flex-wrap items-center ">
+                    @if(!$task->trashed())
+
+                        <a  href="{{ route('tasks.edit', [
+                            'pid' => $task->project->id, 'id' => $task->id
+                        ]) }}" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
+                            <span class="ml-1">
+                                <i class="mdi mdi-pencil"></i>
+                                <span>Edit Task</span>
+                        </a>
+              
+                    @endif
+                    <form action="{{ route('tasks.progress', [
+                        'pid' => $task->project->id, 'id' => $task->id
+                    ]) }}" method="post">
+                    @csrf
+                    @method('PATCH')
+                    <div class="ml-auto flex gap-2 items-center">
+
+                    <p class="text-sky-500 text-16 dark:text-sky-100">
+                        <i class="mdi mdi-progress-check "></i>
+                        {{-- Due on {{ $project->end_date->format('l, d F Y \a\t h:i A') }} --}}
+                        <input name="percentage" id="percentageInput" type="number" value="{{ $task->percentage }}" class="inline-block bg-transparent px-0 ring-0 outline-none border-0 text-sky-500 dark:text-sky-100" style="width: 30px;">% done
+                    </p>
+         
+                        <button type="submit"  class="btn text-gray-500 bg-gray-50 border-gray-50 hover:text-white hover:bg-gray-600 hover:border-gray-600 focus:text-white focus:bg-gray-600 focus:border-gray-600 focus:ring focus:ring-gray-500/30 active:bg-gray-600 active:border-gray-600 dark:focus:ring-gray-500/10 dark:bg-gray-500/20 dark:border-transparent">
+                            <span class="ml-1">
+                                <i class="mdi mdi-pencil"></i>
+                                <span>Change</span>
+                        </button>
+                    </div>
+                </form>
+                </div>
                   {{-- accordion desc --}}
                 <div class="flex flex-wrap card-body justify-center gap-4 flex-wrap items-center ">
                     <div class="card-body w-full">
                         <div data-tw-accordion="collapse">
                             <div class="text-gray-700 accordion-item">
-                                @if(!$task->trashed())
+                                {{-- @if(!$task->trashed())
                                 <div class="ml-3">
                                     <a  href="{{ route('tasks.edit', [
                                         'pid' => $task->project->id, 'id' => $task->id
@@ -74,12 +119,14 @@
                                             <span>Edit Task</span>
                                     </a>
                                 </div>
-                                @endif
+                                @endif --}}
                                 <h2>
                                     <button type="button" class="flex items-center justify-between w-full p-3 font-medium text-left border-b border-gray-100 rounded-t-lg accordion-header group active dark:border-b-zinc-600">
                                         
-                                        <div>
-                                            <span class="text-15 block w-full">Task Description</span>
+                                        <div class="flex justify-between w-full">
+                                            <span class="text-15 block ">Task Description</span>
+                                            <section class="flex gap-2">
+                                            
                                             @if ($task->status->id === 1)
                                             <span class="badge font-medium bg-blue-400 text-white text-sm px-1.5 py-[1.5px] rounded">
                                                 <i class="mdi mdi-progress-wrench"></i> On Progress
@@ -99,11 +146,12 @@
                                             @endif
                                             <p class="text-gray-500 text-sm dark:text-gray-100">
                                                 <i class="mdi mdi-calendar "></i>
-                                                 {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
+                                                Starting on {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
                                             </p>
                                             @if($task->trashed())
                                             <span class="text-sm text-red-600 dark:text-red-100 mb-3">(task was deleted)</span>
                                             @endif
+                                        </section>
                                         </div>
 
                                         <i class="mdi mdi-chevron-down text-2xl group-[.active]:rotate-180"></i>
@@ -421,6 +469,7 @@
 
     
     {{-- END NEW MATERIAL MODAL --}}
+    
 
     
                     </section>
@@ -436,6 +485,11 @@
     });
     </script>
     
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+            var percentageInput = document.getElementById('percentageInput');
+            percentageInput.classList.add('hidden-spinner');
+        });
+</script>
 @endpush
 @endSection

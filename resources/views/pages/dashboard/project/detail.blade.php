@@ -4,6 +4,11 @@
 
 @extends('components.dashboard-layout')
 @section('content')
+@push('head')
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@endpush
 <section class="min-h-screen">
                     <div class="grid grid-cols-1 pb-6">
                         <div class="md:flex items-center justify-between px-[2px] gap-3 flex-wrap">
@@ -15,13 +20,22 @@
 
 
 
-                                    <p class="text-red-500 text-16 dark:text-red-100 mb-2">
-                                        <i class="mdi mdi-calendar "></i>
-                                         Deadline on {{ $project->deadline->format('l, d F Y \a\t h:i A') }}
+                                    <p class="text-sky-500 text-16 dark:text-sky-100 mb-2">
+                                        <i class="mdi mdi-progress-check "></i>
+                                         {{-- Due on {{ $project->end_date->format('l, d F Y \a\t h:i A') }} --}}
+                                        {{ $project->percentage }}% done
                                     </p>
                            </div>
                     </div>
-
+                    <div class="mb-2 flex px-5 py-3 text-yellow-700 border border-yellow-100 rounded bg-yellow-50">
+                        <i class="text-xl bx bx-error ltr:mr-2 rtl:ml-2"></i>
+                        <div>
+                           
+                            <h6 class="text-15">Duration {{ $project->duration }} weeks from {{ $project->start_date->format('l, d F Y \a\t h:i A') }} - {{ $project->end_date->format('l, d F Y \a\t h:i A') }}</h6>
+                            <p class="mt-2">{{ $project->end_date->diffForHumans() }} remaining time</p>
+                        </div>
+                    </div>
+<div class="flex flex-col">
                     {{-- ALERT --}}
                     @if(session()->has('success'))
                     <div class="grid grid-cols-1">
@@ -59,6 +73,7 @@
                     
                     @endif
                     {{-- ALERT END --}}
+
                     <div class="flex flex-wrap card-body justify-between flex-wrap items-center card dark:bg-zinc-800 dark:border-zinc-600 mb-3">
                         {{-- <span class="badge font-medium bg-green-600 text-white text-15 px-1.5 py-[1.5px] rounded">
                                                 <i class="mdi mdi-progress-check"></i>
@@ -151,36 +166,54 @@
                 </div>
 
                     </div>
+</div>
+            <div class="col-span-12 xl:col-span-6">
+                <div class="card dark:bg-zinc-800 dark:border-zinc-600">
 
-                {{-- accordion desc --}}
-                <div class="flex flex-wrap card-body justify-center gap-4 flex-wrap items-center ">
-                    <div class="card-body w-full">
-                        <div>
-                           
-                        </div>
+                    <div class="card-body ">
                         <div data-tw-accordion="collapse">
                             <div class="text-gray-700 accordion-item">
                                 <h2>
                                     <button type="button" class="flex items-center justify-between w-full p-3 font-medium text-left border-b border-gray-100 rounded-t-lg accordion-header group active dark:border-b-zinc-600">
-                                        <span class="text-15 block w-full">Project Description</span>
+                                        <span class="text-15">Project Description</span>
                                         <i class="mdi mdi-chevron-down text-2xl group-[.active]:rotate-180"></i>
                                     </button>
                                 </h2>
 
                                 <div class="block accordion-body">
                                     <div class="p-5 font-light">
-                                        
-                                        <p class="mb-2 text-gray-500 dark:text-gray-400">{{ $project->description }}</p>
-                          
+                                        <p class="mb-2 text-gray-500 dark:text-gray-400">{!! nl2br(e($project->description)) !!}</p>
                                     </div>
                                 </div>
                             </div>
 
-                          
+                        </div>
+                        <div data-tw-accordion="collapse">
+                            <div class="text-gray-700 accordion-item">
+                                <h2>
+                                    <button type="button" class="flex items-center justify-between w-full p-3 font-medium text-left border-b border-gray-100 rounded-t-lg accordion-header group active dark:border-b-zinc-600">
+                                        <span class="text-15">Task Trackers</span>
+                                        <i class="mdi mdi-chevron-down text-2xl group-[.active]:rotate-180"></i>
+                                    </button>
+                                </h2>
+
+                                <div class="block accordion-body">
+                                    {{-- <div>
+                                        {!! $taskChart->container() !!}
+                                    </div> --}}
+                                    <div class="">
+                                        <canvas id="taskPieChart" style="width: 350px; height: 350px;"></canvas>
+
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
                 </div>
+            </div>
+
+
 
  
 
@@ -220,7 +253,10 @@
                                     <p class="text-sky-700 text-sm dark:text-sky-200 mb-2">
                                         <i class="mdi mdi-calendar"></i> Date Start on {{ $task->datetime->format('l, d F Y \a\t h:i A') }}
                                    </p>
-                                  
+                                    <p class="text-gray-700 text-sm dark:text-gray-200 mb-2">
+                                        <i class="mdi mdi-check"></i>Progressing {{ $task->percentage }}%
+                                   </p>
+                                   
                                     <div>
                                         @if ($task->status->id === 1)
                                         <span class="badge font-medium bg-blue-400 text-white text-sm px-1.5 py-[1.5px] rounded">
@@ -313,8 +349,8 @@
                         
                         @if(!$project->status_id === 3 || !$project->status_id === 4)
                         {{-- New task card --}}
-                        <div class="col-span-12 sm:col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 flex w-full">
-                          {{-- new project --}}
+                        <div class="col-span-12 sm:col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 flex w-full" style="min-height: 350px; height: auto;">
+                          {{-- new task --}}
                           <div class="card dark:bg-zinc-800 dark:border-zinc-600 flex-1 flex flex-col">
                             <div class="card-body flex-1 flex flex-col items-center justify-center">
                               {{-- <h6 class="mb-6 text-gray-700 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl dark:text-gray-100">
@@ -397,6 +433,45 @@
                     </section>
 @push('footer')
 
+{{-- {{ $taskChart->script() }} --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chartData = @json($chartData);
+        
+        const ctx = document.getElementById('taskPieChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    data: chartData.data,
+                    backgroundColor: chartData.colors,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw;
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
 
 @endpush
 @endSection

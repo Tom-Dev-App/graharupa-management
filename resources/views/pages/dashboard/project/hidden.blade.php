@@ -11,9 +11,9 @@
                                 <i class="mr-1 mdi mdi-arrow-left"></i> Back
                             </a>
 
-                            <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">Projects</h4>
+                            <h4 class="text-[18px] font-medium text-gray-800 mb-sm-0 grow dark:text-gray-100 mb-2 md:mb-0">Hidden Projects</h4>
                             
-                            @can('admin')
+                            {{-- @can('admin')
                             <button type="button" data-tw-toggle="modal" data-tw-target="#project_new" class="btn text-violet-500 bg-violet-50 border-violet-50 hover:text-white hover:bg-violet-600 hover:border-violet-600 focus:text-white focus:bg-violet-600 focus:border-violet-600 focus:ring focus:ring-violet-500/30 active:bg-violet-600 active:border-violet-600 dark:focus:ring-violet-500/10 dark:bg-violet-500/20 dark:border-transparent">
                                 <span class="ml-1">
                                     <i class="mdi mdi-note-plus"></i>
@@ -22,7 +22,7 @@
                                 @endcan
                                 @if(auth()->user()->role_id !== 1)
                                 <div></div>
-                                @endif
+                                @endif --}}
                     </div>
                     
                     {{-- ALERT --}}
@@ -80,7 +80,7 @@
                                                  <i class="mdi mdi-calendar"></i> Start Date {{ $project->start_date->format('l, d F Y \a\t h:i A') }}
                                             </p>
                                             <p class="text-red-500 text-sm dark:text-red-100 mb-2">
-                                                 <i class="mdi mdi-calendar"></i> End Date {{ $project->start_date->format('l, d F Y \a\t h:i A') }}
+                                                 <i class="mdi mdi-calendar"></i> End Date {{ $project->end_date->format('l, d F Y \a\t h:i A') }}
                                             </p>
                                             <div>
                                                 @if ($project->status->id === 1)
@@ -163,16 +163,13 @@
                                     {{-- end card --}}
                                 </div>
                                 @endforeach
-                                
-                              @can('admin')
+                           
                                 {{-- New project card --}}
+                              {{-- @can('admin')
                                 <div class="col-span-12 sm:col-span-12 md:col-span-6 xl:col-span-4 2xl:col-span-3 flex" style="min-height: 350px; height: auto;">
-                                  {{-- new project --}}
                                   <div class="card dark:bg-zinc-800 dark:border-zinc-600 flex-1 flex flex-col">
                                     <div class="card-body flex-1 flex flex-col items-center justify-center">
-                                      {{-- <h6 class="mb-6 text-gray-700 text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl dark:text-gray-100">
-                                        Create New Project
-                                      </h6> --}}
+                            
                                       <div class="flex items-center">
                                         <button type="button" data-tw-toggle="modal" data-tw-target="#project_new" class="btn text-violet-500 hover:text-white border-violet-500 hover:bg-violet-600 hover:border-violet-600 focus:bg-violet-600 focus:text-white focus:border-violet-600 focus:ring focus:ring-violet-500/30">
                                           <i data-feather="plus" fill="#545a6d33" class="inline"></i> Create New Project
@@ -181,17 +178,16 @@
                                     </div>
                                   </div>
                                 </div>
-                                {{-- END CONTAINER PROJECT --}}
                                 @endcan
                               </section>
-                              
+                             --}}
                               
                         {{-- END PROJECT --}}
 
                         
     
     {{-- START NNEW PROJECT MODAL --}}
-    <div class="relative z-50 hidden modal" id="project_new" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    {{-- <div class="relative z-50 hidden modal" id="project_new" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="fixed inset-0 z-50 overflow-y-auto">
             <div class="absolute inset-0 transition-opacity bg-black bg-opacity-50 modal-overlay"></div>
             <div class="p-4 mx-auto animate-translate sm:max-w-lg">
@@ -232,20 +228,9 @@
                                 </div>
     
                                 <div class="mb-4">
-                                    <label for="start_date" class="block mb-2 font-medium text-gray-900 dark:text-gray-100">Starting Date</label>
-                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" id="start_date" name="start_date" value="{{ old('start_date') }}">
-                                    @error('start_date')
-                                    <div>
-                                        <span class="text-red-500 text-sm">
-                                            {{ $message }}
-                                        </span>
-                                    </div>    
-                                    @enderror
-                                </div>
-                                <div class="mb-4">
-                                    <label for="end_date" class="block mb-2 font-medium text-gray-900 dark:text-gray-100">Ending Date</label>
-                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" id="end_date" name="end_date" value="{{ old('end_date') }}">
-                                    @error('end_date')
+                                    <label for="project_deadline" class="block mb-2 font-medium text-gray-900 dark:text-gray-100">Project Deadline</label>
+                                    <input class="bg-gray-800/5 border border-gray-100 text-gray-900 dark:text-gray-100 text-sm rounded focus:ring-violet-500 focus:border-violet-500 block w-full p-2.5 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder-gray-400 dark:placeholder:text-zinc-100/60 focus:ring-0" type="datetime-local" id="project_deadline" name="deadline" value="{{ old('deadline') }}">
+                                    @error('deadline')
                                     <div>
                                         <span class="text-red-500 text-sm">
                                             {{ $message }}
@@ -262,7 +247,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     
     {{-- END NEW PROJECT MODAL --}}

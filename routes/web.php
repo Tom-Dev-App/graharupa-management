@@ -54,11 +54,14 @@ Route::prefix('dashboard/units')->middleware(['auth'])->group(function() {
 Route::prefix('dashboard/projects')->middleware(['auth'])->group(function() {
     Route::get('/', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/{id}', [ProjectController::class, 'detail'])->name('projects.detail');
-    Route::post('/store', [ProjectController::class, 'store'])->name('projects.store')->middleware('manager');
-    Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('manager');
-    Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('manager');
-    Route::put('/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware('manager');
+    Route::post('/store', [ProjectController::class, 'store'])->name('projects.store')->middleware('admin');
+    Route::delete('/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy')->middleware('admin');
+    Route::get('/{id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware('admin');
+    Route::put('/{id}', [ProjectController::class, 'update'])->name('projects.update')->middleware('admin');
 });
+
+// Hidden Project
+Route::get('/dashboard/hidden-projects', [ProjectController::class, 'indexHidden'])->middleware(['auth', 'admin']);
 
 // Task
 Route::prefix('dashboard/projects/{pid}/tasks')->middleware(['auth'])->group(function(){
@@ -67,6 +70,7 @@ Route::prefix('dashboard/projects/{pid}/tasks')->middleware(['auth'])->group(fun
     Route::get('/{id}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
     Route::put('/{id}', [TaskController::class, 'update'])->name('tasks.update');
     Route::delete('/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+    Route::patch('/{id}/progress', [TaskController::class, 'updateProgress'])->name('tasks.progress');
 });
 
 // Task Materials

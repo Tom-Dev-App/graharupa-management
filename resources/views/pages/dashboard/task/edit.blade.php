@@ -123,6 +123,20 @@
                                                 
                                         </div>
                                         {{-- edn desc --}}
+                                        {{-- PERCENT --}}
+                                        <div class="mt-5">
+                                            <div class="mb-3">
+                                                <label class="font-medium text-gray-900 dark:text-gray-100" for="unit">Progress</label>
+                                                <input type="number"  class="w-full mt-2 py-1.5 placeholder:text-sm border-gray-100 rounded focus:border focus:border-violet-100 focus:ring focus:ring-violet-500/20 dark:bg-zinc-700/50 dark:border-zinc-600 dark:placeholder:text-zinc-100 dark:text-zinc-100 " id="unit" name="percentage" value="{{ old('percentage', $task->percentage) }}" min="0" max="100">
+                                            </div>
+                                                @error('percentage')
+                                                <div>
+                                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                                </div>
+                                                @enderror
+                                        </div>
+                                        {{-- EDN PERCENT --}}
+
                                         <div class="mt-6 inline-flex gap-4">
                                             <button type="submit" class="font-medium text-white border-transparent btn bg-violet-500 w-28 hover:bg-violet-700 focus:bg-violet-700 focus:ring focus:ring-violet-50">Save</button>
                                         </div>

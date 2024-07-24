@@ -24,21 +24,52 @@ class UserSeeder extends Seeder
         ]);
 
         
-        $admin = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@graharupa.com',
+        $agus = User::create([
+            'name' => 'Agus',
+            'email' => 'agus@graharupa.com',
             'password' => Hash::make('password'),
             'created_at' => now(),
+            'role_id' => 1
+        ]);
+
+        $dita = User::create([
+            'name' => 'Dita',
+            'email' => 'dita@graharupa.com',
+            'password' => Hash::make('password'),
+            'created_at' => now(),
+            'role_id' => 1
+        ]);
+
+        
+        $fery = User::create([
+            'name' => 'Fery',
+            'email' => 'fery@graharupa.com',
+            'password' => Hash::make('password'),
             'role_id' => 2
         ]);
 
         
-        $employee = User::create([
-            'name' => 'Employee',
-            'email' => 'employee@graharupa.com',
+        $dicky = User::create([
+            'name' => 'Dicky',
+            'email' => 'dicky@graharupa.com',
             'password' => Hash::make('password'),
-            'role_id' => 3
+            'role_id' => 2
         ]);
 
+        $vito = User::create([
+            'name' => 'Vito',
+            'email' => 'vito@graharupa.com',
+            'password' => Hash::make('password'),
+            'role_id' => 2
+        ]);
+
+        $inul = User::create([
+            'name' => 'Inul',
+            'email' => 'inul@graharupa.com',
+            'password' => Hash::make('password'),
+            'role_id' => 2
+        ]);
+
+        
     }
 }

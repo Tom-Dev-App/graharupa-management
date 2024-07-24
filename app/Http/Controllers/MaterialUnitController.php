@@ -39,7 +39,7 @@ class MaterialUnitController extends Controller
 
     public function edit($id) {
         $id = (int)$id;
-        Gate::authorize('managerOrAdmin');
+        Gate::authorize('admin');
         $materialUnit = MaterialUnit::withTrashed()->find($id);
 
         if (!$materialUnit) {
@@ -52,7 +52,7 @@ class MaterialUnitController extends Controller
     public function update(Request $request, $id) {
         $id = (int)$id;
 
-        Gate::authorize('managerOrAdmin');
+        Gate::authorize('admin');
 
         $unit = MaterialUnit::withTrashed()->findOrFail($id);
 
@@ -72,7 +72,7 @@ class MaterialUnitController extends Controller
     public function destroy( $id) {
         $id = (int)$id;
 
-        Gate::authorize('managerOrAdmin');
+        Gate::authorize('admin');
 
         $unit = MaterialUnit::findOrFail($id);
         $unit->delete();
@@ -82,7 +82,7 @@ class MaterialUnitController extends Controller
     public function restore($id) {
         $id = (int)$id;
 
-        Gate::authorize('managerOrAdmin');
+        Gate::authorize('admin');
 
         $materialUnit = MaterialUnit::withTrashed()->find($id);
 

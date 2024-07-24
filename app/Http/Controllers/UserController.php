@@ -13,12 +13,12 @@ class UserController extends Controller
 {
 
     public function index(Request $request) {
-        if(auth()->user()->role_id !== Role::MANAGER) {
+        if(auth()->user()->role_id !== Role::ADMIN) {
             $users = User::withTrashed()
             ->with('role')
             ->select(['id', 'name', 'email', 'deleted_at', 'role_id'])
             ->paginate(25);
-            $roles = Role::where('name', '!=', 'MANAGER')->get();
+            $roles = Role::where('name', '!=', 'ADMIN')->get();
         return view('pages.dashboard.user.index', compact('roles', 'users'));
 
         }
@@ -28,18 +28,18 @@ class UserController extends Controller
             ->where('role_id', '!=', 1)
             ->select(['id', 'name', 'email', 'deleted_at', 'role_id'])
             ->paginate(25);
-            $roles = Role::where('name', '!=', 'MANAGER')->get();
+            $roles = Role::where('name', '!=', 'ADMIN')->get();
         return view('pages.dashboard.user.index', compact('roles', 'users'));
     }
 
     public function create() {
-        Gate::authorize('manager');
-        $roles = Role::where('name', '!=', 'MANAGER')->get();
+        Gate::authorize('admin');
+        $roles = Role::where('name', '!=', 'ADMIN')->get();
         return view('pages.dashboard.user.create', compact('roles'));
     }
 
     public function store(Request $request) {
-        Gate::authorize('manager');
+        Gate::authorize('admin');
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
@@ -60,8 +60,8 @@ class UserController extends Controller
     public function edit($id) {
         $id = (int)$id;
 
-        Gate::authorize('manager');
-        $roles = Role::where('name', '!=', 'MANAGER')->get();
+        Gate::authorize('admin');
+        $roles = Role::where('name', '!=', 'ADMIN')->get();
         $user = User::withTrashed()->with('role')->where('role_id', '!=', 1)->find($id);
 
         if (!$user) {
@@ -74,7 +74,7 @@ class UserController extends Controller
     public function update(Request $request, $id) {
         $id = (int)$id;
 
-        Gate::authorize('manager');
+        Gate::authorize('admin');
         // Fetch the user including soft-deleted ones
         $user = User::withTrashed()->findOrFail($id);
 
@@ -100,19 +100,19 @@ class UserController extends Controller
     }
 
     public function suspend(User $user) {
-        Gate::authorize('manager');
+        Gate::authorize('admin');
         if($user->role_id === 1) {
-            return redirect()->route('users.index')->with('error', 'Can\'t suspend Manager Role!');
+            return redirect()->route('users.index')->with('error', 'Can\'t suspend ADMIN Role!');
         }
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User suspended successfully');
     }
 
     public function restore($id) {
-        Gate::authorize('manager');
+        Gate::authorize('admin');
         $user = User::withTrashed()->find($id);
         if($user->role_id === 1) {
-            return redirect()->route('users.index')->with('error', 'Can\'t suspend Manager Role!');
+            return redirect()->route('users.index')->with('error', 'Can\'t suspend ADMIN Role!');
         }
         if ($user && $user->trashed()) {
             $user->restore();
