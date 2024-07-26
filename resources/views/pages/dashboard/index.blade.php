@@ -79,7 +79,7 @@
                                     @else
                                     <div class="grid grid-cols-12 2xl:gap-6 justify-items-stretch">
                                         <div class="items-center col-span-12 mr-2 md:col-span-6 justify-self-start 2xl:mr-0">
-                                            <p class="text-15 text-gray-700 dark:text-gray-200">There's no active project currently.</p>
+                                            <p class="text-15 text-gray-700 dark:text-gray-200">Currently there's no active project.</p>
                                         </div>
                                     </div>
                                     @endif
@@ -109,7 +109,7 @@
                                     @else
                                     <div class="grid grid-cols-12 2xl:gap-6 justify-items-stretch">
                                         <div class="items-center col-span-12 mr-2 md:col-span-6 justify-self-start 2xl:mr-0">
-                                            <p class="text-15 text-gray-700 dark:text-gray-200">There's no delayed project currently.</p>
+                                            <p class="text-15 text-gray-700 dark:text-gray-200">Currently there's no delayed project.</p>
                                         </div>
                                     </div>
                                     @endif
